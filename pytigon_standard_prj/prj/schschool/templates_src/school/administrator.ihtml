@@ -1,0 +1,9 @@
+{# -*- coding: utf-8 -*- #}
+% extends "school/element.html"
+
+% load exfiltry
+% load exsyntax
+
+%% row_edit
+    % form: 
+        .parent:!, type:!, code, name, description, email

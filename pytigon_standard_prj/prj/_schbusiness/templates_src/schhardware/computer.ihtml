@@ -1,0 +1,14 @@
+% extends "schhardware/device.html"
+
+% load exfiltry
+% load exsyntax
+
+%% list_content_actions
+    % new_row "New computer"
+
+%% row_edit
+    % form:
+        .grand_parent1
+    {{ block.super }}
+    % form:
+        .ram, hdd, processor, working_group, net_name, ip, mac, use, computer_type

@@ -1,0 +1,12 @@
+% extends "schhardware/device.html"
+
+% load exfiltry
+% load exsyntax
+
+%% list_content_actions
+        % new_row "New monitor"
+
+%% row_edit
+    {{ block.super }}
+    % form:
+        .size, monitor_type

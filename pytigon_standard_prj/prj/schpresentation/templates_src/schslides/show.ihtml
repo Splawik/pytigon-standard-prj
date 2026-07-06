@@ -1,0 +1,49 @@
+{# -*- coding: utf-8 -*- #}
+% extends "forms/form.html"
+
+% load exfiltry
+% load exsyntax
+
+%% pythoncode
+    script language=python
+        def signal_from_child(self, child, signal):
+            if signal=='set_bitmap_list':
+                bitmaps = {
+                    #"<<name1>>": "<<image_path1>>",
+                }
+                child.set_bitmaps(bitmaps)
+
+        def filter_url(self, target, href):
+            return href
+
+%% all
+    %with table_type='simple':
+        {{ block.super }}
+
+%% scroll
+
+%% list_content_actions
+    % new_row _("New slideshow")
+    
+
+%% list_row_header
+    th...Name
+
+%% list_row
+    td...{{object.name}}
+
+
+%% list_row_actions
+    % row_actions:
+        .edit
+        .delete
+        .generate,Generate,client://categories/applications-multimedia.png
+
+%% id_extra
+    {{block.super}}
+    % row_actions:
+        .field_list/slide_set,Slides
+    
+    
+%% row_edit
+    % form:

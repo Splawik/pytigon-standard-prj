@@ -1,0 +1,34 @@
+% extends 'schelements/element.html'|translate:lang
+
+% load exfiltry
+% load exsyntax
+ 
+%% list_content_actions_new_row2
+    % if not readonly
+        % if parent_pk > 0
+            % if parent.type == 'F':
+                % comment:
+                    % new_row "_(New school class)" url=table_path|replace:'schelements/table/OrgChartElem|school/table/Class'|append_str:'%d/this/-/add/'|format:parent.id
+                    % new_row "_(New school class)" url=table_path|replace:'schelements/table/OrgChartElem|school/table/Class'|append_str:'%d/this/-/add/'|format:parent.id
+                
+                % new_row "_(New teacher)" url=table_path|append_str:'%d/this/E/add/'|format:parent.id
+                % new_row "_(New school class)" url=table_path|append_str:'%d/this/D/add/'|format:parent.id
+            % if parent.type == 'D':
+                % comment:
+                    % new_row "_(New student)" url=table_path|replace:'schelements/table/OrgChartElem|school/table/Student'|append_str:'%d/this/-/add/'|format:parent.id
+                
+                % new_row "_(New student)" url=table_path|append_str:'%d/this/P/add/'|format:parent.id
+        % else
+            % comment:
+                % new_row "_(New school)" url=table_path|replace:'schelements/table/OrgChartElem|school/table/School'|append_str:'0/this/-/add/'
+                
+            % new_row "_(New school)" url=table_path|append_str:'0/this/D/add/'
+
+%% row_edit
+    {{ object.type }}
+    % if object.type == 'O-SUP':
+        % form: 
+            .parent:!, type:!, code, name, description, subjects
+    % else:
+        % form: 
+            .parent:!, type, code, name, description

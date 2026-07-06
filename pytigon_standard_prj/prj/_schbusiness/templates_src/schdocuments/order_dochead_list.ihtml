@@ -1,0 +1,16 @@
+% extends "schelements/dochead.html"
+
+% load exfiltry
+% load exsyntax
+
+%% list_content_actions
+    {{ block.super }}
+    div class=on-focus-action on-focus-action-refresh
+
+
+%% id_extra    
+    {{ block.super }}
+
+    % if object.get_reg_status.order > 2:
+        % row_related_list "schshop/Payment" title="Payment" filter="{{object.id}}" icon_name="fa fa-lg fa-money" tag_class="+class='btn-info'"
+

@@ -1,0 +1,6 @@
+graft pytigon_standard_prj/prj
+
+global-exclude __pycache__
+global-exclude *.pyc
+global-exclude *.pyo
+global-exclude *.pyd

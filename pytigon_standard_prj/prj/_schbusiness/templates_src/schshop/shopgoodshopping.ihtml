@@ -1,0 +1,70 @@
+% extends "forms/form.html"
+
+% load exfiltry
+% load exsyntax
+
+
+%% all
+    % with table_type='scrolled':
+        {{ block.super }}
+
+
+%% scroll
+
+
+%% list_table_start
+
+
+%% list_table_end
+
+
+%% list_tbody_start
+    <div class="container"><div class="row">
+
+%% list_tbody_end
+    </div></div>
+
+    
+%% list_full_row_header
+
+    
+%% list_full_row
+    div class=col-12 col-md-6 col-lg-3
+        div class=card
+          img src=.,,,class=card-img-top,,,alt=...
+          div class=card-body
+            h5 class=card-title...{{object.name}}
+            p class=card-text...{{object.description}}
+            a title=Add to cart,,,href={{basepath}}schshop/form/PurchasingItemForm/?only_content&pk={{object.id}},,,class=btn btn-primary,,,type=button,,,target=popup_edit
+                {{object.code}}
+
+%% list_content_actions
+
+
+%% list_row_header
+    th..._(Code)
+    th..._(Name)
+    th..._(Description)
+
+    
+%% list_row
+    td...{{ object.code }}
+    td...{{ object.name }}
+    td...{{ object.description }}
+
+    
+%% list_row_actions
+    % row_actions:
+        .edit
+        .delete
+
+%% row_edit
+    % form: 
+        .parent:!,type:!,code,name,description
+    % form:
+        .tax_rate,name_2,code_2,code_3,stock
+
+
+%% form_info
+    div class=form_info
+        .Product info

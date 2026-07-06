@@ -1,0 +1,8 @@
+% extends "schmasterdata/standardcompany.html"
+
+% load exfiltry
+% load exsyntax
+
+%% row_edit
+    % form: 
+        .parent:!, type:!, code, name, can_view_permission, description, admin, admin_email

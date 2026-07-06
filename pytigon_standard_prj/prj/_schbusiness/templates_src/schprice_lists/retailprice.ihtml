@@ -1,0 +1,33 @@
+% extends "forms/form.html"
+
+% load exfiltry
+% load exsyntax
+
+%% all
+    % with table_type='datatable':
+        {{ block.super }}
+
+%% scroll
+
+%% list_content_actions
+    % new_row "New retail price"
+    % list_action "calculate_retail_prices" "Calculate retail prices"
+
+%% list_row_header
+    th..._(Sold item)
+    th..._(Retail price)
+    
+
+%% list_row
+    td...{{ object.sold_item }}
+    td...{{ object.retail_price }}
+    
+
+%% list_row_actions
+    % row_actions:
+        .edit
+        .delete
+
+%% row_edit
+    % form:
+        .sold_item,retail_price

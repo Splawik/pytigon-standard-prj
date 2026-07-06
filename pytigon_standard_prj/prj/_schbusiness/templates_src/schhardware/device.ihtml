@@ -1,0 +1,24 @@
+% extends "forms/form.html"
+
+% load exfiltry
+% load exsyntax
+
+%% all
+    % with form_width=800 form_height=600 table_type='datatable'
+        {{ block.super }}
+
+%% list_content_actions
+
+%% list_row_header
+        th...Description
+        
+%% list_row
+        td...{{object.description}}
+
+%% row_edit
+    % form:
+        .parent:!, type:!, device_type:!
+    % form:
+        .code, name, description
+    % form:
+        .serial_number, purchase_date, guarantee_date, manufacturer, model, operators, status

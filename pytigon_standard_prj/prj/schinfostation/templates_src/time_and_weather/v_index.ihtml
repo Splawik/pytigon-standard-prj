@@ -1,0 +1,21 @@
+% extends "theme.html"
+
+% load exfiltry
+% load exsyntax
+
+%% nav
+
+%% messages
+
+%% body_start
+    <body style="background-color:darkseagreen" border="1">
+
+%% body_desktop
+    div style=margin:0.5rem;
+        ptig-frame timeout=30,,,src={{base_path}}time_and_weather/home
+                
+%% tabs
+
+%% html_widgets_init
+
+%% body_footer

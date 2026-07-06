@@ -1,0 +1,4 @@
+% extends "schhardware/computer.html"
+
+% load exfiltry
+% load exsyntax

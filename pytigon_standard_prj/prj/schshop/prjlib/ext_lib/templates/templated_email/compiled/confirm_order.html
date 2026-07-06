@@ -1,0 +1,17 @@
+{% extends "templated_email/compiled/base_email.html" %}
+{% load i18n %}
+{% load static %}
+
+{% block emailbody %}      
+  <h1 class="text-center">Potwierdzenie złożenia zamówienia</h1>
+  <table class="spacer">
+    <tbody>
+      <tr>
+        <td height="16px" style="font-size:16px;line-height:16px;">&#xA0;</td>
+      </tr>
+    </tbody>
+  </table>
+  <p>
+    Dziękuję za Twoje zamówienie. Poniżej znajduje się lista zamawianych produktów. Aby zobaczyć szczegóły płatności, odwiedź: <a href="{{ order_details_url }}"> {{order_details_url}} </a>            
+  </p>
+{% endblock emailbody %}

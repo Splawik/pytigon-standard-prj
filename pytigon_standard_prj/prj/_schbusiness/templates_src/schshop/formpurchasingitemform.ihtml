@@ -1,0 +1,12 @@
+% extends "forms/form.html"
+
+% load exfiltry
+% load exsyntax
+
+
+%% all
+    % with show_form=True show_title_bar=1 title='Product'
+        {{ block.super }}
+
+%% row_edit
+    % form:

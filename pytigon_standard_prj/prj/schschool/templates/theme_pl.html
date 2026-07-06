@@ -1,0 +1,19 @@
+{% extends 'theme_base.html'|translate:lang %}
+{% load exfiltry %}
+{% load exsyntax %}
+{% block drop_down_blocks %}
+        <li class="nav-item dropdown user user-menu">
+                <a href="{{basepath}}schshop/table/ShoppingCart/-/form/list/?fragment=page" target="_parent">
+                        {% comment %}
+                                {% icon "fa-shopping-cart fa-lg" %}
+                        {% endcomment %}
+                        {% comment %}
+                                <ptig-frame timeout="1" src="{{basepath}}schshop/get_shopping_cart_items_count" ></ptig-frame>
+                        {% endcomment %}
+                        {% comment %}
+                                <span class="badge rounded-pill text-bg-danger">3</span>
+                        {% endcomment %}
+                </a>
+        </li>
+{% endblock %}
+

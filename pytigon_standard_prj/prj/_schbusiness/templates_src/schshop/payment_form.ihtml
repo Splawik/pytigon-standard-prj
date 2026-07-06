@@ -1,0 +1,11 @@
+% extends "account/base.html"
+
+% load exfiltry
+% load exsyntax
+% load django_bootstrap5
+
+%% body
+    form action={{request.path}}{{ form.action }},,,method={{ form.method }}
+        % csrf_token
+        % bootstrap_form form
+        % bootstrap_button button_type="submit" content="Proceed"

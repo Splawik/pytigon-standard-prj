@@ -1,0 +1,109 @@
+{% extends "base.html" %}
+{% load i18n %}
+
+{% block content %}
+  {% if request.user.is_authenticated %}
+  {% comment %}
+  <div class="home">
+    <div class="row">
+      <div class="col-sm-12 home__block1">
+        <div class="home--square">
+          <div class="home--content">
+            <div class="home--content-wrapper">
+              <div class="home--content-inner">
+                <h1>{% trans "Promocje" context "Homepage title" %}</h1>
+                <h2>{% trans "Świnka i inne" context "Homepage title" %}</h2>
+                  <a class="btn btn-info home__button" href="/pl/page/promocje/">
+                    {% trans "Otwórz" context "Homepage action" %}
+                  </a>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="row">
+      <div class="col-sm-12 col-md-6 home__block2">
+        <div class="home--square">
+          <div class="home--content">
+            <div class="home--content-wrapper">
+              <div class="home--content-inner">
+                <h1>{% trans "Informacje" context "Homepage title" %}</h1>
+                <h2>{% trans "Salda rozrachunków, limit ..." context "Homepage title" %}</h2>
+                <a class="btn btn-info home__button" href="/pl/page/informacjefin/">{% trans "Inforamcje" context "Homepage action" %}</a>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="col-sm-12 col-md-6 home__block3">
+        <div class="home--square">
+          <div class="home--content">
+            <div class="home--content-wrapper">
+              <div class="home--content-inner">
+                <h1>{% trans "Materiały do pobrania" context "Homepage title" %}</h1>
+                <h2>{% trans "Certyfikaty, normy ..." context "Homepage title" %}</h2>
+                <a class="btn btn-info home__button" href="/pl/page/downloads/">{% trans "Pobierz" context "Homepage action" %}</a>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+    {% endcomment %}
+    {% if products %}
+      <div class="home__featured">
+        {# SCH++ #}
+        {# <h2 class="text-center">{% trans "Featured products" context "Homepage title" %}</h2> #}
+        <h2 class="text-center">Szczególnie polecamy</h2>
+        {# SCH-- #}
+        <div class="row">
+          {% include "product/_items.html" %}
+        </div>
+      </div>
+    {% endif %}
+    <script type="application/ld+json">{{ webpage_schema|safe }}</script>
+  </div>
+  {% endif %}
+{% endblock %}
+
+
+{% block welcome %}
+    <div class="home">
+      <div class="row">
+        <div class="col-sm-12 home__block1">
+          <div class="home--square">
+            <div class="home--content">
+              <div class="home--content-wrapper">
+                <div class="home--content-inner">
+                  <h2>{% trans "Witamy w sklep.polbruk.pl" context "Homepage title" %}</h2>
+                    <a class="btn btn-primary home__button" href="/account/login/">
+                        Zaloguj się
+                    </a>
+                    {% comment %}
+                    <a class="btn btn-info home__button" href="/pl/page/welcome/">
+                        Przeczytaj
+                    </a>
+                    {% endcomment %}
+                    <br />
+                    <br />
+                    <br />
+                    <h3>Nie pamiętasz hasła, nie ma problemu!</h3>
+                    <a class="btn btn-danger home__button" href="/account/password/reset/">
+                      Zresetuj hasło
+                    </a>    
+                </div>
+              </div>
+            </div>
+          </div>
+          </div>
+        </div>
+      </div>
+      <div class="polbruk_stopka"> 
+        Polbruk S.A. <br>
+        80-299 Gdańsk, ul. Nowy Świat 16c <br>
+        <a href="mailto://sklep@polbruk.pl">sklep@polbruk.pl</a> <br>
+      </div>  
+    </div>
+
+{% endblock %}

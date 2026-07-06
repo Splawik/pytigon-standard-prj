@@ -1,0 +1,44 @@
+% extends 'schelements/element.html'|translate:lang
+
+% load exfiltry
+% load exsyntax
+ 
+
+%% body
+    % with table_type='simple':
+    {{ block.super }}
+
+%% list_content_actions
+    % new_row "new school" url=base_path|append_str:'school/table/School/0/this/O-COM/add/'
+
+%% list_content_header_third_row2
+    {{ block.super }}
+
+%% list_row_header_start
+    % if not no_id
+        th data-field=cid,,,data-sortable=true
+            {% id_num 'Id' %}
+
+%% list_row_header
+    th...Type 
+    th...Code
+    th...Name
+
+%% list_row
+    td
+        img src={{ STATIC_URL }}icons/struct/elm_{{object.type}}.png
+    td...{{object.code}}
+    td...{{object.name}}
+
+%% xxlist_row_actions
+    % row_actions:
+        .edit
+        .delete
+        
+%% id_extra
+    % with vtype='none':
+        {{ block.super }}
+
+%% row_edit
+    % form: 
+        .parent:!, type, code, name, description

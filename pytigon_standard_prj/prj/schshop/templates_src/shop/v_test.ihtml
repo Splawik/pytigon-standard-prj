@@ -1,0 +1,9 @@
+% extends "forms/user_tab.html"
+
+% load exfiltry
+% load exsyntax
+
+
+%% content
+    iframe src=/pl/,,,style=width:100%;height:calc(100% - 10px)
+

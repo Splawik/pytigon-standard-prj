@@ -1,0 +1,112 @@
+header.navbar .select2-container--default .select2-selection--single {
+    border: 0px;
+}
+
+.select2-dropdown--below {
+    border-top: 1px solid #aaa !important;
+}
+
+h3 {
+    font-size: 0.8rem;
+}
+
+.navigation ul .nav-item a {
+    font-size: 1.2rem;
+    padding: 0.2rem 0.6rem;
+}
+
+.checkout-preview-dropdown__list {
+    width: 100%;
+}
+
+.home__block1 .home--square {
+    background-image: url(/static/block1.jpg);
+}
+
+.home__block2 .home--square {
+    background-image: url(/static/block2.jpg);
+}
+
+.home__block3 .home--square {
+    background-image: url(/static/block3.jpg);
+}*
+
+.navigation ul .nav-item__dropdown-content .container > ul li {
+	max-width: 220px;
+	width: 220px;
+}
+
+.home {
+    margin-top: 10px;
+}
+
+.navbar__logo a svg, .logo-light-0 {
+    height: 48px;
+    width: auto;
+    max-width: 600px;
+}
+
+.checkout-preview-dropdown .checkout-preview-dropdown__empty img {
+    margin-right: 2rem;
+    margin-left: 2rem;
+}
+
+.product-filters__attributes ul li label {
+    font-size: xx-small;
+}
+
+.filter-form-field {
+    max-height: 10rem;
+    overflow-y: auto;
+    margin-bottom: 1rem;
+}
+
+.passIcon  {
+    width: 1rem;
+}
+
+.product__info__name {
+    font-size: 1.5rem;
+}
+
+.container {
+    padding-right: 10px;
+    padding-left: 10px;
+}
+
+@media (max-width: 767.98px) {
+    .navbar__menu .navigation ul .nav-item a {
+        font-size: 0.9rem;
+    }
+    .maincontent {
+        margin-top: 9.5rem;
+    }
+    .product-list__header {
+        padding-top: 0.5rem;
+    }
+
+    .navbar__login .container {
+        position: absolute;
+        top: 95px;        
+    }
+}
+
+.alert {
+    margin-top: 0.5rem;
+}
+
+.home--content-inner {    
+    text-align: left !important;
+    padding-left: 3rem !important;    
+    background: rgba(0,0,0,0.2);
+}
+
+.polbruk_stopka {
+    padding-top: 0.5rem;
+    margin-bottom: -7rem;
+}
+
+.footer2 {
+    color: #fff !important;
+    margin-top: 6px !important;
+}

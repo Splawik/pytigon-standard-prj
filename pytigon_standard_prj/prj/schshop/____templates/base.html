@@ -1,0 +1,418 @@
+<!DOCTYPE html>
+{% load i18n %}
+{% load footer_menu menu from shop %}
+{% load placeholder %}
+{% load render_bundle from webpack_loader %}
+{% load static %}
+{% load translate_url from urls %}
+
+<html lang="{{ LANGUAGE_CODE }}" class="no-js" data-shipping-options-url="{% url 'checkout:shipping-options' %}" data-checkout-summary-url="{% url 'checkout:dropdown' %}">
+<head>
+  <title>{% block title %}{{ site.name }}{% endblock %}</title>
+  {% block meta %}
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="generator" content="Saleor">
+    <meta name="theme-color" content="#333333">
+    <meta name="msapplication-TileColor" content="#2b5797">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black">
+    <meta name="apple-mobile-web-app-title" content="{{ site.name }}">
+    <meta name="og:type" content="website">
+    {% get_available_languages as LANGUAGES %}
+    {% for lang_code, language_name in LANGUAGES %}
+      <link rel="alternate" hreflang="{{ lang_code }}" href="{% translate_url url=request.path lang_code=lang_code %}" />
+    {% endfor %}
+  {% endblock meta %}
+
+  {% include 'favicon.html' %}
+  {% render_bundle 'storefront' 'css' attrs='async' %}
+  <link href="https://cdnjs.cloudflare.com/ajax/libs/select2/4.0.6-rc.0/css/select2.min.css" rel="stylesheet" />
+  <link href="/static/sch.css" rel="stylesheet" />
+
+  {% block stylesheet %}{% endblock stylesheet %}
+
+  {% block meta_tags %}
+    <meta property="og:title" content="{{ site.settings.translated.header_text }}">
+    <meta property="og:description" content="{{ site.settings.translated.description }}">
+    <meta name="description" content="{{ site.settings.translated.description }}">
+    <meta property="og:url" content="{{ request.build_absolute_uri }}">
+    <meta property="og:image" content="{% static "images/block1.svg" %}">
+  {% endblock meta_tags %}
+
+  <link rel="manifest" href="{% url "manifest" %}" />
+
+  <!-- Le HTML5 shim, for IE6-8 support of HTML5 elements -->
+  <!--[if lt IE 9]>
+    <script src="//html5shim.googlecode.com/svn/trunk/html5.js"></script>
+  <![endif]-->
+</head>
+
+<body>
+{% block header %}
+  <header class="navbar" role="navigation">
+    <div class="navbar__login container-fluid {% if user.is_impersonate %} bg-warning{% endif %}">
+      <div class=" d-xnone d-md-block container">
+      <div class="row">
+        <div class="d-none d-lg-block col-3">
+          <p class="text-left">{{ site.settings.translated.header_text }}</p>
+        </div>
+        <div class="col-12 col-lg-9">
+          {# SCH++ #}          
+          {% if request.session.profile.profile_count and request.session.profile.profile_count > 1 %}            
+            Kupuję w:
+            <div style="display: inline-flex; width: 350px; font-weight: bold;">             
+             <select class="js-data-profile" style="width:300px;position:relative;display:none"></select>
+            </div>
+          {% else %}
+              {% if request.session.profile.profile_count > 0 %}
+              Kupuję w:
+              <div style="display: inline-flex; width: 350px; font-weight: bold;">
+                {{ request.session.profile.profile_str }}
+              </div>
+              {% endif %}
+          {% endif %}
+          {# SCH-- #}
+          <ul class="float-right">
+            {% get_available_languages as LANGUAGES %}
+
+            {# We display language picker only if there're languages to pick from #}
+            {% if LANGUAGES|length > 1 %}
+              {% get_current_language as LANGUAGE_CODE %}
+              <li>
+                <div class="language-picker dropdown show">
+                  <a class="dropdown-toggle dropdown-link " id="language-picker-button">
+                    {{ LANGUAGE_CODE|language_name_local }}
+                  </a>
+                  {% include "_language_picker.html" %}
+                </div>
+              </li>
+            {% endif %}
+            {% if user.is_authenticated %}
+              {% if user.is_staff or request.impersonator.is_staff %}
+                <li>
+                  <a href="{% url "dashboard:index" %}" target="_blank" rel="noopener">
+                    {% trans "Dashboard" context "Main navigation item" %}
+                  </a>
+                </li>
+              {% endif %}
+              <li>
+                <a href="{% url "account:details" %}">
+                  {% trans "Your account" context "Main navigation item" %}</a>
+              </li>
+              {% if user.is_impersonate %}
+                <li>
+                  <a href="{% url "impersonate-stop" %}">
+                    {% trans 'Stop impersonating' context 'Main navigation item' %}
+                  </a>
+                </li>
+              {% else %}
+                <li>
+                  <a href="{% url "account:logout" %}">
+                    {% trans "Log out" context "Main navigation item" %}</a>
+                </li>
+              {% endif %}
+            {% else %}
+              {% comment %}
+              <li>
+                <a rel="nofollow" href="{% url "account:signup" %}">
+                  {% trans "Register" context "Main navigation item" %}</a>
+              </li>
+              {% endcomment %}
+              <li>
+                <a rel="nofollow" href="{% url "account:login" %}">
+                  {% trans "Log in" context "Main navigation item" %}
+                </a>
+              </li>
+            {% endif %}
+          </ul>
+        </div>
+      </div>
+    </div>
+    </div>
+    <div class="navbar__brand container-fluid d-block">
+      <div class="container">
+        <div class="row no-gutters" style="width:100%;">
+          <div class="col-8 col-md-4 navbar__logo">
+            {% if user.is_authenticated %}
+            <div class="menu-icon-mobile d-md-none navbar__brand__menu-toggle closed open">
+              <svg data-src="{% static "images/mobile-menu.svg" %}" width="28px" height="20px"/>
+            </div>
+            {% endif %}
+            <a href="{% url 'home' %}">
+              <svg data-src="{% static "images/logo-light.svg" %}"/>
+            </a>
+          </div>
+          {% if request.user.is_authenticated %}
+          <div class="col-2 col-md-5 navbar__search static">            
+            {% if SEARCH_IS_ENABLED %}
+              {% comment %}
+              <div class="d-md-none mobile-search-icon">
+                <svg data-src="{% static "images/search.svg" %}" width="30" height="30"/>
+              </div>
+              {% endcomment %}
+              <form class="d-none d-lg-block form-inline search-form" action="{% url "search:search" %}">
+                <div class="mobile-close-search d-md-none">
+                  <svg data-src="{% static "images/close.svg" %}" width="30" height="30"/>
+                </div>
+                <input class="form-control" type="text" name="q"
+                       value="{% if query %}{{ query }}{% endif %}"
+                       placeholder="{% trans "Search for product" %}"
+                       autocomplete="off"
+                       required
+                       style="width: calc( 100% - 130px );margin-right: 10px;">
+                <button class="btn btn-primary" type="submit">
+                  {% trans "Search" %} <svg data-src="{% static "images/search.svg" %}" width="18" height="18"/>
+                </button>
+              </form>
+            {% endif %}
+            
+          </div>
+          <div class="col-2 col-md-3">
+            <div class="navbar__brand__checkout float-right">
+              <a rel="nofollow" class="checkout__icon" href="{% url "checkout:index" %}">
+                <span class="checkout-label d-none d-md-inline-block">
+                  {% trans "Your cart" context "Main navigation item" %}
+                </span>
+                <div class="navbar__brand__checkout__icon">
+                  <svg data-src="{% static "images/checkout.svg" %}" width="24" height="24"/>
+                </div>
+                <span class="badge {% if not checkout_counter %}empty{% endif %}">
+                  {% if checkout_counter %}
+                    {{ checkout_counter }}
+                  {% else %}
+                    0
+                  {% endif %}
+                </span>
+              </a>
+              <div class="checkout-preview-dropdown d-none">
+                {% include 'checkout_dropdown.html' %}
+              </div>
+            </div>
+          </div>
+          {% endif %}
+        </div>
+      </div>
+    </div>
+
+    {% comment %}
+    <div class="container d-block d-lg-none">
+      <div class="col-12">    
+        {# SCH++ #}          
+        {% if request.session.profile.profile_count and request.session.profile.profile_count > 1 %}            
+          Kupuję w:
+          <div style="display: inline-flex; width: 350px; font-weight: bold;">             
+          <select class="js-data-profile" style="width:300px;position:relative;display:none"></select>
+          </div>
+        {% else %}
+            {% if request.session.profile.profile_count > 0 %}
+            Kupuję w:
+            <div style="display: inline-flex; width: 350px; font-weight: bold;">
+              {{ request.session.profile.profile_str }}
+            </div>
+            {% endif %}
+        {% endif %}
+        {# SCH-- #}
+    </div>
+    </div>
+    {% endcomment %}
+  
+
+
+    {% if request.user.is_authenticated %}
+    <div class="navbar__menu container d-block">
+      <nav class="navigation">
+        {% menu site_menu=site.settings.top_menu horizontal=True %}
+      </nav>
+    </div>
+    {% endif %}
+
+  </header>
+{% endblock %}
+
+<div class="container maincontent">
+  {% if request.user.is_authenticated %}
+    {% block topcontent %}{% endblock topcontent %}
+  {% endif %}
+  {% if messages %}
+    {% for message in messages %}
+      <div class="alert{% if message.tags %} alert-{{ message.tags }}{% endif %}">
+        <button type="button" class="close" data-dismiss="alert" aria-hidden="true">&times;</button>
+        {{ message }}
+      </div>
+    {% endfor %}
+  {% endif %}
+  {% if request.user.is_authenticated %}
+    {% block breadcrumb %}
+    {% endblock breadcrumb %}
+    {% block content %}
+    {% endblock content %}
+  {% else %}    
+    {% block welcome %}
+    {% endblock %}
+  {% endif %}
+</div>
+
+
+{% block footer %}
+  <footer class="footer">
+  <div class="footer__menus">
+    <div class="container">
+      <div class="row">
+        {% if request.user.is_authenticated %}
+          {% footer_menu site_menu=site.settings.bottom_menu %}        
+        <div class="col-md-2 col-6">
+        <ul class="menu">
+          <li class="nav-item__dropdown menu__item">
+            <a>
+              <strong>
+                {% trans "Account" %}
+              </strong>
+            </a>
+            <hr />
+            <li>
+              <a rel="nofollow" href="{% url "checkout:index" %}">
+                {% trans "Your cart" context "Main navigation item" %}
+              </a>
+            </li>
+            {% if user.is_authenticated %}
+              {% if user.is_staff %}
+                <li>
+                  <a href="{% url "dashboard:index" %}" target="_blank" rel="noopener">
+                    {% trans "Dashboard" context "Main navigation item" %}
+                  </a>
+                </li>
+                <li>
+                  <a href="{% url "styleguide" %}" target="_blank">
+                    {% trans "Style guide" context "Main navigation item" %}
+                  </a>
+                </li>
+              {% endif %}
+              <li>
+                <a href="{% url "account:details" %}">
+                  {% trans "Your account" context "Main navigation item" %}
+                </a>
+              </li>
+              {% if user.is_impersonate %}
+                <li>
+                  <a href="{% url "impersonate-stop" %}">
+                    {% trans 'Stop impersonating' context 'Main navigation item' %}
+                  </a>
+                </li>
+              {% else %}
+                <li>
+                  <a href="{% url "account:logout" %}">
+                    {% trans "Log out" context "Main navigation item" %}</a>
+                </li>
+              {% endif %}
+            {% else %}
+              <li>
+                <a rel="nofollow" href="{% url "account:signup" %}">
+                  {% trans "Register" context "Main navigation item" %}
+                </a>
+              </li>
+              <li>
+                <a rel="nofollow" href="{% url "account:login" %}">
+                  {% trans "Log in" context "Main navigation item" %}
+                </a>
+              </li>
+            {% endif %}
+          </ul>
+        </div>
+        {% endif %}
+        <div class="offset-md-2 col-md-4 col-12">
+          <div class="footer__menus__social-container">
+            <div class="footer__menus__social">
+              <a target="_blank" rel="noopener" class="social-footer" href="https://www.polbruk.pl/" style="width: 40px;">
+                <p class="footer2" color="#fff" style="margin-left: 4px">www</p>
+              </a>              
+              <a target="_blank" rel="noopener" class="social-footer" href="https://www.facebook.com/polbruk/">
+                <svg data-src="{% static "images/facebook-logo.svg" %}" width="45px" height="45px"/>
+              </a>              
+              {% comment %}
+              <a target="_blank" rel="noopener" class="social-footer" href="https://www.facebook.com/JestemFachowcem/">
+                <svg data-src="{% static "images/facebook-logo.svg" %}" width="45px" height="45px"/>
+              </a>         
+              {% endcomment %}     
+              <a target="_blank" rel="noopener" class="social-footer" href="https://www.instagram.com/explore/tags/polbruk/">
+                <svg data-src="{% static "images/instagram-logo.svg" %}" width="45px" height="45px"/>
+              </a>
+              {% comment %}
+              <a target="_blank" rel="noopener" class="social-footer" href="https://www.instagram.com/polbruk_inspirujemy/">
+                <p class="footer2" color="#fff">Inspirujemy</p>
+              </a>
+              {% endcomment %}     
+              <a target="_blank" rel="noopener" class="social-footer" href="https://poland.payu.com/" style="width: 80px;border-radius: 10%;">                
+                <img src="{% static "images/PAYU_LOGO_WHITE.png" %}" height="38px" style="margin-left: 5px">
+              </a>              
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="footer__copy">
+    <div class="container">
+      <div class="row">
+        <div class="col-4">
+          <a href="{% url 'home' %}" class="footer__logo float-md-left">
+            <svg data-src="{% static "images/logo-light.svg" %}"/>
+          </a>
+        </div>
+        
+      </div>
+    </div>
+  </div>
+  </footer>
+{% endblock %}
+{% block footer_scripts %}
+  <script type="text/javascript" src="{% url 'javascript-catalog' %}"></script>
+  {% render_bundle 'storefront' 'js' %}
+  {# SCH++ #}
+
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.3.1/jquery.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/select2/4.0.6-rc.0/js/select2.min.js"></script>
+  
+  <script>
+    $(document).ready(function() {
+        var BASEPATH = window.location.origin;
+        $('.js-data-profile').select2({
+            ajax: {
+                //url: 'https://api.github.com/search/repositories',
+                url: "/big_company/find_profile/",
+                dataType: 'json',
+                processResults2: function (data) {
+                    alert(data);
+                    // Tranforms the top-level key of the response object from 'items' to 'results'
+                    return { results: data }
+                }
+            }
+        });
+        $('.js-data-profile').show();
+        });
+       //$('.js-data-profile').val('{{request.session.profile.profileid}}');
+       
+       
+       var data = { id: '{{request.session.profile.profileid}}', text: '{{request.session.profile.profile_str}}' } 
+       var option = new Option(data.text, data.id, true, true);
+       $('.js-data-profile').append(option).trigger('change');
+       $('.js-data-profile').trigger({
+            type: 'select2:select',
+            params: { data: data }
+      });
+      $('.js-data-profile').on('select2:select', function (e) {
+            var data = e.params.data;
+            $.post("/big_company/set_profile/", { profileid: data.id } ).done(function( data ) {
+                console.log(data);
+                location.href = window.location.origin;
+                //location.reload();
+            });
+      });
+  {# SCH-- #}        
+</script>
+{% endblock footer_scripts %}
+{% if LANGUAGES|length > 1 %}
+  {% include "_language_picker_modal.html" %}
+{% endif %}
+</body>
+</html>

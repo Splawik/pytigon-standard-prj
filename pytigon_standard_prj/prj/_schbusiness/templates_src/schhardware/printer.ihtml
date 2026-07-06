@@ -1,0 +1,12 @@
+% extends "schhardware/device.html"
+
+% load exfiltry
+% load exsyntax
+
+%% list_content_actions
+        % new_row "New printer"
+
+%% row_edit
+    {{ block.super }}
+    % form:
+        .printer_type

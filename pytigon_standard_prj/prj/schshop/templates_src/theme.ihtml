@@ -1,0 +1,7 @@
+% extends 'theme_base.html'|translate:lang
+
+%% login_extensions
+    div class=card-body
+        br
+        a href={{base_path}}account/password/reset/
+            ._(I forgot my password)

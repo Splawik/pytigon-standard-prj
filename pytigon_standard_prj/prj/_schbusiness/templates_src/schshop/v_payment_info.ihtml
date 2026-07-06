@@ -1,0 +1,16 @@
+% extends "forms/form.html"
+
+% load exfiltry
+% load exsyntax
+
+%% body
+    % if status == 'success':
+        h1...Payment completed successfully
+        {{ payment}}
+        script language=javascript
+            .setTimeout("window.close()",3000) 
+    % else:
+        h1...Payment failed
+        {{ payment }}
+        script language=javascript
+            .setTimeout("window.close()",10000) 
