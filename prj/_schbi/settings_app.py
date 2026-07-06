@@ -3,9 +3,9 @@ import sys
 import json
 from urllib.parse import urlparse
 
-PRJ_TITLE = "Mobile demo"
-PRJ_NAME = "mobile_demo"
-THEMES = ["smartfon_standard", "smartfon_standard", "smartfon_standard"]
+PRJ_TITLE = "BI"
+PRJ_NAME = "_schbi"
+THEMES = ["tablet_modern", "tablet_modern", "smartfon_standard"]
 
 _lp = os.path.dirname(os.path.abspath(__file__))
 
@@ -63,7 +63,7 @@ from pytigon_lib.schtools.install_init import init
 
 init(PRJ_NAME, ROOT_PATH, DATA_PATH, PRJ_PATH, STATIC_ROOT, [MEDIA_ROOT, UPLOAD_PATH])
 
-START_PAGE = "static/frontend_demo/views/todo_demo.fview"
+START_PAGE = "None"
 SHOW_LOGIN_WIN = False
 PACKS = []
 
@@ -155,7 +155,7 @@ try:
 except ImportError:
     pass
 
-GEN_TIME = "2026-07-06 18:51:58"
+GEN_TIME = "2026-07-06 18:51:59"
 
 
 for key, value in os.environ.items():
