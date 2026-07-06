@@ -1,3 +1,0 @@
-
-%% botstrap_css
-    {% css_link 'themes/bootswatch/materia/bootstrap.min.css' %}

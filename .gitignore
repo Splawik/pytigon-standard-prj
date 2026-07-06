@@ -29,32 +29,32 @@ migrations/
 *.ipynb
 
 # Project directories: ignore all, then selectively include
-prj/*
-!prj/_schall/
-!prj/_schbi/
-!prj/_schcomponents/
-!prj/_schdata/
-!prj/_schplaywright/
-!prj/_schremote/
-!prj/_schserverless/
-!prj/_schsetup/
-!prj/_schtest/
-!prj/_schtools/
-!prj/_schwiki/
-!prj/in_browser_demo/
-!prj/mobile_demo/
-!prj/schdevtools/
-!prj/scheditor/
-!prj/schemail/
-!prj/schmanage/
-!prj/schodf/
-!prj/schportal/
-!prj/schpytigondemo/
-!prj/schscripts/
-!prj/schwebtrapper/
+pytigon_standard_prj/prj/*
+!pytigon_standard_prj/prj/_schall/
+!pytigon_standard_prj/prj/_schbi/
+!pytigon_standard_prj/prj/_schcomponents/
+!pytigon_standard_prj/prj/_schdata/
+!pytigon_standard_prj/prj/_schplaywright/
+!pytigon_standard_prj/prj/_schremote/
+!pytigon_standard_prj/prj/_schserverless/
+!pytigon_standard_prj/prj/_schsetup/
+!pytigon_standard_prj/prj/_schtest/
+!pytigon_standard_prj/prj/_schtools/
+!pytigon_standard_prj/prj/_schwiki/
+!pytigon_standard_prj/prj/in_browser_demo/
+!pytigon_standard_prj/prj/mobile_demo/
+!pytigon_standard_prj/prj/schdevtools/
+!pytigon_standard_prj/prj/scheditor/
+!pytigon_standard_prj/prj/schemail/
+!pytigon_standard_prj/prj/schmanage/
+!pytigon_standard_prj/prj/schodf/
+!pytigon_standard_prj/prj/schportal/
+!pytigon_standard_prj/prj/schpytigondemo/
+!pytigon_standard_prj/prj/schscripts/
+!pytigon_standard_prj/prj/schwebtrapper/
 
 
-prj/*/prjlib/*
+pytigon_standard_prj/prj/*/prjlib/*
 
 global_db_settings.py
 settings_app_local.py

@@ -1,9 +1,0 @@
-% extends "school/element.html"
-
-% load exfiltry
-% load exsyntax
-
-%% row_edit
-    % form: 
-        .parent:!, type:!, code, name, can_view_permission, can_add_permission, can_change_permission, can_delete_permission, description
-    

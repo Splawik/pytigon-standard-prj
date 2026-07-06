@@ -1,6 +1,0 @@
-h1...Hello world!
-
-.Hello {{user.name}}
-br
-.Reset: 
-a href={{password_reset_url}}...Set a password
