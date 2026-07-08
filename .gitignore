@@ -52,6 +52,7 @@ pytigon_standard_prj/prj/*
 !pytigon_standard_prj/prj/schpytigondemo/
 !pytigon_standard_prj/prj/schscripts/
 !pytigon_standard_prj/prj/schwebtrapper/
+!pytigon_standard_prj/prj/schssh/
 
 
 pytigon_standard_prj/prj/*/prjlib/*
