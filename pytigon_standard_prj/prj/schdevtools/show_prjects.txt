@@ -1,0 +1,8 @@
+############ Main app window
+Kliknij na przycisku: Projects
+img__projects_png << click
+..
+tabsort << focus
+.
+<< end
+..
