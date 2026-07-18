@@ -1,23 +1,14 @@
-import os, os.path
-import sys
-
-import django
 from django.db import models
-from django.utils import timezone
 from django.utils.translation import gettext_lazy as _
-from django.contrib import admin
 
 from pytigon_lib.schdjangoext.fields import *
 import pytigon_lib.schdjangoext.fields as ext_models
 from pytigon_lib.schdjangoext.models import *
-from pytigon_lib.schtools import schjson
-from pytigon_lib.schhtml.htmltools import superstrip
 
 import schelements.models
 
 
-from pytigon_lib.schtools.schjson import json_dumps, json_loads
-from django.db.models import Max, Min
+from django.db.models import Max
 from schelements.models import *
 
 
@@ -131,7 +122,6 @@ admin_register(DocDef)
 
 
 class Doc(JSONModel):
-
     class Meta:
         verbose_name = _("Document")
         verbose_name_plural = _("Documents")

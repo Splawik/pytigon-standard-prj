@@ -1,11 +1,10 @@
 import os
 import sys
 import json
-from urllib.parse import urlparse
 
 PRJ_TITLE = "Pytigon portal"
 PRJ_NAME = "schportal"
-THEMES = ["tablet_modern", "tablet_modern", "smartfon_standard"]
+THEMES = ["tablet_modern", "tablet_modern", "smartphone_standard"]
 
 _lp = os.path.dirname(os.path.abspath(__file__))
 
@@ -14,9 +13,9 @@ if "PYTIGON_ROOT_PATH" in os.environ:
 else:
     _rp = os.path.abspath(os.path.join(_lp, "..", ".."))
 
-if not _lp in sys.path:
+if _lp not in sys.path:
     sys.path.insert(0, _lp)
-if not _rp in sys.path:
+if _rp not in sys.path:
     sys.path.insert(0, _rp)
 
 from pytigon_lib import init_paths
@@ -28,7 +27,7 @@ from pytigon_lib.schtools.platform_info import platform_name
 
 from pytigon.schserw.settings import *
 
-from apps import APPS, APPS_EXT, PUBLIC
+from apps import APPS, APPS_EXT
 
 try:
     from global_db_settings import setup_databases
@@ -38,7 +37,7 @@ except ImportError:
 LOCAL_ROOT_PATH = os.path.abspath(os.path.join(_lp, ".."))
 ROOT_PATH = _rp
 URL_ROOT_PREFIX = ""
-if not LOCAL_ROOT_PATH in sys.path:
+if LOCAL_ROOT_PATH not in sys.path:
     sys.path.append(LOCAL_ROOT_PATH)
 
 if ENV("PUBLISH_IN_SUBFOLDER"):
@@ -57,6 +56,7 @@ MEDIA_ROOT = os.path.join(
     os.path.join(DATA_PATH, URL_ROOT_FOLDER if URL_ROOT_FOLDER else PRJ_NAME), "media"
 )
 UPLOAD_PATH = os.path.join(MEDIA_ROOT, "upload")
+
 
 BOOTSTRAP_TEMPLATE = "bootswatch/materia"
 
@@ -103,6 +103,7 @@ FILER_DEBUG = True
 
 EXPLORER_CONNECTIONS = {"Default": "default"}
 EXPLORER_DEFAULT_CONNECTION = "default"
+
 from pytigon_lib.schtools.install_init import init
 
 init(PRJ_NAME, ROOT_PATH, DATA_PATH, PRJ_PATH, STATIC_ROOT, [MEDIA_ROOT, UPLOAD_PATH])
@@ -148,10 +149,22 @@ if os.path.exists(PRJ_PATH + "/_schtools/static"):
     STATICFILES_DIRS.append(PRJ_PATH + "/_schtools/static")
 else:
     STATICFILES_DIRS.append(PRJ_PATH_ALT + "/_schtools/static")
+if os.path.exists(PRJ_PATH + "/_schwiki/static"):
+    STATICFILES_DIRS.append(PRJ_PATH + "/_schwiki/static")
+else:
+    STATICFILES_DIRS.append(PRJ_PATH_ALT + "/_schwiki/static")
+if os.path.exists(PRJ_PATH + "/_schdata/static"):
+    STATICFILES_DIRS.append(PRJ_PATH + "/_schdata/static")
+else:
+    STATICFILES_DIRS.append(PRJ_PATH_ALT + "/_schdata/static")
 if os.path.exists(PRJ_PATH + "/_schcomponents/static"):
     STATICFILES_DIRS.append(PRJ_PATH + "/_schcomponents/static")
 else:
     STATICFILES_DIRS.append(PRJ_PATH_ALT + "/_schcomponents/static")
+if os.path.exists(PRJ_PATH + "/_schsetup/static"):
+    STATICFILES_DIRS.append(PRJ_PATH + "/_schsetup/static")
+else:
+    STATICFILES_DIRS.append(PRJ_PATH_ALT + "/_schsetup/static")
 
 
 TEMPLATES[0]["DIRS"].insert(0, os.path.join(DATA_PATH, PRJ_NAME, "templates"))
@@ -215,7 +228,7 @@ try:
 except ImportError:
     pass
 
-GEN_TIME = "2026-07-14 19:18:35"
+GEN_TIME = "2026-07-18 17:59:46"
 
 
 for key, value in os.environ.items():
@@ -229,7 +242,7 @@ for key, value in os.environ.items():
                     value[1 if value.startswith(":") else 0 :]
                     .replace("'", '"')
                     .replace("[|]", "!")
-                    .replace('["]', '\\"')
+                    .replace('["]', '"')
                 )
             except json.JSONDecodeError:
                 print(f"invalid json syntax for environment variable: {key}")

@@ -1,21 +1,10 @@
-import os, os.path
-import sys
-
-import django
 from django.db import models
-from django.utils import timezone
 from django.utils.translation import gettext_lazy as _
-from django.contrib import admin
 
 from pytigon_lib.schdjangoext.fields import *
-import pytigon_lib.schdjangoext.fields as ext_models
 from pytigon_lib.schdjangoext.models import *
-from pytigon_lib.schtools import schjson
-from pytigon_lib.schhtml.htmltools import superstrip
 
 
-import datetime
-from pytigon_lib.schdjangoext.django_ihtml import ihtml_to_html
 from schsimplescripts.script_tools import decode_script
 
 VIEW = """#Example: 
@@ -28,7 +17,6 @@ VIEW = """#Example:
 
 
 class Script(models.Model):
-
     class Meta:
         verbose_name = _("Script")
         verbose_name_plural = _("Scripts")

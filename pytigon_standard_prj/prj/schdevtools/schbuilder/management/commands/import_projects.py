@@ -20,7 +20,6 @@ PRJS_TO_IMPORT = [
     "schwebtrapper",
     "scheditor",  # prepare db but without initial data
     "_schcomponents",
-    "scheditor",
     "_schdata",
     "_schremote",
     "_schtools",
@@ -37,7 +36,7 @@ class Command(BaseCommand):
             prjs = list(SChProject.objects.filter(name=prj_name))
             if len(prjs) == 0:
                 path = os.path.join(
-                    os.path.join(settings.ROOT_PATH, "install"), f"{prj_name}.prj"
+                    os.path.join(settings.ROOT_PATH, "install"), f"{prj_name}.ptigprj"
                 )
                 print("Import prj: ", path)
                 try:

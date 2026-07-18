@@ -94,7 +94,7 @@
             self.EDITOR.Bind(wx.EVT_KEY_DOWN, self.on_key_pressed)
             
         def on_key_pressed(self, event):
-            if not event.AltDown() and not event.ControlDown() and ((event.KeyCode in ( ord('.'), ord(' ') ) and not event.ShiftDown()) or ((event.KeyCode in ( ord('\\'),)) and  event.ShiftDown())):
+            if not event.AltDown() and not event.ControlDown() and ((event.KeyCode in ( ord('.'), ord(' ') ) and not event.ShiftDown()) or ((event.KeyCode in ( ord('\\\\'),)) and  event.ShiftDown())):
                 def _fun():
                     ret_str = self.on_dialog("default")
                     if ret_str:

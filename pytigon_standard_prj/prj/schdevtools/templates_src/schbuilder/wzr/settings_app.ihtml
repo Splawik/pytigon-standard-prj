@@ -6,7 +6,7 @@ from urllib.parse import urlparse
 
 PRJ_TITLE = "{{prj.title}}"
 PRJ_NAME = "{{prj.name}}"
-THEMES = ['{{prj.desktop_gui_type}}', '{{prj.tablet_gui_type}}', '{{prj.smartfon_gui_type}}']
+THEMES = ['{{prj.desktop_gui_type}}', '{{prj.tablet_gui_type}}', '{{prj.smartphone_gui_type}}']
 
 _lp = os.path.dirname(os.path.abspath(__file__))
 
@@ -56,7 +56,9 @@ if ENV("PUBLISH_IN_SUBFOLDER"):
 MEDIA_ROOT = os.path.join(os.path.join(DATA_PATH, URL_ROOT_FOLDER if URL_ROOT_FOLDER else PRJ_NAME), 'media')
 UPLOAD_PATH = os.path.join(MEDIA_ROOT, "upload")
 
+{% if not milestone %}#[[START SChProject.{{prj.pk}}.additional_settings]]{% endif %}
 {{prj.additional_settings|first_section|safe}}
+{% if not milestone %}#[[END]]{% endif %}
 from pytigon_lib.schtools.install_init import init
 init(PRJ_NAME, ROOT_PATH, DATA_PATH, PRJ_PATH, STATIC_ROOT, [MEDIA_ROOT, UPLOAD_PATH])
 
@@ -170,6 +172,8 @@ for key, value in os.environ.items():
         else:
             globals()[key2] = value
 
+{% if not milestone %}#[[START +SChProject.{{prj.pk}}.additional_settings]]{% endif %}
 {{prj.additional_settings|second_section|safe}}
+{% if not milestone %}#[[END]]{% endif %}
 
 finish(globals())

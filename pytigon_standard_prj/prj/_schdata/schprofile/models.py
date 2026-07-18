@@ -1,28 +1,18 @@
-import os, os.path
-import sys
-
-import django
 from django.db import models
-from django.utils import timezone
 from django.utils.translation import gettext_lazy as _
 from django.contrib import admin
 
 from pytigon_lib.schdjangoext.fields import *
 import pytigon_lib.schdjangoext.fields as ext_models
 from pytigon_lib.schdjangoext.models import *
-from pytigon_lib.schtools import schjson
-from pytigon_lib.schhtml.htmltools import superstrip
 
 import schelements.models
 
 
 from django.contrib.auth import get_user_model
-from django.db.models.signals import post_save, pre_delete
+from django.db.models.signals import post_save
 from django.dispatch import receiver
-from schelements.models import Element
-from django.contrib import admin
 from django.contrib.auth.admin import UserAdmin as BaseUserAdmin
-from django.contrib.auth import get_user_model
 from pytigon_lib.schtools.tools import get_request
 from pytigon_lib.schdjangoext.tools import from_migrations
 
@@ -42,7 +32,6 @@ User = get_user_model()
 
 
 class Profile(models.Model):
-
     class Meta:
         verbose_name = _("Profile")
         verbose_name_plural = _("Profiles")
@@ -163,7 +152,6 @@ admin_register(Profile)
 
 
 class UserProxy(User):
-
     class Meta:
         verbose_name = _("User")
         verbose_name_plural = _("Users")

@@ -94,7 +94,7 @@
             (schelements)Sources:schelements/table/DocHead//_parents_[[table_row_pk]]/form/sublist/
             (schelements)Dependence:schelements/table/DocHead//_children_[[table_row_pk]]/form/sublist/
             (schlog)Logs:schlog/table/Log//schelements__DocHead__[[table_row_pk]]__default/form__schelements__/sublist/
-            (schattachements)Attachements:schattachements/table/Attachement//schelements__DocHead__[[table_row_pk]]__default/form__schattachements__/sublist/
+            (schattachments)Attachments:schattachments/table/Attachment//schelements__DocHead__[[table_row_pk]]__default/form__schattachments__/sublist/
             (schworkflow)Acceptances:schworkflow/table/WorkflowItem//schelements__DocHead__[[table_row_pk]]__default/form__schworkflow__/sublist/
             (schcomments)Comments:schcomments/table/Comment//schelements__DocHead__[[table_row_pk]]__default/form__schcomments__/sublist/
 

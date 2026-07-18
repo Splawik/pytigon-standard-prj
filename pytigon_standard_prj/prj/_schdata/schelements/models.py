@@ -1,22 +1,14 @@
-import os, os.path
-import sys
-
-import django
 from django.db import models
 from django.utils import timezone
 from django.utils.translation import gettext_lazy as _
-from django.contrib import admin
 
 from pytigon_lib.schdjangoext.fields import *
 import pytigon_lib.schdjangoext.fields as ext_models
 from pytigon_lib.schdjangoext.models import *
-from pytigon_lib.schtools import schjson
-from pytigon_lib.schhtml.htmltools import superstrip
 
 
 import copy
 from pytigon_lib.schdjangoext.django_ihtml import ihtml_to_html
-from django.template.loader import select_template
 import datetime
 from django.db import transaction
 from django.contrib.contenttypes.models import ContentType
@@ -24,19 +16,12 @@ from django.db.models import Q, Sum
 from django.apps import apps
 from django.dispatch import receiver
 from django.db.models.signals import post_delete
-from django.conf import settings
-from django.template import Template, Context
 
-from pytigon_lib.schviews.actions import new_row_ok, update_row_ok
-from pytigon_lib.schdjangoext.import_from_db import run_code_from_db_field, ModuleStruct
+from pytigon_lib.schviews.actions import new_row_ok
+from pytigon_lib.schdjangoext.import_from_db import run_code_from_db_field
 from pytigon_lib.schdjangoext.fastform import form_from_str, FAST_FORM_EXAMPLE
 
-from pytigon_lib.schdjangoext.django_ihtml import ihtml_to_html
-from pytigon_lib.schdjangoext.import_from_db import (
-    run_code_from_db_field,
-    get_fun_from_db_field,
-    ModuleStruct,
-)
+from pytigon_lib.schdjangoext.import_from_db import get_fun_from_db_field
 from pytigon_lib.schviews.schrules import filter_queryset_by_rules, is_rules_active
 
 
@@ -74,7 +59,7 @@ STRUCTURE = {
     "O-GRP": {"title": "Group of owners", "table": "Element", "app": "schelements"},
     "O-COM": {"title": "Companies", "table": "Element", "app": "schelements"},
     "O-DIV": {"title": "Divisions", "table": "Element", "app": "schelements"},
-    "O-DEP": {"title": "Departaments", "table": "Element", "app": "schelements"},
+    "O-DEP": {"title": "Departments", "table": "Element", "app": "schelements"},
     "O-POS": {"title": "Positions", "table": "Element", "app": "schelements"},
     "O-EMP": {"title": "Employees", "table": "Element", "app": "schelements"},
     "O-LOC": {"title": "Locations", "table": "Element", "app": "schelements"},
@@ -328,7 +313,6 @@ doctype_status = [
 
 
 class Element(TreeModel):
-
     class Meta:
         verbose_name = _("Element")
         verbose_name_plural = _("Elements")
@@ -678,7 +662,7 @@ class Element(TreeModel):
         global element_type_choice
         element_type_choice.append((type_code, type_name))
         s = Element.get_structure()
-        if not type_code in s:
+        if type_code not in s:
             s[type_code] = {"title": title, "table": table, "app": app}
 
     def get_derived_object(self, param=None):
@@ -776,7 +760,7 @@ class Element(TreeModel):
             buttons2 = self._get_new_buttons(self.type)
 
             for b in buttons2:
-                if not b in buttons:
+                if b not in buttons:
                     buttons.append(b)
 
             if self.description and "(" in self.description and ")" in self.description:
@@ -799,7 +783,7 @@ class Element(TreeModel):
                                 button["table"] = s[item]["table"]
                             else:
                                 button["table"] = ""
-                            if not button in buttons:
+                            if button not in buttons:
                                 buttons.append(button)
                 ret = []
                 for button in buttons:
@@ -917,7 +901,6 @@ admin_register(Element)
 
 
 class DocReg(models.Model):
-
     class Meta:
         verbose_name = _("Document register")
         verbose_name_plural = _("Document registers")
@@ -1123,7 +1106,6 @@ admin_register(DocReg)
 
 
 class DocType(models.Model):
-
     class Meta:
         verbose_name = _("Type of document")
         verbose_name_plural = _("Types of documents")
@@ -1258,7 +1240,6 @@ admin_register(DocType)
 
 
 class DocHead(JSONModel):
-
     class Meta:
         verbose_name = _("Document header")
         verbose_name_plural = _("Document headers")
@@ -1809,7 +1790,7 @@ class DocHead(JSONModel):
             if "filter" in view.kwargs and not view.kwargs["filter"].startswith("_"):
                 reg_name = view.kwargs["filter"].replace("_", "/")
                 if doc_regs:
-                    if not reg_name in doc_regs:
+                    if reg_name not in doc_regs:
                         return queryset_or_obj.filter(pk=0)
                 reg = DocReg.objects.get(name=reg_name)
                 append_reg_filter(reg)
@@ -1982,9 +1963,9 @@ class DocHead(JSONModel):
                         if action != "accept":
                             DocItem.objects.filter(
                                 parent=self,
-                                level__gt=(
-                                    reg_status.order if reg_status.order >= 0 else 0
-                                ),
+                                level__gt=reg_status.order
+                                if reg_status.order >= 0
+                                else 0,
                             ).delete()
 
                         doc_status.date = timezone.now()
@@ -2095,7 +2076,6 @@ admin_register(DocHead)
 
 
 class DocItem(JSONModel):
-
     class Meta:
         verbose_name = _("Document item")
         verbose_name_plural = _("Document items")
@@ -2583,7 +2563,6 @@ admin_register(DocItem)
 
 
 class DocRegStatus(models.Model):
-
     class Meta:
         verbose_name = _("Document status")
         verbose_name_plural = _("Document status")
@@ -2781,7 +2760,6 @@ admin_register(DocRegStatus)
 
 
 class DocHeadStatus(JSONModel):
-
     class Meta:
         verbose_name = _("Document head status")
         verbose_name_plural = _("Documents head status")
@@ -2828,7 +2806,6 @@ admin_register(DocHeadStatus)
 
 
 class Account(TreeModel):
-
     class Meta:
         verbose_name = _("Account")
         verbose_name_plural = _("Account")
@@ -2935,7 +2912,6 @@ admin_register(Account)
 
 
 class AccountState(models.Model):
-
     class Meta:
         verbose_name = _("State of account")
         verbose_name_plural = _("States of account")
@@ -3389,7 +3365,6 @@ admin_register(AccountState)
 
 
 class AccountOperation(models.Model):
-
     class Meta:
         verbose_name = _("Account operation")
         verbose_name_plural = _("Account operations")
@@ -3524,7 +3499,6 @@ admin_register(AccountOperation)
 
 
 class BaseObject(models.Model):
-
     class Meta:
         verbose_name = _("Base object")
         verbose_name_plural = _("Base objects")

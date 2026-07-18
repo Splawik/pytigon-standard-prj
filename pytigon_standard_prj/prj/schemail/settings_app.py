@@ -1,7 +1,6 @@
 import os
 import sys
 import json
-from urllib.parse import urlparse
 
 PRJ_TITLE = "Emails"
 PRJ_NAME = "schemail"
@@ -14,9 +13,9 @@ if "PYTIGON_ROOT_PATH" in os.environ:
 else:
     _rp = os.path.abspath(os.path.join(_lp, "..", ".."))
 
-if not _lp in sys.path:
+if _lp not in sys.path:
     sys.path.insert(0, _lp)
-if not _rp in sys.path:
+if _rp not in sys.path:
     sys.path.insert(0, _rp)
 
 from pytigon_lib import init_paths
@@ -24,11 +23,10 @@ from pytigon_lib import init_paths
 init_paths(PRJ_NAME, _lp)
 
 from pytigon_lib.schdjangoext.django_init import get_app_config
-from pytigon_lib.schtools.platform_info import platform_name
 
 from pytigon.schserw.settings import *
 
-from apps import APPS, APPS_EXT, PUBLIC
+from apps import APPS, APPS_EXT
 
 try:
     from global_db_settings import setup_databases
@@ -38,7 +36,7 @@ except ImportError:
 LOCAL_ROOT_PATH = os.path.abspath(os.path.join(_lp, ".."))
 ROOT_PATH = _rp
 URL_ROOT_PREFIX = ""
-if not LOCAL_ROOT_PATH in sys.path:
+if LOCAL_ROOT_PATH not in sys.path:
     sys.path.append(LOCAL_ROOT_PATH)
 
 if ENV("PUBLISH_IN_SUBFOLDER"):
@@ -150,7 +148,7 @@ try:
 except ImportError:
     pass
 
-GEN_TIME = "2026-07-14 19:18:29"
+GEN_TIME = "2026-07-18 18:00:20"
 
 
 for key, value in os.environ.items():
@@ -164,7 +162,7 @@ for key, value in os.environ.items():
                     value[1 if value.startswith(":") else 0 :]
                     .replace("'", '"')
                     .replace("[|]", "!")
-                    .replace('["]', '\\"')
+                    .replace('["]', '"')
                 )
             except json.JSONDecodeError:
                 print(f"invalid json syntax for environment variable: {key}")

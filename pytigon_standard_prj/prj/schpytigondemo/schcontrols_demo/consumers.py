@@ -1,23 +1,7 @@
-import os
-import sys
-import datetime
-import json
-import asyncio
-
-from channels.consumer import AsyncConsumer, SyncConsumer
-
-from channels.generic.websocket import (
-    WebsocketConsumer,
-    AsyncWebsocketConsumer,
-    JsonWebsocketConsumer,
-    AsyncJsonWebsocketConsumer,
-)
-
-from channels.generic.http import AsyncHttpConsumer
+from channels.generic.websocket import AsyncWebsocketConsumer
 
 
 class teleconference(AsyncWebsocketConsumer):
-
     def __init__(self, *args, **kwargs):
         super().__init__(*args, **kwargs)
         self.current_node = None
@@ -43,10 +27,18 @@ class teleconference(AsyncWebsocketConsumer):
             await self.send(text_data="guest")
 
     async def disconnect(self, close_code):
-        self.current_node.clients.remove(self)
+        if self.current_node:
+            try:
+                self.current_node.clients.remove(self)
+            except ValueError:
+                pass
 
     async def receive(self, text_data, bytes_data=None):
-        for client in self.current_node.clients:
-            if client is self:
-                continue
-            await client.send(text_data=text_data)
+        if self.current_node:
+            for client in self.current_node.clients:
+                if client is self:
+                    continue
+                try:
+                    await client.send(text_data=text_data)
+                except Exception:
+                    pass

@@ -1,54 +1,34 @@
 from django.http import HttpResponseRedirect, HttpResponse
-from django.shortcuts import render, redirect, reverse
-from django import forms
-from django.template.loader import render_to_string
-from django.template import Context, Template
+from django.shortcuts import render
+from django.template import Template
 from django.template import RequestContext
 from django.conf import settings
-from django.views.generic import TemplateView
 
-from pytigon_lib.schviews.form_fun import form_with_perms
-from pytigon_lib.schviews.viewtools import (
-    dict_to_template,
-    dict_to_odf,
-    dict_to_pdf,
-    dict_to_json,
-    dict_to_xml,
-    dict_to_ooxml,
-    dict_to_txt,
-    dict_to_hdoc,
-)
-from pytigon_lib.schviews.viewtools import render_to_response
+from pytigon_lib.schviews.viewtools import dict_to_template
 from pytigon_lib.schdjangoext.tools import make_href
-from pytigon_lib.schdjangoext import formfields as ext_form_fields
 from pytigon_lib.schviews import actions
 
-from django.utils.translation import gettext_lazy as _
 
 from . import models
-import os
-import sys
-import datetime
 from django.utils import timezone
+
 
 from .models import Page
 from pytigon_lib.schdjangoext.fastform import form_from_str
 from django.template.loader import select_template
 from django.http import JsonResponse
-from pytigon_lib.schviews import make_path
 from pytigon_lib.schtools.schjson import json_loads, json_dumps
 
-from pytigon_lib.schtools.tools import bencode, bdecode, is_null
+from pytigon_lib.schtools.tools import bdecode
 
 from django.views.decorators.cache import cache_page
 from django.views.decorators.csrf import csrf_exempt
 
 from django.core.cache import cache
 
-from schwiki.applib import makdown_obj_simple, markdown_obj_subblocks
 from pytigon_lib.schindent.indent_markdown import get_obj_renderer
 
-from pytigon_lib.schdjangoext.import_from_db import run_code_from_db_field, ModuleStruct
+from pytigon_lib.schdjangoext.import_from_db import run_code_from_db_field
 
 template_start_wiki = """
 {# -*- coding: utf-8 -*- #}
@@ -414,7 +394,7 @@ def edit_object_on_page_form(request, page_id, line_number, object_name):
                             param2 = param
                             old_param = json_load(x[1])
                             for key in old_param:
-                                if not key in param2 or param2[key] == None:
+                                if key not in param2 or param2[key] == None:
                                     param2[key] = old_param[key]
                             return param2
                         except:
@@ -432,7 +412,7 @@ def edit_object_on_page_form(request, page_id, line_number, object_name):
                     if len(x) > 1:
                         old_param = json_loads(x[1])
                         for key in old_param:
-                            if not key in param or param[key] == None:
+                            if key not in param or param[key] == None:
                                 param[key] = old_param[key]
 
                 x = current_line.lstrip()

@@ -16,7 +16,7 @@
             [ csrf_token | {%csrf_token%} ]
             [ gui_style | tray(None) ]
             [ hybrid | 0 ]
-            [ title  | Standar components ]
+            [ title  | Standard components ]
             [ start_page | None ]
             [ plugins | None ]
 % else:    

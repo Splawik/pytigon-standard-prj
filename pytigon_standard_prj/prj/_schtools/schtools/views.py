@@ -1,43 +1,21 @@
-from django.http import HttpResponseRedirect, HttpResponse
-from django.shortcuts import render, redirect, reverse
+from django.http import HttpResponse
 from django import forms
-from django.template.loader import render_to_string
-from django.template import Context, Template
-from django.template import RequestContext
-from django.conf import settings
-from django.views.generic import TemplateView
 
 from pytigon_lib.schviews.form_fun import form_with_perms
-from pytigon_lib.schviews.viewtools import (
-    dict_to_template,
-    dict_to_odf,
-    dict_to_pdf,
-    dict_to_json,
-    dict_to_xml,
-    dict_to_ooxml,
-    dict_to_txt,
-    dict_to_hdoc,
-)
-from pytigon_lib.schviews.viewtools import render_to_response
-from pytigon_lib.schdjangoext.tools import make_href
-from pytigon_lib.schdjangoext import formfields as ext_form_fields
-from pytigon_lib.schviews import actions
+from pytigon_lib.schviews.viewtools import dict_to_template
 
 from django.utils.translation import gettext_lazy as _
 
 from . import models
 import os
-import sys
-import datetime
-from django.utils import timezone
 
-import time
+
 from pytigon_lib.schdjangoext.tools import import_model
 from pyexcel_ods3 import get_data
-from pytigon_lib.schtools.schjson import json_dumps, json_loads
 from pytigon_lib.schfs.vfstools import get_temp_filename
 import openpyxl
 import csv
+
 
 PFORM = form_with_perms("schtools")
 
@@ -203,7 +181,7 @@ def import_table(request, app, table):
                 tree = False
                 tmp = []
                 for pos in header:
-                    if not pos in tmp:
+                    if pos not in tmp:
                         tmp.append(pos)
                     else:
                         tree = True

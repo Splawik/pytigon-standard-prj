@@ -1,21 +1,13 @@
-import os, os.path
-import sys
-
-import django
 from django.db import models
 from django.utils import timezone
 from django.utils.translation import gettext_lazy as _
-from django.contrib import admin
 
 from pytigon_lib.schdjangoext.fields import *
 import pytigon_lib.schdjangoext.fields as ext_models
 from pytigon_lib.schdjangoext.models import *
-from pytigon_lib.schtools import schjson
-from pytigon_lib.schhtml.htmltools import superstrip
 
 
-from datetime import datetime
-from pytigon_lib.schdjangoext.import_from_db import run_code_from_db_field, ModuleStruct
+from pytigon_lib.schdjangoext.import_from_db import run_code_from_db_field
 
 NEW = """#Example: 
 #import datetime
@@ -43,7 +35,6 @@ EMAIL = """#Example:
 
 
 class ActionType(models.Model):
-
     class Meta:
         verbose_name = _("Action type")
         verbose_name_plural = _("Action types")
@@ -138,7 +129,6 @@ admin_register(ActionType)
 
 
 class Action(AssociatedJSONModel):
-
     class Meta:
         verbose_name = _("Action")
         verbose_name_plural = _("Actions")

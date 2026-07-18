@@ -11,7 +11,9 @@ from channels.generic.websocket import WebsocketConsumer, AsyncWebsocketConsumer
 
 from channels.generic.http import AsyncHttpConsumer
 
+{% if not milestone %}#[[START SChApp.{{app.pk}}.consumer_code]]{% endif %}
 {% if app.consumer_code %}{{app.consumer_code|first_section|safe}} {% endif %}
+{% if not milestone %}#[[END]]{% endif %}
 
 {% for consumer in consumers %}{% if consumer.consumer_code and consumer.consumer_code != '' %}
 {% if consumer.consumer_type == 'WebsocketConsumer' %}class {{consumer.name}}(WebsocketConsumer):
@@ -24,8 +26,12 @@ from channels.generic.http import AsyncHttpConsumer
 {% endif %}{% if view.doc %}"""{% for line in view.doc.splitlines %}
     {{line|safe}}{% endfor %}
     """{% endif %}
+    {% if not milestone %}#[[START SChChannelConsumer.{{consumer.pk}}.consumer_code]]{% endif %}
     {% for line in consumer.consumer_code.splitlines %}{{line|safe}}
     {% endfor %}
+    {% if not milestone %}#[[END]]{% endif %}
 {% endif %}{% endfor %}
 
+{% if not milestone %}#[[START +SChApp.{{app.pk}}.consumer_code]]{% endif %}
 {% if app.consumer_code %}{{app.consumer_code|second_section|safe}} {% endif %}
+{% if not milestone %}#[[END]]{% endif %}

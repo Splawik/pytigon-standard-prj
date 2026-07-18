@@ -9,8 +9,9 @@ import time
 from queue import Empty
 from pytigon_lib.schtasks.publish import publish
 
-
+{% if not milestone %}#[[START SChApp.{{app.pk}}.tasks_code]]{% endif %}
 {% if app.tasks_code %}{{app.tasks_code|first_section|safe}} {% endif %}
+{% if not milestone %}#[[END]]{% endif %}
 
 {% for task in tasks %}
 {% if task.publish %}@publish({% if task.publish_group %}"{{ task.publish_group }}"{% endif %})
@@ -18,8 +19,12 @@ from pytigon_lib.schtasks.publish import publish
     {% if task.doc %}"""{% for line in task.doc.splitlines %}
     {{line|safe}}{% endfor %}
     """{% endif %}
+    {% if not milestone %}#[[START SChTask.{{task.pk}}.code]]{% endif %}
     {% for line in task.code.splitlines %}{{line|safe}}
     {% endfor %}
+    {% if not milestone %}#[[END]]{% endif %}
 {% endfor %}
 
+{% if not milestone %}#[[START +SChApp.{{app.pk}}.tasks_code]]{% endif %}
 {% if app.tasks_code %}{{app.tasks_code|second_section|safe}} {% endif %}
+{% if not milestone %}#[[END]]{% endif %}

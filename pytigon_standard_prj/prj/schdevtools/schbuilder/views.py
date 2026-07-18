@@ -1,27 +1,14 @@
 from django.http import HttpResponseRedirect, HttpResponse
-from django.shortcuts import render, redirect, reverse
+from django.shortcuts import reverse
 from django import forms
 from django.template.loader import render_to_string
 from django.template import Context, Template
-from django.template import RequestContext
 from django.conf import settings
 from django.views.generic import TemplateView
 
 from pytigon_lib.schviews.form_fun import form_with_perms
-from pytigon_lib.schviews.viewtools import (
-    dict_to_template,
-    dict_to_odf,
-    dict_to_pdf,
-    dict_to_json,
-    dict_to_xml,
-    dict_to_ooxml,
-    dict_to_txt,
-    dict_to_hdoc,
-)
-from pytigon_lib.schviews.viewtools import render_to_response
+from pytigon_lib.schviews.viewtools import dict_to_template, dict_to_json
 from pytigon_lib.schdjangoext.tools import make_href
-from pytigon_lib.schdjangoext import formfields as ext_form_fields
-from pytigon_lib.schviews import actions
 
 from django.utils.translation import gettext_lazy as _
 
@@ -31,40 +18,37 @@ import sys
 import datetime
 from django.utils import timezone
 
+
 import shutil
 import json
 import zipfile
 import base64
-import platform
 import polib
 import locale
-import codecs
-import signal
-import os
 import io
 import time
 import configparser
 import hashlib
-import base64
 
 from os import environ
 import subprocess
-import traceback
 
 
 from django.db import transaction
-from django.urls import reverse
+from django.template.loader import get_template
 
-from pytigon_lib.schviews.viewtools import change_pos, duplicate_row
+from pytigon_lib.schviews.viewtools import change_pos, duplicate_row  # noqa: F401
 import pytigon_lib.schindent.indent_style
-from pytigon_lib.schindent.indent_tools import convert_js
 from pytigon_lib.schdjangoext.django_ihtml import ihtml_to_html
 
 from pytigon_lib.schfs.vfstools import ZipWriter, open_and_create_dir
 from pytigon_lib.schtools.install import Ptig
 from pytigon_lib.schtools.process import py_run
-from pytigon_lib.schtools.platform_info import platform_name
 from pytigon_lib.schtools.tools import bencode
+from pytigon_lib.schtools.tools import (
+    transform_backslash_input_str,
+    transform_backslash_output_str,
+)
 
 # from pytigon_lib.schtools.cc import import_plugin, make
 from pytigon_lib.schdjangoext.python_style_template_loader import compile_template
@@ -77,22 +61,16 @@ from dulwich import porcelain
 from dulwich.repo import Repo
 from dulwich import index
 
+
 try:
     import sass
-except:
+except ImportError:
     sass = None
 
 import pytigon.schserw.settings
 
-from django_q.tasks import async_task, result
-from pytigon_lib.schtasks.publish import publish
+from schbuilder.applib.scan_edit_blocks import extract_blocks, extract_text_block
 
-try:
-    import black
-except:
-    black = None
-
-import configparser
 
 _template = """
         [ gui_style | {{prj.gui_type}}({{prj.gui_elements}}) ]
@@ -100,6 +78,64 @@ _template = """
         [ start_page | {{start_page}} ]
         [ plugins | {{prj.plugins}} ]
 """
+
+
+def clean_and_format_code(source_code: str, lint: bolean = False) -> str:
+    """Removes unused imports, sorts imports, and formats Python code using ruff module."""
+    # Get the path to the currently running Python interpreter.
+    # This ensures the script uses the correct virtual environment (venv).
+    python_exe = sys.executable
+
+    # 1. REMOVE AND SORT IMPORTS (python -m ruff check)
+    # --fix-only forces ruff to output the modified code to STDOUT instead of a report.
+
+    cmd = [
+        python_exe,
+        "-m",
+        "ruff",
+        "check",
+        "--fix-only",
+    ]
+    if not lint:
+        cmd += [
+            "--unfixable",
+            "I",
+        ]
+    cmd += [
+        "--stdin-filename",
+        "generated_code.py",
+        "-",
+    ]
+
+    if lint:
+        lint_result = subprocess.run(
+            cmd,
+            input=source_code,
+            capture_output=True,
+            text=True,
+            check=True,
+        )
+        cleaned_code = lint_result.stdout
+    else:
+        cleaned_code = source_code
+
+    # 2. ADJUST CODE LAYOUT AND FORMATTING (python -m ruff format)
+    format_result = subprocess.run(
+        [
+            python_exe,
+            "-m",
+            "ruff",
+            "format",
+            "--stdin-filename",
+            "generated_code.py",
+            "-",
+        ],
+        input=cleaned_code,
+        capture_output=True,
+        text=True,
+        check=True,
+    )
+    return format_result.stdout
 
 
 def callback_fun_tab(obj1, obj2):
@@ -129,60 +165,60 @@ def change_pos_form_field(
 
 
 def template_to_file(base_path, template, file_name, context):
-    txt = render_to_string("schbuilder/wzr/%s.html" % template, context)
-    if black and file_name.endswith(".py"):
+    path = get_template(f"schbuilder/wzr/{template}.html").origin.name
+    with open(path, "r", encoding="utf-8") as f:
+        raw_source = f.read()
+    modified_source = transform_backslash_input_str(raw_source)
+    txt = Template(modified_source).render(Context(context))
+    txt = transform_backslash_output_str(txt)
+    if file_name.endswith(".py"):
+        txt2 = txt
         try:
-            txt2 = black.format_file_contents(txt, fast=True, mode=black.mode.Mode())
-            if txt2:
-                txt = txt2
+            txt2 = clean_and_format_code(
+                txt, "milestone" in context and context["milestone"]
+            )
         except:
-            pass
-    f = codecs.open(base_path + "/" + file_name, "w", encoding="utf-8")
-    f.write(txt)
-    f.close()
+            print("ruff not installed!")
+            txt2 = None
+        if txt2:
+            txt = txt2
+    with open(os.path.join(base_path, file_name), "w", encoding="utf-8") as f:
+        f.write(txt)
 
 
 def template_to_i_file(base_path, template, file_name, context):
-    f = open(template, "rt")
-    txt_in = f.read()
-    f.close()
+    with open(template, "rt") as f:
+        txt_in = f.read()
     t = Template(_template)
     try:
         txt = t.render(Context(context))
-    except:
+    except Exception:
         import traceback
-        import sys
 
-        print(sys.exc_info()[0])
-        print(traceback.print_exc())
+        traceback.print_exc()
+        txt = ""
     try:
-        if type(txt_in) == str:
+        if isinstance(txt_in, str):
             txt2 = txt_in.replace("$$" + "$", txt)
         else:
             txt2 = txt_in.decode("utf-8").replace("$$" + "$", txt)
-    except:
+    except Exception:
         import traceback
-        import sys
 
-        print(sys.exc_info()[0])
-        print(traceback.print_exc())
+        traceback.print_exc()
+        txt2 = ""
 
-    f = open(base_path + "/" + file_name, "wb")
-    if type(txt_in) == str:
+    with open(os.path.join(base_path, file_name), "wb") as f:
         f.write(txt2.encode("utf-8"))
-    else:
-        f.write(txt2.encode("utf-8"))
-    f.close()
 
 
 def str_to_file(base_path, buf, file_name):
-    f = open(base_path + "/" + file_name, "wb")
-    if buf:
-        if type(buf) == str:
-            f.write(buf.encode("utf-8"))
-        else:
-            f.write(buf)
-    f.close()
+    with open(os.path.join(base_path, file_name), "wb") as f:
+        if buf:
+            if isinstance(buf, str):
+                f.write(buf.encode("utf-8"))
+            else:
+                f.write(buf)
 
 
 def obj_to_dict(obj, attrs):
@@ -271,11 +307,11 @@ def make_messages(src_path, path, name, outpath=None, ext_locales=[]):
             mo_filename = filename.replace(".po", ".mo")
             try:
                 os.remove(old_filename)
-            except:
+            except OSError:
                 pass
             try:
                 os.rename(filename, old_filename)
-            except:
+            except OSError:
                 pass
 
             wzr = polib.pofile(wzr_filename)
@@ -317,7 +353,7 @@ def locale_gen_internal(pk):
     if prj.ext_apps:
         for pos in prj.ext_apps.replace("\n", ",").replace(";", ",").split(","):
             pos2 = pos.split(".")[0]
-            if pos2 and not pos2 in ext_apps:
+            if pos2 and pos2 not in ext_apps:
                 ext_apps.append(pos2)
                 app_path2 = os.path.join(base_path, pos2)
                 locale_path2 = os.path.join(app_path2, "locale")
@@ -506,7 +542,7 @@ def _handle_static_file(static_file, base_path, prj, app=None):
         txt2 = t.render(Context({"prj": prj}))
         try:
             codejs = pytigon_lib.schindent.indent_style.py_to_js(txt2, True)
-        except:
+        except Exception:
             codejs = ""
         f = open_and_create_dir(
             dest_path if dest_path else os.path.join(static_scripts, file_name + ".js"),
@@ -517,14 +553,12 @@ def _handle_static_file(static_file, base_path, prj, app=None):
     elif typ == "R":
         try:
             codejs = pytigon_lib.schindent.indent_style.py_to_js(txt, True)
-        except:
+        except Exception:
             codejs = ""
         f = open_and_create_dir(
-            (
-                dest_path
-                if dest_path
-                else os.path.join(static_components, file_name + ".js")
-            ),
+            dest_path
+            if dest_path
+            else os.path.join(static_components, file_name + ".js"),
             "wb",
         )
         f.write(codejs.encode("utf-8"))
@@ -538,11 +572,9 @@ def _handle_static_file(static_file, base_path, prj, app=None):
             t = Template(buf)
             txt2 = t.render(Context({"prj": prj}))
             f = open_and_create_dir(
-                (
-                    dest_path
-                    if dest_path
-                    else os.path.join(static_style, file_name + ".css")
-                ),
+                dest_path
+                if dest_path
+                else os.path.join(static_style, file_name + ".css"),
                 "wb",
             )
             f.write(txt2.encode("utf-8"))
@@ -564,7 +596,7 @@ def _handle_static_file(static_file, base_path, prj, app=None):
         dname = os.path.dirname(p)
         os.makedirs(dname, exist_ok=True)
         with open(p, "wt", encoding="utf-8") as f:
-            f.write(base64.b64decode(txt.en))
+            f.write(base64.b64decode(txt.encode("utf-8")).decode("utf-8"))
 
 
 def build_prj(pk, config={}):
@@ -615,24 +647,24 @@ def build_prj(pk, config={}):
             if prj.install_file:
                 f.write(prj.install_file)
 
-        template_to_file(base_path, "manage", "manage.py", {"prj": prj})
-        template_to_file(base_path, "init", "__init__.py", {"prj": prj})
+        template_to_file(base_path, "manage", "manage.py", {"prj": prj} | config)
+        template_to_file(base_path, "init", "__init__.py", {"prj": prj} | config)
         template_to_file(
             base_path,
             "wsgi",
             "wsgi.py",
-            {"prj": prj, "base_path": base_path.replace("\\", "/")},
+            {"prj": prj, "base_path": base_path.replace("\\", "/")} | config,
         )
         template_to_file(
             base_path,
             "asgi",
             "asgi.py",
-            {"prj": prj, "base_path": base_path.replace("\\", "/")},
+            {"prj": prj, "base_path": base_path.replace("\\", "/")} | config,
         )
 
     app_names = []
     for app in apps:
-        if "app" in config and app not in config["app"].split(","):
+        if "app" in config and app.name not in config["app"].split(","):
             continue
         object_list.append((datetime.datetime.now(), "create app:", app.name))
         os.makedirs(base_path + "/" + app.name, exist_ok=True)
@@ -681,7 +713,8 @@ def build_prj(pk, config={}):
                 "prj": prj,
                 "choices": choices,
                 "is_tree_table": is_tree_table,
-            },
+            }
+            | config,
         )
 
         views = app.schview_set.all()
@@ -692,7 +725,7 @@ def build_prj(pk, config={}):
             base_path,
             "views",
             app.name + "/views.py",
-            {"views": views, "forms": forms, "app": app},
+            {"views": views, "forms": forms, "app": app} | config,
         )
         template_to_file(
             base_path,
@@ -705,20 +738,24 @@ def build_prj(pk, config={}):
                 "forms": forms,
                 "app": app,
                 "gfields": gfields,
-            },
+            }
+            | config,
         )
         template_to_file(
-            base_path, "tasks", app.name + "/tasks.py", {"tasks": tasks, "app": app}
+            base_path,
+            "tasks",
+            app.name + "/tasks.py",
+            {"tasks": tasks, "app": app} | config,
         )
         template_to_file(
             base_path,
             "consumers",
             app.name + "/consumers.py",
-            {"consumers": consumers, "app": app},
+            {"consumers": consumers, "app": app} | config,
         )
 
         for template in templates:
-            if "." in template.name and not ".ihtml" in template.name:
+            if "." in template.name and ".ihtml" not in template.name:
                 str_to_file(
                     base_path,
                     template.template_code,
@@ -754,7 +791,7 @@ def build_prj(pk, config={}):
             base_path,
             "app_init",
             app.name + "/__init__.py",
-            {"appmenus": appmenus, "app": app, "user_param": user_param},
+            {"appmenus": appmenus, "app": app, "user_param": user_param} | config,
         )
 
         for file_obj in app.schfile_set.all():
@@ -868,7 +905,7 @@ def build_prj(pk, config={}):
                     codejs = pytigon_lib.schindent.indent_style.py_to_js(
                         file_obj.content, True
                     )
-                except:
+                except Exception:
                     codejs = ""
                 f = open_and_create_dir(file_name, "wb")
                 f.write(codejs.encode("utf-8"))
@@ -921,15 +958,28 @@ def build_prj(pk, config={}):
 
             if file_name:
                 f = open_and_create_dir(file_name, "wb")
-                if type(file_obj.content) == str:
-                    f.write(file_obj.content.encode("utf-8"))
+                if file_name.endswith(".py") and (
+                    "milestone" not in config or not config["milestone"]
+                ):
+                    start_tag = "#" + f"[[START SChFile.{file_obj.pk}.content]]\n"
+                    end_tag = "\n#" + "[[END]]"
                 else:
-                    f.write(file_obj.content)
+                    start_tag = ""
+                    end_tag = ""
+
+                if type(file_obj.content) == str:
+                    f.write((start_tag + file_obj.content + end_tag).encode("utf-8"))
+                else:
+                    f.write(
+                        start_tag.encode("utf-8")
+                        + file_obj.content
+                        + end_tag.encode("utf-8")
+                    )
                 f.close()
 
     if "app" not in config:
         template_to_file(
-            base_path, "apps", "apps.py", {"prj": prj, "app_names": app_names}
+            base_path, "apps", "apps.py", {"prj": prj, "app_names": app_names} | config
         )
 
     if "static" not in config or config["static"]:
@@ -1011,13 +1061,14 @@ def build_prj(pk, config={}):
                 "static_items": static_items,
                 "component_elements": sorted(set(component_elements)),
                 "initial_state": prj.components_initial_state,
-            },
+            }
+            | config,
         )
 
     if "theme" not in config or config["theme"]:
         for field, file_path in (
             (prj.template_desktop, "theme/desktop.ihtml"),
-            (prj.template_smartfon, "theme/smartfon.ihtml"),
+            (prj.template_smartphone, "theme/smartphone.ihtml"),
             (prj.template_tablet, "theme/tablet.ihtml"),
             (prj.template_schweb, "theme/schweb.ihtml"),
             (prj.template_theme, "theme.ihtml"),
@@ -1067,11 +1118,11 @@ def build_prj(pk, config={}):
                 "gmtime": gmt_str,
                 "offline_support": offline_support,
                 "consumers": consumers_dict.items(),
-            },
+            }
+            | config,
         )
 
     if "files" not in config or config["files"]:
-
         base_path_src = base_path + "/src"
 
         if os.path.exists(base_path_src):
@@ -1099,7 +1150,7 @@ def build_prj(pk, config={}):
                 f.close()
                 try:
                     file_append_pos = int(file_append)
-                except:
+                except (ValueError, TypeError):
                     if file_append.startswith("|"):
                         f = file_append[1:]
                         delta = 0
@@ -1226,24 +1277,16 @@ class Install(forms.Form):
 
     def process(self, request, queryset=None):
 
+        if "install_file" not in request.FILES:
+            return {"object_list": []}
+
         install_file = request.FILES["install_file"]
         name = install_file.name.split(".")[0].split("-")[0]
 
         ptig = Ptig(install_file.file)
-        # zip_file = zipfile.ZipFile(install_file.file)
         object_list = ptig.extract_ptig()
 
-        # extract_to = os.path.join(settings.PRJ_PATH, name)
-        # (ret_code, output, err) = py_run(
-        #    [os.path.join(extract_to, "manage.py"), "post_installation"]
-        # )
-
-        # if hasattr(pytigon.schserw.settings, "_PRJ_PATH_ALT"):
-        #    base_path = pytigon.schserw.settings._PRJ_PATH_ALT
-        # else:
-        #    base_path = settings.PRJ_PATH_ALT
-
-        prj_file_path = os.path.join(ptig.extract_to, name, name + ".ptigprj")
+        prj_file_path = os.path.join(ptig.extract_to, name, f"{name}.ptigprj")
 
         if os.path.exists(prj_file_path):
             with open(prj_file_path, "rt") as f:
@@ -1304,7 +1347,7 @@ class ImportFromGit(forms.Form):
                 x = prj_import_from_str(content, backup_old=True)
                 object_list.extend(x["object_list"])
 
-        return {"object_list": reversed(object_list)}
+        return {"object_list": object_list}
 
 
 def view_importfromgit(request, *argi, **argv):
@@ -1312,6 +1355,8 @@ def view_importfromgit(request, *argi, **argv):
 
 
 # Hello
+
+
 @dict_to_template("schbuilder/v_gen.html")
 def gen(request, pk):
 
@@ -1397,7 +1442,7 @@ def template_edit(request, pk):
         t = Template(s)
         try:
             txt = t.render(Context({"template": template}))
-        except:
+        except Exception:
             txt = s
         template.template_code = txt
         template.save()
@@ -1454,9 +1499,11 @@ def installer(request, pk):
     try:
         pki = int(pk)
         prj = models.SChProject.objects.get(id=pki)
-        name = prj.name
-    except:
-        name = pk
+    except (ValueError, models.SChProject.DoesNotExist):
+        prj = models.SChProject.objects.filter(name=pk, main_view=True).first()
+        if not prj:
+            return {"object_list": [f"Project '{pk}' not found"]}
+    name = prj.name
 
     if hasattr(pytigon.schserw.settings, "_PRJ_PATH_ALT"):
         base_path = os.path.join(pytigon.schserw.settings._PRJ_PATH_ALT, prj.name)
@@ -1467,7 +1514,7 @@ def installer(request, pk):
 
     buf.append("COMPILE TEMPLETE FILES:")
 
-    code, output, err = py_run(
+    (code, output, err) = py_run(
         [os.path.join(base_path, "manage.py"), "compiletemplates"]
     )
 
@@ -1513,7 +1560,7 @@ def installer(request, pk):
 
     buf.append("ADDING DATABASE FILES")
 
-    code, output, err = py_run(
+    (code, output, err) = py_run(
         [os.path.join(base_path, "manage.py"), "export_to_local_db"]
     )
 
@@ -1543,7 +1590,7 @@ def installer(request, pk):
         f.write(content)
     try:
         os.chmod(ptig_name, 0o755)
-    except:
+    except OSError:
         pass
 
     buf.append("Instaler file saved to: " + os.path.join(zip_path, name + ".ptig"))
@@ -1566,7 +1613,7 @@ def restart_server(request):
     try:
         with open(lck, "wt") as f:
             f.write("A restart of the Pytigon program needed\n")
-    except:
+    except OSError:
         success = False
     return {"success": success}
 
@@ -1724,7 +1771,7 @@ def translate_sync(request, pk):
         with open(po_path, "wt") as f:
             f.write(po_init2)
 
-    code, output, err = py_run(
+    (code, output, err) = py_run(
         [os.path.join(app_path, "manage.py"), "compiletemplates"]
     )
     locale_gen_internal(prj.id)
@@ -1773,10 +1820,10 @@ def translate_sync(request, pk):
 @dict_to_template("schbuilder/v_locale_gen.html")
 def locale_gen(request, pk):
 
-    ret = locale_gen_internal(pk)
-    if ret:
+    try:
+        ret = locale_gen_internal(pk)
         ret_str = "OK"
-    else:
+    except Exception:
         ret_str = "Error"
 
     return {
@@ -1790,8 +1837,8 @@ def download_installer(request, name):
 
     installer = os.path.join(os.path.join(settings.DATA_PATH, "temp"), name + ".ptig")
     if os.path.exists(installer):
-        with open(installer, "rb") as zip_file:
-            response = HttpResponse(zip_file, content_type="application/force-download")
+        with open(installer, "rb") as f:
+            response = HttpResponse(f.read(), content_type="application/force-download")
             response["Content-Disposition"] = (
                 'attachment; filename="%s"' % name + ".ptig"
             )
@@ -1913,7 +1960,7 @@ def autocomplete(request, id, key):
         ret = []
         for table in tables:
             app_perm = table.parent.name.lower()
-            if not app_perm in ret:
+            if app_perm not in ret:
                 ret.append(app_perm)
             ret.append(table.parent.name.lower() + ".add_" + table.name.lower())
             ret.append(table.parent.name.lower() + ".change_" + table.name.lower())
@@ -1940,14 +1987,13 @@ def gen_milestone(request, pk):
     object_list = []
 
     prj = models.SChProject.objects.get(id=pk)
-    root_path = settings.ROOT_PATH
 
     if hasattr(pytigon.schserw.settings, "_PRJ_PATH_ALT"):
         base_path = os.path.join(pytigon.schserw.settings._PRJ_PATH_ALT, prj.name)
     else:
         base_path = os.path.join(settings.PRJ_PATH_ALT, prj.name)
 
-    object_list.extend(build_prj(pk))
+    object_list.extend(build_prj(pk, {"milestone": True}))
 
     itemplate_path = os.path.join(base_path, "templates_src")
     l = len(base_path)
@@ -2018,7 +2064,7 @@ def gen_milestone(request, pk):
             except Exception as e:
                 object_list.append((datetime.datetime.now(), "git clone error", str(e)))
 
-    build_prj(pk)
+    build_prj(pk, {"milestone": True})
     l_end = gen_file_list(base_path)
 
     content = prj_export_to_str(prj.pk)
@@ -2038,12 +2084,12 @@ def gen_milestone(request, pk):
     if prj.git_repository:
         repo = Repo(base_path)
         for root, dirs, files in os.walk(base_path):
-            if not ".git" in root.replace("\\", "/").split("/"):
+            if ".git" not in root.replace("\\", "/").split("/"):
                 for file in files:
-                    if not file in (
+                    if file not in (
                         "global_db_settings.py",
                         "settings_app_local.py",
-                    ) and not file.split(".")[-1].lower() in (
+                    ) and file.split(".")[-1].lower() not in (
                         "pyc",
                         "pyo",
                         "so",
@@ -2065,7 +2111,7 @@ def gen_milestone(request, pk):
             )
             try:
                 os.unlink(file_name)
-            except:
+            except OSError:
                 pass
 
         try:
@@ -2088,12 +2134,6 @@ def prj_import2(request):
 @dict_to_template("schbuilder/v_run.html")
 def run(request, pk):
 
-    x = 1.5
-    t = Template("X {{ x }}")
-    c = Context({"x": x})
-    z = t.render(c)
-    print(z)
-
     prj = models.SChProject.objects.get(pk=pk)
     return {"project": prj}
 
@@ -2102,7 +2142,10 @@ def run2(request, pk):
 
     prj = models.SChProject.objects.get(pk=pk)
     environ["PYTHONPATH"] = os.path.join(settings.ROOT_PATH, "..")
-    subprocess.run([sys.executable, "-m", "pytigon.ptig", prj.name], shell=False)
+    try:
+        subprocess.run([sys.executable, "-m", "pytigon.ptig", prj.name], shell=False)
+    except Exception:
+        pass
     return HttpResponse("")
 
 
@@ -2112,8 +2155,6 @@ def sync_from_filesystem(request, pk):
     tab = []
     prj = models.SChProject.objects.get(id=pk)
     if prj:
-        build_prj(pk, {"extract-zip": False})
-
         if hasattr(pytigon.schserw.settings, "_PRJ_PATH_ALT"):
             base_path = os.path.join(pytigon.schserw.settings._PRJ_PATH_ALT, prj.name)
         else:
@@ -2121,6 +2162,63 @@ def sync_from_filesystem(request, pk):
                 base_path = os.path.join(environ["START_PATH"], "prj", prj.name)
             else:
                 base_path = os.path.join(settings.PRJ_PATH_ALT, prj.name)
+
+        blocks = extract_blocks(base_path)
+        for block in blocks:
+            file_path = block[0]
+            expression = block[1]
+            content = block[2]
+            if "." in expression:
+                t = expression.split(".")
+                if len(t) > 2:
+                    append = False
+                    remove_appostrof = False
+                    try:
+                        model_name, pk, field = expression.split(".")
+                    except:
+                        print("Error in expression: ", expression)
+                        continue
+
+                    if model_name.startswith("+"):
+                        model_name = model_name[1:]
+                        append = True
+                    if model_name.startswith("?"):
+                        model_name = model_name[1:]
+                        remove_appostrof = True
+                    m = getattr(models, model_name)
+                    obj = m.objects.get(pk=int(pk))
+                    if append:
+                        data = getattr(obj, field)
+                        if not data:
+                            data = ""
+                        data2 = extract_text_block(content)
+                        if data2.replace("\n", "").replace("\r", "").strip():
+                            setattr(
+                                obj,
+                                field,
+                                data + "$$$" + data2,
+                            )
+                            obj.save()
+                            tab.append((file_path, f"append to {field} ({m}/{obj})"))
+                    elif remove_appostrof:
+                        data = getattr(obj, field)
+                        if not data:
+                            data = ""
+                        data2 = extract_text_block(content)
+                        data2 = data2.replace('"""', "")
+                        setattr(obj, field, data2)
+                        obj.save()
+                        tab.append((file_path, f"set {field} ({m}/{obj})"))
+                    else:
+                        setattr(obj, field, extract_text_block(content))
+                        obj.save()
+                        tab.append((file_path, f"set {field} ({m}/{obj})"))
+            else:
+                tab.append((file_path, "Error in {expression}"))
+
+        return {"object_list": tab}
+
+        build_prj(pk, {"extract-zip": False})
 
         itemplate_path = os.path.join(base_path, "templates_src")
         l = len(base_path)

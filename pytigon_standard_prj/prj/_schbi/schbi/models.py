@@ -1,17 +1,9 @@
-import os, os.path
-import sys
-
-import django
 from django.db import models
-from django.utils import timezone
 from django.utils.translation import gettext_lazy as _
-from django.contrib import admin
 
 from pytigon_lib.schdjangoext.fields import *
 import pytigon_lib.schdjangoext.fields as ext_models
 from pytigon_lib.schdjangoext.models import *
-from pytigon_lib.schtools import schjson
-from pytigon_lib.schhtml.htmltools import superstrip
 
 
 from pytigon_lib.schdjangoext.import_from_db import run_code_from_db_field, ModuleStruct
@@ -19,9 +11,6 @@ from django.conf import settings
 import datetime
 import pyarrow
 import pyarrow.parquet
-import duckdb
-import numpy
-import os
 import os.path as os_path
 
 PROJECTS_DATA = {}
@@ -84,7 +73,6 @@ menu_icon_size_choice = [
 
 
 class Project(JSONModel):
-
     class Meta:
         verbose_name = _("Project")
         verbose_name_plural = _("Projects")
@@ -158,10 +146,10 @@ class Project(JSONModel):
     def load_data(self):
         data_path = os_path.join(settings.DATA_PATH, settings.PRJ_NAME)
 
-        if not self.name in PROJECTS_DATA:
+        if self.name not in PROJECTS_DATA:
             PROJECTS_DATA[self.name] = {}
         pd = PROJECTS_DATA[self.name]
-        if not self.name in PROJECTS_DATA_VERSION:
+        if self.name not in PROJECTS_DATA_VERSION:
             PROJECTS_DATA_VERSION[self.name] = None
         data_time = PROJECTS_DATA_VERSION[self.name]
 
@@ -208,7 +196,6 @@ admin_register(Project)
 
 
 class Page(models.Model):
-
     class Meta:
         verbose_name = _("Page")
         verbose_name_plural = _("Pages")
@@ -264,7 +251,6 @@ admin_register(Page)
 
 
 class Chart(models.Model):
-
     class Meta:
         verbose_name = _("Chart")
         verbose_name_plural = _("Charts")

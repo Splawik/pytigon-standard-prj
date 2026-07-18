@@ -15,6 +15,11 @@ class Command(BaseCommand):
             "--output",
             help="save output to file",
         )
+        parser.add_argument(
+            "--milestone",
+            action="store_true",
+            help="Enable milestone mode",
+        )
 
     def handle(self, *args, **options):
         if not options["prj_name"]:
@@ -26,6 +31,11 @@ class Command(BaseCommand):
         else:
             o = None
 
+        if "milestone" in options and options["milestone"]:
+            c = {"milestone": True}
+        else:
+            c = {}
+
         if options["prj_name"] == "all":
             object_list = SChProject.objects.filter(main_view=True)
         else:
@@ -35,7 +45,7 @@ class Command(BaseCommand):
 
         for obj in object_list:
             print("\nBUILD: ", obj.name)
-            ret = build_prj(obj.pk)
+            ret = build_prj(obj.pk, c)
             if o:
                 with open(o, "wt") as f:
                     for item in ret:

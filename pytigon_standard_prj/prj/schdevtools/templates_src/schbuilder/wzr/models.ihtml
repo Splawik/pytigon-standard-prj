@@ -17,7 +17,9 @@ from pytigon_lib.schhtml.htmltools import superstrip
 {% for app_item in app.get_models_to_import %}import {{app_item}}.models
 {% endfor %}
 
+{% if not milestone %}#[[START SChApp.{{app.pk}}.model_code]]{% endif %}
 {{app.model_code|first_section|safe}}
+{% if not milestone %}#[[END]]{% endif %}
 
 {% if choices %}
 {% for choice in choices %}
@@ -30,9 +32,11 @@ from pytigon_lib.schhtml.htmltools import superstrip
 
 {% for table in tables %}
 class {{table.name}}({%if table.base_table %}{{table.get_base_table}}{%else%}{%if table.proxy_model %}{{table.proxy_model}}{% else %} models.Model{% endif %}{%endif%}):
+    {% if not milestone %}#[[START ?SChTable.{{table.pk}}.doc]]{% endif %}
     {% if table.doc %}"""{% for line in table.doc.splitlines %}
     {{line|safe}}{% endfor %}
     """{% endif %}
+    {% if not milestone %}#[[END]]{% endif %}
     class Meta:
         verbose_name = _("{{table.verbose_name|safe}}")
         verbose_name_plural = _("{{table.verbose_name_plural|safe}}")
@@ -52,12 +56,15 @@ class {{table.name}}({%if table.base_table %}{{table.get_base_table}}{%else%}{%i
 
     {% for field in table.schfield_set.all %}{{field.as_declaration|safe}}
     {% endfor %}
-
+    
+    {% if not milestone %}#[[START SChTable.{{table.pk}}.table_code]]{% endif %}
     {% for line in table.table_code.splitlines %}{{line|safe}}
     {% endfor %}{% endif %}
+    {% if not milestone %}#[[END]]{% endif %}
 {% if not 'abstract' in table.metaclass_code %}admin_register({{table.name}}){% endif %}
 
 {% endfor %}
 
+{% if not milestone %}#[[START +SChApp.{{app.pk}}.model_code]]{% endif %}
 {{app.model_code|second_section|safe}}
-
+{% if not milestone %}#[[END]]{% endif %}

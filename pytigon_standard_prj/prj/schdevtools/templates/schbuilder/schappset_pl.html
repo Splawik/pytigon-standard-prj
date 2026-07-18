@@ -48,7 +48,7 @@
         field_list/schapp_set,Applications,icon_name=client://apps/preferences-system-windows.png, target='_parent'
         field_list/schstatic_set,Static and other files,[|client://apps/system-file-manager.png],_parent
         field_edit/template_desktop,Desktop template(Templates),png://mimetypes/x-office-presentation.png,_parent
-        field_edit/template_smartfon,Smartfon template(Templates),png://mimetypes/x-office-presentation.png,_parent
+        field_edit/template_smartphone,Smartphone template(Templates),png://mimetypes/x-office-presentation.png,_parent
         field_edit/template_tablet,Tablet template(Templates),png://mimetypes/x-office-presentation.png,_parent
         field_edit/template_schweb,SChWeb template(Templates),png://mimetypes/x-office-presentation.png,_parent
         field_edit/template_theme,Theme template(Templates),png://mimetypes/x-office-presentation.png,_parent
@@ -86,7 +86,7 @@
                 gui_type,gui_elements,login_required,start_page
         {% endform %}
         {% form "^/2" %}
-                desktop_gui_type,tablet_gui_type,smartfon_gui_type,public,main
+                desktop_gui_type,tablet_gui_type,smartphone_gui_type,public,main
         {% endform %}
         {% if standard_web_browser %}
                 {% form "^/12" %}
@@ -116,7 +116,7 @@
                 {% endform %}
         {% endif %}
         {% form "^/12" %}
-                git_repository,autor_name,autor_email,autor_www
+                git_repository,author_name,author_email,author_www
         {% endform %}
         {% modify setattr="textarea:cols=120;textarea:rows=15" %}
                 {% form "^/12" %}

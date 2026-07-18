@@ -1,17 +1,9 @@
-import os, os.path
-import sys
-
-import django
 from django.db import models
-from django.utils import timezone
 from django.utils.translation import gettext_lazy as _
-from django.contrib import admin
 
 from pytigon_lib.schdjangoext.fields import *
-import pytigon_lib.schdjangoext.fields as ext_models
 from pytigon_lib.schdjangoext.models import *
-from pytigon_lib.schtools import schjson
-from pytigon_lib.schhtml.htmltools import superstrip
+
 
 test_choice = [
     ("1", "Test 1"),
@@ -26,6 +18,12 @@ test_choice = [
 
 
 class Select2Example(models.Model):
+    """
+    Simple lookup model providing name entries for Select2 form fields.
+
+    Used as a ForeignKey/ManyToManyField source in form_test3 to
+    demonstrate the Select2 autocomplete widget integration.
+    """
 
     class Meta:
         verbose_name = _("Select2 example")

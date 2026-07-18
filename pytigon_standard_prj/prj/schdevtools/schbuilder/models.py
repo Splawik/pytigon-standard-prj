@@ -1,28 +1,19 @@
-import os, os.path
+import os
+import os.path
 import sys
 
-import django
 from django.db import models
-from django.utils import timezone
 from django.utils.translation import gettext_lazy as _
-from django.contrib import admin
 
 from pytigon_lib.schdjangoext.fields import *
 import pytigon_lib.schdjangoext.fields as ext_models
 from pytigon_lib.schdjangoext.models import *
-from pytigon_lib.schtools import schjson
-from pytigon_lib.schhtml.htmltools import superstrip
 
 
-import os.path
-from pytigon_lib.schhtml.htmltools import superstrip
 import inspect
-from pytigon_lib.schfs.vfstools import norm_path
 from django.template import engines
 import pytigon
 from django.conf import settings
-import django.db.models.fields as fields
-import django.db.models.fields.related as related
 from django.template.loader import render_to_string
 from django.forms import fields as form_fields
 from django.forms import models as form_model_fields
@@ -118,14 +109,8 @@ formfield_defaults = {
     "GenericIPAddressField": {
         "param": "protocol='both', unpack_ipv4=False",
     },
-    "MultipleChoiceField": {
-        "param": "choices=models.[[choice_name]]",
-    },
-    "TypedMultipleChoiceField": {
-        "param": "coerce=,empty_value=''",
-    },
     "RegexField": {
-        "param": "regex='[[regex]]', max_length=None, min_length=None",
+        "param": r"regex='^\d{11}$', max_length=None, min_length=None",
     },
     "URLField": {},
     "ComboField": {
@@ -137,8 +122,6 @@ formfield_defaults = {
     "FileField": {
         "param": "upload_to=None",
     },
-    "GenericIPAddressField": {},
-    "RegexField": {"param": r"""regex='^\d{11}$', max_length=None, min_length=None"""},
     "SlugField": {},
     "UUIDField": {},
     "UserField": {"param": "user_field=forms.CharField(max_length=100)"},
@@ -146,7 +129,7 @@ formfield_defaults = {
 
 widgets = [
     "ok_cancel",
-    "button '[[url]]' '[[description]]' '[[name]]' '[[target]]'"
+    "button '[[url]]' '[[description]]' '[[name]]' '[[target]]'",
     "action_table '[[action]]' '[[description]]' '[[name]]' '[[target]]'",
     "print_table '[[description]]' '[[target]]'",
     "new_row '[[description]]' '[[target]]'",
@@ -155,8 +138,8 @@ widgets = [
     "print_row '[[description]]' '[[target]]'",
     "action_row '[[action]]' '[[description]]' '[[name]]' '[[target]]'",
     "delete_row '[[description]]' '[[target]]'",
-    "list_field '[[field]]' '[[name]]' '[[description]]' '[[target]]'"
-    "edit_field '[[field]]' '[[name]]' '[[description]]' '[[target]]'"
+    "list_field '[[field]]' '[[name]]' '[[description]]' '[[target]]'",
+    "edit_field '[[field]]' '[[name]]' '[[description]]' '[[target]]'",
     "action_field '[[field]]' '[[action]]' '[[description]]' '[[name]]' '[[target]]'",
     "jscript_link '[[href]]'",
     "css_link '[[href]]'",
@@ -172,7 +155,7 @@ FormField_CHOICES = list(
 )
 for f in dir(form_model_fields) + dir(ext_form_fields):
     if f.endswith("Field") and f != "Field":
-        if not (f, f) in FormField_CHOICES:
+        if (f, f) not in FormField_CHOICES:
             FormField_CHOICES.append((f, f))
 FormField_CHOICES.append(("UserField", "UserField"))
 
@@ -254,8 +237,8 @@ HtmlGui_CHOICES = [
     ("desktop_modern", "desktop_modern"),
     ("tablet_standard", "tablet_standard"),
     ("tablet_modern", "tablet_modern"),
-    ("smartfon_standard", "smartfon_standard"),
-    ("smartfon_modern", "smartfon_modern"),
+    ("smartphone_standard", "smartphone_standard"),
+    ("smartphone_modern", "smartphone_modern"),
 ]
 
 ContentType_CHOICES = [
@@ -322,7 +305,6 @@ GuiElements_CHOICES = [
 
 
 class SChProject(JSONModel):
-
     class Meta:
         verbose_name = _("Pytigon project")
         verbose_name_plural = _("Pytigon projects")
@@ -348,7 +330,7 @@ class SChProject(JSONModel):
         default=True,
     )
     ext_apps = models.CharField(
-        "Extern applications", null=True, blank=True, editable=True, max_length=4096
+        "External applications", null=True, blank=True, editable=True, max_length=4096
     )
     plugins = models.CharField(
         "Plugins", null=True, blank=True, editable=True, max_length=4096
@@ -420,8 +402,8 @@ class SChProject(JSONModel):
         choices=HtmlGui_CHOICES,
         max_length=32,
     )
-    smartfon_gui_type = models.CharField(
-        "Gui type for smartfon",
+    smartphone_gui_type = models.CharField(
+        "Gui type for smartphone",
         null=False,
         blank=False,
         editable=True,
@@ -495,14 +477,14 @@ class SChProject(JSONModel):
     git_repository = models.CharField(
         "Git repository", null=True, blank=True, editable=True, max_length=255
     )
-    autor_name = models.CharField(
-        "Autor name", null=True, blank=True, editable=True, max_length=255
+    author_name = models.CharField(
+        "Author name", null=True, blank=True, editable=True, max_length=255
     )
-    autor_email = models.CharField(
-        "Autor email", null=True, blank=True, editable=True, max_length=256
+    author_email = models.CharField(
+        "Author email", null=True, blank=True, editable=True, max_length=256
     )
-    autor_www = models.CharField(
-        "Autor www page", null=True, blank=True, editable=True, max_length=256
+    author_www = models.CharField(
+        "Author www page", null=True, blank=True, editable=True, max_length=256
     )
     components_initial_state = models.CharField(
         "The initial state of the components",
@@ -517,8 +499,8 @@ class SChProject(JSONModel):
         blank=True,
         editable=False,
     )
-    template_smartfon = models.TextField(
-        "Template for smartfon",
+    template_smartphone = models.TextField(
+        "Template for smartphone",
         null=True,
         blank=True,
         editable=False,
@@ -557,7 +539,7 @@ class SChProject(JSONModel):
             return ret
         for a in l:
             if a != "" and not a.startswith("@"):
-                if not a in ret:
+                if a not in ret:
                     ret.append(a)
         return ret
 
@@ -574,7 +556,7 @@ class SChProject(JSONModel):
             if a.startswith("@"):
                 a = a[1:]
                 if a != "":
-                    if not a in ret:
+                    if a not in ret:
                         ret.append(a)
         return ret
 
@@ -610,8 +592,8 @@ class SChProject(JSONModel):
                     continue
                 if "." in item:
                     item = item.split(".")[0]
-            if item != self.name and item not in related_projects:
-                related_projects.append(item)
+                if item != self.name and item not in related_projects:
+                    related_projects.append(item)
 
         if self.custom_tags:
             l = self.custom_tags.replace("\n", ",").replace(";", ",").split(",")
@@ -668,7 +650,6 @@ admin_register(SChProject)
 
 
 class SChApp(JSONModel):
-
     class Meta:
         verbose_name = _("SChApp")
         verbose_name_plural = _("SChApp")
@@ -799,10 +780,10 @@ class SChApp(JSONModel):
                             obj = getattr(models, name)
                             if inspect.isclass(obj):
                                 tmp.add(ext_app + "." + name)
-                    except:
+                    except Exception:
                         pass
             for ext_app in ext_apps:
-                if not "schserw." in ext_app:
+                if "schserw." not in ext_app:
                     try:
                         appset = ext_app.split(".")[0].strip()
                         appname = ext_app.split(".")[1].strip()
@@ -833,7 +814,7 @@ class SChApp(JSONModel):
                                     line3 = line2
                                     line2 = line1
                                     line1 = line
-                    except:
+                    except Exception:
                         traceback.print_exception(*sys.exc_info())
             if tmp:
                 ret += sorted(tmp)
@@ -948,13 +929,13 @@ class SChApp(JSONModel):
             if table.base_table and "." in table.base_table:
                 x = table.base_table.split(".")
                 if x[-2] != "models":
-                    if not x[-2] in tab:
+                    if x[-2] not in tab:
                         tab.append(x[-2])
             for field in table.schfield_set.all():
                 if field.is_rel():
                     if field.rel_to and "." in field.rel_to:
                         x = field.rel_to.split(".")
-                        if not x[-2] in tab:
+                        if x[-2] not in tab:
                             tab.append(x[-2])
         return tab
 
@@ -966,7 +947,6 @@ admin_register(SChApp)
 
 
 class SChChoice(models.Model):
-
     class Meta:
         verbose_name = _("SChChoice")
         verbose_name_plural = _("SChChoice")
@@ -998,7 +978,6 @@ admin_register(SChChoice)
 
 
 class SChChoiceItem(models.Model):
-
     class Meta:
         verbose_name = _("SChChoiceItem")
         verbose_name_plural = _("SChChoiceItem")
@@ -1030,7 +1009,6 @@ admin_register(SChChoiceItem)
 
 
 class SChTable(models.Model):
-
     class Meta:
         verbose_name = _("SChTable")
         verbose_name_plural = _("SChTable")
@@ -1125,7 +1103,6 @@ admin_register(SChTable)
 
 
 class SChField(models.Model):
-
     class Meta:
         verbose_name = _("SChField")
         verbose_name_plural = _("SChField")
@@ -1359,7 +1336,6 @@ admin_register(SChField)
 
 
 class SChView(models.Model):
-
     class Meta:
         verbose_name = _("SChView")
         verbose_name_plural = _("SChView")
@@ -1556,7 +1532,6 @@ admin_register(SChView)
 
 
 class SChStatic(models.Model):
-
     class Meta:
         verbose_name = _("Static file")
         verbose_name_plural = _("Static files")
@@ -1601,14 +1576,13 @@ class SChStatic(models.Model):
         return self.get_type_display() + "/" + self.name
 
     def __lt__(self, other):
-        return (self.name < other.name) and (self.name < other.name)
+        return self.name < other.name
 
 
 admin_register(SChStatic)
 
 
 class SChTemplate(models.Model):
-
     class Meta:
         verbose_name = _("SChTemplate")
         verbose_name_plural = _("SChTemplate")
@@ -1871,7 +1845,6 @@ admin_register(SChTemplate)
 
 
 class SChAppMenu(models.Model):
-
     class Meta:
         verbose_name = _("SChAppMenu")
         verbose_name_plural = _("SChAppMenu")
@@ -1972,7 +1945,6 @@ admin_register(SChAppMenu)
 
 
 class SChForm(models.Model):
-
     class Meta:
         verbose_name = _("Form")
         verbose_name_plural = _("Form")
@@ -2041,7 +2013,6 @@ admin_register(SChForm)
 
 
 class SChFormField(models.Model):
-
     class Meta:
         verbose_name = _("Form field")
         verbose_name_plural = _("Form field")
@@ -2150,7 +2121,6 @@ admin_register(SChFormField)
 
 
 class SChTask(models.Model):
-
     class Meta:
         verbose_name = _("SChTask")
         verbose_name_plural = _("SChTask")
@@ -2208,7 +2178,6 @@ admin_register(SChTask)
 
 
 class SChFile(models.Model):
-
     class Meta:
         verbose_name = _("SChFile")
         verbose_name_plural = _("SChFiles")
@@ -2261,7 +2230,6 @@ admin_register(SChFile)
 
 
 class SChLocale(models.Model):
-
     class Meta:
         verbose_name = _("Locale")
         verbose_name_plural = _("Locales")
@@ -2287,7 +2255,6 @@ admin_register(SChLocale)
 
 
 class SChTranslate(models.Model):
-
     class Meta:
         verbose_name = _("Translate")
         verbose_name_plural = _("Translate")
@@ -2319,7 +2286,6 @@ admin_register(SChTranslate)
 
 
 class SChChannelConsumer(models.Model):
-
     class Meta:
         verbose_name = _("Channel consumer")
         verbose_name_plural = _("Channel consumers")

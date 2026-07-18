@@ -1,4 +1,4 @@
-from django.urls import path, re_path, include, reverse
+from django.urls import path, re_path
 from django.utils.translation import gettext_lazy as _
 from pytigon_lib.schviews import generic_table_start, gen_tab_action, gen_row_action
 from django.views.generic import TemplateView
@@ -142,6 +142,7 @@ urlpatterns = [
 ]
 
 gen = generic_table_start(urlpatterns, "schbuilder", views)
+
 gen.for_field(
     "SChProject",
     "schapp_set",

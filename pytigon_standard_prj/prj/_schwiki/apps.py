@@ -1,6 +1,6 @@
 APPS = [
     "schwiki",
-    "_schtools.schattachements",
+    "_schtools.schattachments",
     "_schdata.schelements",
 ]
 APPS_EXT = []

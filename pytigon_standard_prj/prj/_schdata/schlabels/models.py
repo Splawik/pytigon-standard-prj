@@ -1,24 +1,15 @@
-import os, os.path
-import sys
-
-import django
 from django.db import models
-from django.utils import timezone
 from django.utils.translation import gettext_lazy as _
-from django.contrib import admin
 
 from pytigon_lib.schdjangoext.fields import *
 import pytigon_lib.schdjangoext.fields as ext_models
 from pytigon_lib.schdjangoext.models import *
-from pytigon_lib.schtools import schjson
-from pytigon_lib.schhtml.htmltools import superstrip
 
 import schelements.models
 import schstruct.models
 
 
 class LabelType(models.Model):
-
     class Meta:
         verbose_name = _("Label type")
         verbose_name_plural = _("Label types")
@@ -39,7 +30,6 @@ admin_register(LabelType)
 
 
 class ElementLabel(models.Model):
-
     class Meta:
         verbose_name = _("Element label")
         verbose_name_plural = _("Element labels")
@@ -98,7 +88,6 @@ admin_register(ElementLabel)
 
 
 class CommonGroupLabel(models.Model):
-
     class Meta:
         verbose_name = _("Common group label")
         verbose_name_plural = _("Common groups labels")
@@ -156,7 +145,6 @@ admin_register(CommonGroupLabel)
 
 
 class Label(AssociatedModel):
-
     class Meta:
         verbose_name = _("Label")
         verbose_name_plural = _("Labels")

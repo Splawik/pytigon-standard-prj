@@ -3,7 +3,7 @@ APPS = [
     "schcommander",
     "schsimplescripts",
     "schtools",
-    "schattachements",
+    "schattachments",
     "schlog",
     "schtasks",
     "schworkflow",

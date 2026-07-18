@@ -6,7 +6,7 @@ APPS = [
     "_schcomponents.standard_components",
     "_schdata.schelements",
     "_schsetup.schadmin",
-    "_schtools.schattachements",
+    "_schtools.schattachments",
     "_schtools.schcommander",
 ]
 APPS_EXT = []

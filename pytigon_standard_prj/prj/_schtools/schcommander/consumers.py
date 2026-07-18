@@ -1,19 +1,9 @@
 import os
-import sys
-import datetime
 import json
-import asyncio
 
-from channels.consumer import AsyncConsumer, SyncConsumer
 
-from channels.generic.websocket import (
-    WebsocketConsumer,
-    AsyncWebsocketConsumer,
-    JsonWebsocketConsumer,
-    AsyncJsonWebsocketConsumer,
-)
+from channels.generic.websocket import WebsocketConsumer
 
-from channels.generic.http import AsyncHttpConsumer
 
 import select
 import time
@@ -40,7 +30,7 @@ def read_and_forward_pty_output(consumer):
         time.sleep(0.01)
         if consumer.fd:
             timeout_sec = 1
-            data_ready, _, _ = select.select(
+            (data_ready, _, _) = select.select(
                 [
                     consumer.fd,
                 ],
@@ -63,7 +53,6 @@ def read_and_forward_pty_output(consumer):
 
 
 class ShellConsumer(WebsocketConsumer):
-
     def set_winsize(self, fd, row, col, xpix=0, ypix=0):
         winsize = struct.pack("HHHH", row, col, xpix, ypix)
         fcntl.ioctl(self.fd, termios.TIOCSWINSZ, winsize)
@@ -87,7 +76,7 @@ class ShellConsumer(WebsocketConsumer):
         self.fd = None
         self.child_pid = None
         self.accept()
-        child_pid, fd = pty.fork()
+        (child_pid, fd) = pty.fork()
         if child_pid == 0:
             env2 = os.environ.copy()
             env2["TERM"] = "xterm"

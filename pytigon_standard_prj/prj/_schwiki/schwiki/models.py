@@ -1,27 +1,12 @@
-import os, os.path
-import sys
-
-import django
 from django.db import models
 from django.utils import timezone
 from django.utils.translation import gettext_lazy as _
-from django.contrib import admin
 
 from pytigon_lib.schdjangoext.fields import *
-import pytigon_lib.schdjangoext.fields as ext_models
 from pytigon_lib.schdjangoext.models import *
-from pytigon_lib.schtools import schjson
-from pytigon_lib.schhtml.htmltools import superstrip
 
 
-from django.template import RequestContext, Context, Template
-import markdown
-from pytigon_lib.schdjangoext.django_ihtml import ihtml_to_html
-from pytigon_lib.schtools.wiki import wikify, wiki_from_str, make_href
-from pytigon_lib.schtools.tools import norm_indent
-from django.template.loader import select_template
-from datetime import datetime
-from collections import namedtuple
+from pytigon_lib.schtools.wiki import wiki_from_str, make_href
 from pytigon_lib.schindent.indent_markdown import (
     IndentMarkdownProcessor,
     REG_OBJ_RENDERER,
@@ -50,7 +35,6 @@ menu_icon_size_choices = [
 
 
 class Page(JSONModel):
-
     class Meta:
         verbose_name = _("Page")
         verbose_name_plural = _("Page")
@@ -275,7 +259,6 @@ admin_register(Page)
 
 
 class WikiConf(JSONModel):
-
     class Meta:
         verbose_name = _("Wiki config")
         verbose_name_plural = _("Wiki config")

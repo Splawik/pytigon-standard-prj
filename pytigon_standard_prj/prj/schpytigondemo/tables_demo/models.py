@@ -1,30 +1,25 @@
-import os, os.path
-import sys
-
-import django
 from django.db import models
-from django.utils import timezone
 from django.utils.translation import gettext_lazy as _
-from django.contrib import admin
 
 from pytigon_lib.schdjangoext.fields import *
 import pytigon_lib.schdjangoext.fields as ext_models
 from pytigon_lib.schdjangoext.models import *
-from pytigon_lib.schtools import schjson
-from pytigon_lib.schhtml.htmltools import superstrip
 
 
 from django.db.models.signals import post_save
 from django.dispatch import receiver
-from schattachements.models import Attachement
+from schattachments.models import Attachment
 from pytigon_lib.schdjangoext.tools import from_migrations
 
 if not from_migrations():
 
-    @receiver(post_save, sender=Attachement)
-    def attachement_created(sender, instance, created, **kwargs):
+    @receiver(post_save, sender=Attachment)
+    def attachment_created(sender, instance, created, **kwargs):
         if created:
-            WorkflowType.new_workflow_item("demo", instance)
+            try:
+                WorkflowType.new_workflow_item("demo", instance)
+            except Exception:
+                pass
 
 
 tag_CHOICE = [
@@ -34,6 +29,11 @@ tag_CHOICE = [
 
 
 class Example1User(models.Model):
+    """
+    Simple user model for table demos.
+
+    Stores a username and email address with no custom behavior.
+    """
 
     class Meta:
         verbose_name = _("User")
@@ -58,6 +58,12 @@ admin_register(Example1User)
 
 
 class Example1Computer(models.Model):
+    """
+    Computer inventory model with serial number, IP, and active status.
+
+    Stores a serial number, description, IP address, and active boolean
+    flag. Serves as the parent model for Example2Peripheral and proxy models.
+    """
 
     class Meta:
         verbose_name = _("Computer")
@@ -92,6 +98,12 @@ admin_register(Example1Computer)
 
 
 class Example2Peripheral(models.Model):
+    """
+    Child table model linked to Example1Computer via a foreign key.
+
+    Represents a peripheral device belonging to a computer, storing a
+    parent FK and description.
+    """
 
     class Meta:
         verbose_name = _("Peripheral")
@@ -118,6 +130,13 @@ admin_register(Example2Peripheral)
 
 
 class Example3Tag(models.Model):
+    """
+    Tagging model with context-sensitive initialization and filtering.
+
+    Stores a choice-based tag, description, and references to the tagged
+    app/table/parent_id. ``init_new()`` parses a compound value to preset
+    the context; ``filter()`` scopes the queryset by app, table, and parent.
+    """
 
     class Meta:
         verbose_name = _("Tag")
@@ -148,24 +167,35 @@ class Example3Tag(models.Model):
 
     def init_new(self, request, view, value=None):
         if value:
-            app, tbl, id = value.split("__")
-            return {"app": app, "table": tbl, "parent_id": id}
-        else:
-            return {"app": "default", "table": "default", "parent_id": 0}
+            try:
+                app, tbl, pid = value.split("__")
+                return {"app": app, "table": tbl, "parent_id": pid}
+            except ValueError:
+                pass
+        return {"app": "default", "table": "default", "parent_id": 0}
 
     @classmethod
     def filter(cls, value, view=None, request=None):
         if value:
-            app, tbl, id = value.split("__")
-            return cls.objects.filter(app=app, table=tbl, parent_id=id)
-        else:
-            return cls.objects.all()
+            try:
+                app, tbl, pid = value.split("__")
+                return cls.objects.filter(app=app, table=tbl, parent_id=pid)
+            except ValueError:
+                pass
+        return cls.objects.all()
 
 
 admin_register(Example3Tag)
 
 
 class Example4Parameter(JSONModel):
+    """
+    JSON-extensible parameter model with dynamic form fields.
+
+    Stores a key and optional JSON data. ``get_form_class()`` dynamically
+    adds CharField fields from stored JSON keys, and ``post_form()`` saves
+    submitted values back into the JSON store.
+    """
 
     class Meta:
         verbose_name = _("Parameter")
@@ -178,23 +208,24 @@ class Example4Parameter(JSONModel):
     key = models.CharField("Key", null=False, blank=False, editable=True, max_length=32)
 
     def get_form_class(self, view, request, create):
+        from django import forms
+
         base_form = view.get_form_class()
         data = self.get_json_data()
 
         class form_class(base_form):
-            def __init__(self, *args, **kwargs):
-                nonlocal data
+            def __init__(inner_self, *args, **kwargs):
                 super().__init__(*args, **kwargs)
                 if data:
                     for key, value in data.items():
-                        self.fields["json_%s" % key] = forms.CharField(
+                        inner_self.fields[f"json_{key}"] = forms.CharField(
                             label=key, initial=value
                         )
                 else:
-                    self.fields["json_test1"] = forms.CharField(
+                    inner_self.fields["json_test1"] = forms.CharField(
                         label="test1", initial="value_test1"
                     )
-                    self.fields["json_test2"] = forms.CharField(
+                    inner_self.fields["json_test2"] = forms.CharField(
                         label="test2", initial="value_test2"
                     )
 
@@ -216,6 +247,13 @@ admin_register(Example4Parameter)
 
 
 class Example5ParamGroup(TreeModel):
+    """
+    Tree-structured parameter group model.
+
+    Supports hierarchical nesting via a PtigTreeForeignKey to self,
+    with two required FK fields (main_parameter, second_parameter) and
+    an M2M field (parameters) all pointing to Example4Parameter.
+    """
 
     class Meta:
         verbose_name = _("Group of parameters")
@@ -265,6 +303,12 @@ admin_register(Example5ParamGroup)
 
 
 class Example6ComputerFromExample1(Example1Computer):
+    """
+    Proxy model of Example1Computer providing an alternate table view.
+
+    Shares the same data with no additional fields or methods, allowing
+    a different presentation configuration.
+    """
 
     class Meta:
         verbose_name = _("Proxy to computer")
@@ -281,6 +325,12 @@ admin_register(Example6ComputerFromExample1)
 
 
 class Example7ComputerFromExample1(Example1Computer):
+    """
+    Proxy model of Example1Computer with custom table action handling.
+
+    Overrides ``table_action()`` to handle insert_rows by refreshing the
+    view, while delegating copy/paste/delete to the standard action handler.
+    """
 
     class Meta:
         verbose_name = _("Proxy to computer")
@@ -294,10 +344,8 @@ class Example7ComputerFromExample1(Example1Computer):
 
     @classmethod
     def table_action(cls, list_view, request, data):
-        if "action" in data:
-            if data["action"] == "insert_rows":
-                table = data["table"]
-                return actions.refresh(request)
+        if data.get("action") == "insert_rows":
+            return actions.refresh(request)
         return standard_table_action(
             cls, list_view, request, data, ["copy", "paste", "delete"]
         )

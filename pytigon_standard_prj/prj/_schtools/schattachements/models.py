@@ -1,28 +1,12 @@
-import os, os.path
-import sys
-
-import django
 from django.db import models
 from django.utils import timezone
 from django.utils.translation import gettext_lazy as _
-from django.contrib import admin
 
 from pytigon_lib.schdjangoext.fields import *
 import pytigon_lib.schdjangoext.fields as ext_models
 from pytigon_lib.schdjangoext.models import *
-from pytigon_lib.schtools import schjson
-from pytigon_lib.schhtml.htmltools import superstrip
 
 import schelements.models
-
-
-from django.core.mail import send_mail
-from datetime import datetime
-from django.conf import settings
-from os.path import join
-
-from filer.fields.file import FilerFileField
-from schelements.models import Element
 
 
 def upload_path_fun(obj, filename):
@@ -41,7 +25,6 @@ def upload_path_fun(obj, filename):
 
 
 class Attachement(AssociatedJSONModel):
-
     class Meta:
         verbose_name = _("Attachement")
         verbose_name_plural = _("Attachements")

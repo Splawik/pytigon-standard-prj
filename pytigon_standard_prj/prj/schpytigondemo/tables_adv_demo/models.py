@@ -1,23 +1,16 @@
-import os, os.path
-import sys
-
-import django
 from django.db import models
-from django.utils import timezone
 from django.utils.translation import gettext_lazy as _
-from django.contrib import admin
 
 from pytigon_lib.schdjangoext.fields import *
 import pytigon_lib.schdjangoext.fields as ext_models
 from pytigon_lib.schdjangoext.models import *
-from pytigon_lib.schtools import schjson
-from pytigon_lib.schhtml.htmltools import superstrip
 
 import tables_demo.models
 
 
 from tables_demo.models import *
 from django.forms import fields as form_fields
+
 
 GenreChoices = [
     ("r", "Rock"),
@@ -31,6 +24,14 @@ GenreChoices = [
 
 
 class Album(models.Model):
+    """
+    Music album model with custom table filtering and sorting.
+
+    Stores release date, artist, description, and genre. Overrides
+    ``filter()`` for genre-based queryset filtering, ``init_new()`` to
+    preset the genre, ``sort()`` for custom ordering, and
+    ``get_form_class()`` to add a Textarea widget to the description field.
+    """
 
     class Meta:
         verbose_name = _("Album")
@@ -65,23 +66,17 @@ class Album(models.Model):
     def filter(cls, value, view=None, request=None):
         if value:
             return cls.objects.filter(genre=value)
-        else:
-            return cls.objects.all()
+        return cls.objects.all()
 
     def init_new(self, request, view, value=None):
         if value:
-            return {
-                "genre": value,
-            }
-        else:
-            return {}
+            return {"genre": value}
+        return {}
 
+    @staticmethod
     def sort(queryset, sort, order):
         if sort:
-            if order == "asc":
-                queryset = queryset.order_by(sort)
-            else:
-                queryset = queryset.order_by("-" + sort)
+            return queryset.order_by(sort if order == "asc" else f"-{sort}")
         return queryset
 
     def get_form_class(self, view, request, create):
@@ -100,6 +95,12 @@ admin_register(Album)
 
 
 class AlbumProxy(Album):
+    """
+    Proxy model of Album providing an alternative table presentation.
+
+    Shares the same underlying data as Album with no additional fields or
+    methods, allowing a different view configuration.
+    """
 
     class Meta:
         verbose_name = _("Album")
@@ -116,6 +117,12 @@ admin_register(AlbumProxy)
 
 
 class UserGroup(models.Model):
+    """
+    Pivot/join model serving as a many-to-many intermediary table.
+
+    Declares no explicit fields; used by the framework as a linking
+    table for complex many-to-many relationships.
+    """
 
     class Meta:
         verbose_name = _("User group")
@@ -130,6 +137,13 @@ admin_register(UserGroup)
 
 
 class Track(models.Model):
+    """
+    Music track child model linked to an Album parent.
+
+    Stores a track name, a parent FK to Album, a single FK to
+    Example4Parameter (``param``), and an M2M relation to
+    Example4Parameter (``params``).
+    """
 
     class Meta:
         verbose_name = _("Track")

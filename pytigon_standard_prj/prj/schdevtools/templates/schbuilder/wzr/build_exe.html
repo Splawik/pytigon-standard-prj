@@ -10,28 +10,28 @@
         <nim_path = install_if_not_exists(settings.DATA_PATH)>
         </nim_path>
         <if os.name ="= "nt":">
-                <os.environ["PATH"] = os.environ["PATH"] + (f";{nim_path}\\bin\\")></os.environ["PATH"]>
+                <os.environ["PATH"] = os.environ["PATH"] + (";%s\\bin\\" % nim_path)></os.environ["PATH"]>
                 <exe = "nim.exe"></exe>
                 <out_path = os.path.join(>
                         <settings.DATA_PATH,></settings.DATA_PATH,>
                         "prg",
-                        <f"{settings.PRJ_NAME}_{base_name}.exe",></f"{settings.PRJ_NAME}_{base_name}.exe",>
+                        <settings.PRJ_NAME + "_" + base_name + ".exe",></settings.PRJ_NAME>
                 </out_path>
                 )
         </if>
         <else:>
-                <os.environ["PATH"] = os.environ["PATH"] + (f":{nim_path}/bin/")></os.environ["PATH"]>
+                <os.environ["PATH"] = os.environ["PATH"] + (":%s/bin/" % nim_path)></os.environ["PATH"]>
                 <exe = "nim"></exe>
                 <out_path = os.path.join(>
                         <settings.DATA_PATH,></settings.DATA_PATH,>
                         "prg",
-                        <f"{settings.PRJ_NAME}_{base_name}",></f"{settings.PRJ_NAME}_{base_name}",>
+                        <settings.PRJ_NAME + "_" + base_name,></settings.PRJ_NAME>
                 </out_path>
                 )
         </else:>
         <packages = "{PARAM}"></packages>
         <if packages:>
-                <packages_list = packages.replace(",", ";").split(";")></packages_list>
+                <packages_list = packages.replace(",",";").split(";")></packages_list>
                 <for package in packages_list:>
                         <subprocess.run(>
                                 [

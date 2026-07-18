@@ -1,43 +1,19 @@
-from django.http import HttpResponseRedirect, HttpResponse
-from django.shortcuts import render, redirect, reverse
-from django import forms
-from django.template.loader import render_to_string
-from django.template import Context, Template
-from django.template import RequestContext
 from django.conf import settings
-from django.views.generic import TemplateView
 
-from pytigon_lib.schviews.form_fun import form_with_perms
-from pytigon_lib.schviews.viewtools import (
-    dict_to_template,
-    dict_to_odf,
-    dict_to_pdf,
-    dict_to_json,
-    dict_to_xml,
-    dict_to_ooxml,
-    dict_to_txt,
-    dict_to_hdoc,
-)
-from pytigon_lib.schviews.viewtools import render_to_response
-from pytigon_lib.schdjangoext.tools import make_href
-from pytigon_lib.schdjangoext import formfields as ext_form_fields
-from pytigon_lib.schviews import actions
+from pytigon_lib.schviews.viewtools import dict_to_template
 
-from django.utils.translation import gettext_lazy as _
 
-from . import models
 import os
-import sys
-import datetime
-from django.utils import timezone
+
 
 from pytigon_lib.schtools import nim_ext
-from django.conf import settings
-import os
 
 ext_path = os.path.join(settings.DATA_PATH, settings.PRJ_NAME, "prjlib")
 
-lib = nim_ext.load_nim_lib(os.path.join(ext_path, "schpytigondemo_test_nim"), "ext")
+try:
+    lib = nim_ext.load_nim_lib(os.path.join(ext_path, "schpytigondemo_test_nim"), "ext")
+except Exception:
+    lib = None
 
 
 def make_csum_fun():
@@ -63,88 +39,109 @@ def make_csum_fun():
     return cfunc
 
 
-csum = make_csum_fun()
+try:
+    csum = make_csum_fun()
+except Exception:
+    csum = None
 
 
 @dict_to_template("interfaces/v_test_interfaces.html")
 def test_interfaces(request, **argv):
+    """
+    Test various native extension interfaces and return results.
+
+    Executes WASM (via wasmtime), Nim native extensions, nimext Python
+    bindings, and LLVM assembly JIT-compiled functions, collecting the
+    output of each test into a list of (label, result) tuples rendered
+    via the interfaces/v_test_interfaces.html template.
+    """
+
+    results = []
 
     title1 = "wasm from zig"
     import interfaces.applib
-    from wasmtime import Store, Module, Instance, Func, FuncType
 
-    wasm_path = os.path.join(interfaces.applib.__path__[0], "test_zig.wasm")
+    try:
+        from wasmtime import Store, Module, Instance
 
-    store = Store()
-    module = Module.from_file(store.engine, wasm_path)
+        wasm_path = os.path.join(interfaces.applib.__path__[0], "test_zig.wasm")
+        store = Store()
+        module = Module.from_file(store.engine, wasm_path)
+        instance = Instance(store, module, [])
+        sum_func = instance.exports(store)["add"]
+        result1 = sum_func(store, 2, 2)
+    except Exception:
+        result1 = "wasmtime not available"
 
-    instance = Instance(store, module, [])
-    sum_func = instance.exports(store)["add"]
-    result1 = sum_func(store, 2, 2)
-
-    # from wasmer import engine, wasi, Store, Module, ImportObject, Instance
-    # from wasmer_compiler_cranelift import Compiler
-    # import interfaces.applib
-    # with open(os.path.join(interfaces.applib.__path__[0], "test_zig.wasm"), "rb") as f:
-    #    wasm_bytes = f.read()
-    #    store = Store(engine.Universal(Compiler))
-    #    module = Module(store, wasm_bytes)
-    #    wasi_env = (
-    #        wasi.StateBuilder("wasi_test_program")
-    #        .argument("--test")
-    #        .environment("COLOR", "true")
-    #        .environment("APP_SHOULD_LOG", "false")
-    #        .map_directory("the_host_current_dir", ".")
-    #        .finalize()
-    #    )
-    #    module = Module(store, wasm_bytes)
-    #    instance = Instance(module)
-    #    sum = instance.exports.add
-    #    result4 = sum(2, 2)
+    results.append((title1, result1))
 
     title2 = "json_test"
-    result2 = nim_ext.ext.json_test(x=100, y=300, value="Hello world!")
+    try:
+        result2 = nim_ext.ext.json_test(x=100, y=300, value="Hello world!")
+    except Exception:
+        result2 = "nim ext error"
+    results.append((title2, result2))
 
     title3 = "int_test"
-    result3 = nim_ext.ext.int_test(10)
+    try:
+        result3 = nim_ext.ext.int_test(10)
+    except Exception:
+        result3 = "nim ext error"
+    results.append((title3, result3))
 
     title4 = "float_test"
-    result4 = nim_ext.ext.float_test(100.0)
+    try:
+        result4 = nim_ext.ext.float_test(100.0)
+    except Exception:
+        result4 = "nim ext error"
+    results.append((title4, result4))
 
     title5 = "string_test"
-    result5 = nim_ext.ext.string_test(b"Hello")
+    try:
+        result5 = nim_ext.ext.string_test(b"Hello")
+    except Exception:
+        result5 = "nim ext error"
+    results.append((title5, result5))
+
     title6 = "string_test_from_utf"
-    result6 = nim_ext.ext.string_test_str("Hello")
+    try:
+        result6 = nim_ext.ext.string_test_str("Hello")
+    except Exception:
+        result6 = "nim ext error"
+    results.append((title6, result6))
 
     title7 = "void_test"
-    result7 = nim_ext.ext.void_test()
+    try:
+        result7 = nim_ext.ext.void_test()
+    except Exception:
+        result7 = "nim ext error"
+    results.append((title7, result7))
 
     title8 = "string_int_test"
-    result8 = nim_ext.ext.string_int_test("string int test")
+    try:
+        result8 = nim_ext.ext.string_int_test("string int test")
+    except Exception:
+        result8 = "nim ext error"
+    results.append((title8, result8))
 
     title9 = "json_test2"
-    result9 = nim_ext.ext.json_test2()
+    try:
+        result9 = nim_ext.ext.json_test2()
+    except Exception:
+        result9 = "nim ext error"
+    results.append((title9, result9))
 
     import nimext
 
     title10 = "nimext test"
-    result10 = nimext.greet("world") + " from nimext"
+    try:
+        result10 = nimext.greet("world") + " from nimext"
+    except Exception:
+        result10 = "nimext error"
+    results.append((title10, result10))
 
     title11 = "llvm assembly"
-    result11 = csum(2, 2)
+    result11 = csum(2, 2) if csum else "llvm not available"
+    results.append((title11, result11))
 
-    return {
-        "object_list": (
-            (title1, result1),
-            (title2, result2),
-            (title3, result3),
-            (title4, result4),
-            (title5, result5),
-            (title6, result6),
-            (title7, result7),
-            (title8, result8),
-            (title9, result9),
-            (title10, result10),
-            (title11, result11),
-        )
-    }
+    return {"object_list": tuple(results)}

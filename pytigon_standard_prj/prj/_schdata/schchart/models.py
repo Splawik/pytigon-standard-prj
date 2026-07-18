@@ -1,24 +1,12 @@
-import os, os.path
-import sys
-
-import django
 from django.db import models
-from django.utils import timezone
 from django.utils.translation import gettext_lazy as _
-from django.contrib import admin
 
 from pytigon_lib.schdjangoext.fields import *
-import pytigon_lib.schdjangoext.fields as ext_models
 from pytigon_lib.schdjangoext.models import *
-from pytigon_lib.schtools import schjson
-from pytigon_lib.schhtml.htmltools import superstrip
 
-
-from pytigon_lib.schtools.schjson import json_dumps, json_loads
 
 # from schlib.schdjangoext.django_ihtml import ihtml_to_html
 # from django.template import Context, Template
-from django.db.models import Max, Min
 
 from schelements.models import *
 
@@ -82,10 +70,9 @@ def on_event(obj, data, request_param):
 
 
 class Plot(models.Model):
-
     class Meta:
         verbose_name = _("Plot")
-        verbose_name_plural = _("Polts")
+        verbose_name_plural = _("Plots")
         default_permissions = ("add", "change", "delete", "view", "list", "administer")
         app_label = "schchart"
 

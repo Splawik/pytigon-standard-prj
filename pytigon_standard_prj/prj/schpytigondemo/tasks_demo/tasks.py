@@ -1,10 +1,4 @@
-from django.utils.translation import gettext_lazy as _
-
-import os
-import sys
-import datetime
 import time
-from queue import Empty
 from pytigon_lib.schtasks.publish import publish
 
 
@@ -17,16 +11,16 @@ def test_task(cproxy=None, **kwargs):
         cproxy.send_event(
             "<ul class='data'></ul><div name='task_end_info' style='display: none;'>Finish</div>"
         )
-    for i in range(0, 30):
+    for i in range(30):
         if cproxy:
-            cproxy.send_event("<li>item %d</li>===>>.data" % i)
+            cproxy.send_event(f"<li>item {i}</li>===>>.data")
         time.sleep(1)
     return True
 
 
 def test_task2(cproxy=None, **kwargs):
 
-    for i in range(0, 30):
+    for i in range(30):
         print("item:", i)
         time.sleep(1)
-    return "tast task2 result"
+    return "test task2 result"

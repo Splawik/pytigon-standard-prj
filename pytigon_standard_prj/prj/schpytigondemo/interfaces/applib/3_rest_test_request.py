@@ -1,3 +1,8 @@
+"""Test a REST API endpoint using OAuth2 Bearer token authentication.
+
+This script sends an authenticated GET request to a local REST API endpoint
+using an access token obtained via the client-credentials grant flow.
+"""
 import httpx
 
 #Assign to access_token, token_type the result of the script operation: 2_rest_get_access_token.sh

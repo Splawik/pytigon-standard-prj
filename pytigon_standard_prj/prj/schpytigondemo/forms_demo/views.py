@@ -1,35 +1,13 @@
-from django.http import HttpResponseRedirect, HttpResponse
-from django.shortcuts import render, redirect, reverse
 from django import forms
-from django.template.loader import render_to_string
-from django.template import Context, Template
-from django.template import RequestContext
-from django.conf import settings
-from django.views.generic import TemplateView
 
 from pytigon_lib.schviews.form_fun import form_with_perms
-from pytigon_lib.schviews.viewtools import (
-    dict_to_template,
-    dict_to_odf,
-    dict_to_pdf,
-    dict_to_json,
-    dict_to_xml,
-    dict_to_ooxml,
-    dict_to_txt,
-    dict_to_hdoc,
-)
-from pytigon_lib.schviews.viewtools import render_to_response
-from pytigon_lib.schdjangoext.tools import make_href
+from pytigon_lib.schviews.viewtools import dict_to_template, dict_to_json
 from pytigon_lib.schdjangoext import formfields as ext_form_fields
-from pytigon_lib.schviews import actions
 
 from django.utils.translation import gettext_lazy as _
 
 from . import models
-import os
-import sys
-import datetime
-from django.utils import timezone
+
 
 PFORM = form_with_perms("forms_demo")
 
@@ -81,29 +59,7 @@ class form_test(forms.Form):
 
     def process(self, request, queryset=None):
 
-        object_list = [
-            [1, 2, 3, 4, 5, 6, 7, 8],
-            [1, 2, 3, 4, 5, 6, 7, 8],
-            [1, 2, 3, 4, 5, 6, 7, 8],
-            [1, 2, 3, 4, 5, 6, 7, 8],
-            [1, 2, 3, 4, 5, 6, 7, 8],
-            [1, 2, 3, 4, 5, 6, 7, 8],
-            [1, 2, 3, 4, 5, 6, 7, 8],
-            [1, 2, 3, 4, 5, 6, 7, 8],
-            [1, 2, 3, 4, 5, 6, 7, 8],
-            [1, 2, 3, 4, 5, 6, 7, 8],
-            [1, 2, 3, 4, 5, 6, 7, 8],
-            [1, 2, 3, 4, 5, 6, 7, 8],
-            [1, 2, 3, 4, 5, 6, 7, 8],
-            [1, 2, 3, 4, 5, 6, 7, 8],
-            [1, 2, 3, 4, 5, 6, 7, 8],
-            [1, 2, 3, 4, 5, 6, 7, 8],
-            [1, 2, 3, 4, 5, 6, 7, 8],
-            [1, 2, 3, 4, 5, 6, 7, 8],
-            [1, 2, 3, 4, 5, 6, 7, 8],
-            [1, 2, 3, 4, 5, 6, 7, 8],
-            [1, 2, 3, 4, 5, 6, 7, 8],
-        ]
+        object_list = [[1, 2, 3, 4, 5, 6, 7, 8] for _ in range(21)]
 
         return {"object_list": object_list}
 
@@ -169,29 +125,7 @@ class form_test2(forms.Form):
 
     def process(self, request, queryset=None):
 
-        object_list = [
-            [1, 2, 3, 4, 5, 6, 7, 8],
-            [1, 2, 3, 4, 5, 6, 7, 8],
-            [1, 2, 3, 4, 5, 6, 7, 8],
-            [1, 2, 3, 4, 5, 6, 7, 8],
-            [1, 2, 3, 4, 5, 6, 7, 8],
-            [1, 2, 3, 4, 5, 6, 7, 8],
-            [1, 2, 3, 4, 5, 6, 7, 8],
-            [1, 2, 3, 4, 5, 6, 7, 8],
-            [1, 2, 3, 4, 5, 6, 7, 8],
-            [1, 2, 3, 4, 5, 6, 7, 8],
-            [1, 2, 3, 4, 5, 6, 7, 8],
-            [1, 2, 3, 4, 5, 6, 7, 8],
-            [1, 2, 3, 4, 5, 6, 7, 8],
-            [1, 2, 3, 4, 5, 6, 7, 8],
-            [1, 2, 3, 4, 5, 6, 7, 8],
-            [1, 2, 3, 4, 5, 6, 7, 8],
-            [1, 2, 3, 4, 5, 6, 7, 8],
-            [1, 2, 3, 4, 5, 6, 7, 8],
-            [1, 2, 3, 4, 5, 6, 7, 8],
-            [1, 2, 3, 4, 5, 6, 7, 8],
-            [1, 2, 3, 4, 5, 6, 7, 8],
-        ]
+        object_list = [[1, 2, 3, 4, 5, 6, 7, 8] for _ in range(21)]
 
         return {"object_list": object_list}
 
@@ -246,29 +180,7 @@ class form_test3(forms.Form):
 
     def process(self, request, queryset=None):
 
-        object_list = [
-            [1, 2, 3, 4, 5, 6, 7, 8],
-            [1, 2, 3, 4, 5, 6, 7, 8],
-            [1, 2, 3, 4, 5, 6, 7, 8],
-            [1, 2, 3, 4, 5, 6, 7, 8],
-            [1, 2, 3, 4, 5, 6, 7, 8],
-            [1, 2, 3, 4, 5, 6, 7, 8],
-            [1, 2, 3, 4, 5, 6, 7, 8],
-            [1, 2, 3, 4, 5, 6, 7, 8],
-            [1, 2, 3, 4, 5, 6, 7, 8],
-            [1, 2, 3, 4, 5, 6, 7, 8],
-            [1, 2, 3, 4, 5, 6, 7, 8],
-            [1, 2, 3, 4, 5, 6, 7, 8],
-            [1, 2, 3, 4, 5, 6, 7, 8],
-            [1, 2, 3, 4, 5, 6, 7, 8],
-            [1, 2, 3, 4, 5, 6, 7, 8],
-            [1, 2, 3, 4, 5, 6, 7, 8],
-            [1, 2, 3, 4, 5, 6, 7, 8],
-            [1, 2, 3, 4, 5, 6, 7, 8],
-            [1, 2, 3, 4, 5, 6, 7, 8],
-            [1, 2, 3, 4, 5, 6, 7, 8],
-            [1, 2, 3, 4, 5, 6, 7, 8],
-        ]
+        object_list = [[1, 2, 3, 4, 5, 6, 7, 8] for _ in range(21)]
 
         return {"object_list": object_list}
 
@@ -287,10 +199,7 @@ class form_test4(forms.Form):
 
     def process(self, request, queryset=None):
 
-        object_list = [
-            [1, 2, 3, 4, 5, 6, 7, 8],
-            [1, 2, 3, 4, 5, 6, 7, 8],
-        ]
+        object_list = [[1, 2, 3, 4, 5, 6, 7, 8] for _ in range(2)]
 
         return {"object_list": object_list}
 
@@ -301,16 +210,29 @@ def view_form_test4(request, *argi, **argv):
 
 @dict_to_json
 def select2query(request, **argv):
+    """
+    Return name-to-ID matches for a Select2 autocomplete field.
+
+    Filters a static list of number names by the ``term`` query parameter
+    and returns matches as ``{id, text}`` objects for the Select2 widget.
+    """
 
     term = request.GET.get("term", "")
     numbers = ["Zero", "One", "Two", "Three", "Four", "Five"]
-    numbers2 = [item for item in enumerate(numbers) if term in item[1]]
-    results = [{"id": item[0], "text": item[1]} for item in numbers2]
+    results = [
+        {"id": idx, "text": name} for idx, name in enumerate(numbers) if term in name
+    ]
     return {"err": None, "results": results}
 
 
 @dict_to_template("forms_demo/v_list2.html")
 def list2(request, **argv):
+    """
+    Render the list2 form demo page.
+
+    Passes the ``q`` query parameter as ``prev_value`` into the
+    forms_demo/v_list2.html template.
+    """
 
     prev_value = request.GET.get("q")
     return {"prev_value": prev_value}
@@ -318,6 +240,12 @@ def list2(request, **argv):
 
 @dict_to_template("forms_demo/v_list3.html")
 def list3(request, **argv):
+    """
+    Render the list3 form demo page.
+
+    Passes the ``q`` query parameter as ``prev_value`` into the
+    forms_demo/v_list3.html template.
+    """
 
     prev_value = request.GET.get("q")
     return {"prev_value": prev_value}

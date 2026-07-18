@@ -1,3 +1,8 @@
+"""Generate a Base64-encoded credential string for OAuth2 client-credentials authentication.
+
+This script encodes client_id and secret in Base64 format, producing a token
+suitable for the HTTP Authorization header in OAuth2 token requests.
+"""
 import base64
 
 # register application: http://127.0.0.1:8000/o/applications/

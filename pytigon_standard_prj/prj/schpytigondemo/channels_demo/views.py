@@ -1,50 +1,37 @@
-from django.http import HttpResponseRedirect, HttpResponse
-from django.shortcuts import render, redirect, reverse
-from django import forms
-from django.template.loader import render_to_string
-from django.template import Context, Template
-from django.template import RequestContext
-from django.conf import settings
-from django.views.generic import TemplateView
-
-from pytigon_lib.schviews.form_fun import form_with_perms
-from pytigon_lib.schviews.viewtools import (
-    dict_to_template,
-    dict_to_odf,
-    dict_to_pdf,
-    dict_to_json,
-    dict_to_xml,
-    dict_to_ooxml,
-    dict_to_txt,
-    dict_to_hdoc,
-)
-from pytigon_lib.schviews.viewtools import render_to_response
-from pytigon_lib.schdjangoext.tools import make_href
-from pytigon_lib.schdjangoext import formfields as ext_form_fields
-from pytigon_lib.schviews import actions
-
-from django.utils.translation import gettext_lazy as _
-
-from . import models
-import os
-import sys
-import datetime
-from django.utils import timezone
+from pytigon_lib.schviews.viewtools import dict_to_template
 
 
 @dict_to_template("channels_demo/v_clock.html")
 def clock(request, **argv):
+    """
+    Render the real-time clock demo page.
+
+    Returns an empty context dict that is rendered via the channels_demo
+    clock template, which uses a WebSocket channel to display a live clock.
+    """
 
     return {}
 
 
 @dict_to_template("channels_demo/v_openai.html")
 def openai(request, **argv):
+    """
+    Render the OpenAI chat demo page.
+
+    Returns an empty context dict rendered via the channels_demo OpenAI
+    template, which uses a WebSocket channel for streaming AI chat.
+    """
 
     return {}
 
 
 @dict_to_template("channels_demo/v_ollama_ai.html")
 def ollama_ai(request, **argv):
+    """
+    Render the Ollama AI chat demo page.
+
+    Returns an empty context dict rendered via the channels_demo Ollama AI
+    template, which uses a WebSocket channel for streaming local LLM chat.
+    """
 
     return {}

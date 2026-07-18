@@ -1,18 +1,9 @@
-from django.utils.translation import gettext_lazy as _
-
-import os
-import sys
-import datetime
-import time
 from queue import Empty
-from pytigon_lib.schtasks.publish import publish
 
 
 from pytigon_lib.schhttptools import httpclient
-from html.parser import HTMLParser
 from pytigon_lib.schhtml.parser import Parser
 import re
-from pytigon_lib.schtools.schjson import json_dumps
 import urllib.parse
 import httpx
 
@@ -75,7 +66,7 @@ def scan_html(cproxy=None, **kwargs):
                                 end = False
                             matchObj = re.match(pos, dattrs["href"], re.M | re.I)
                             if matchObj:
-                                if not dattrs["href"] in self.history_list:
+                                if dattrs["href"] not in self.history_list:
                                     if end:
                                         self.href_list.append("@" + dattrs["href"])
                                         self.history_list.append(dattrs["href"])
@@ -87,7 +78,7 @@ def scan_html(cproxy=None, **kwargs):
                         matchObj = re.match(pos, dattrs["href"], re.M | re.I)
                         if matchObj:
                             href = dattrs["href"].split("?")[0]
-                            if not href in self.download_list:
+                            if href not in self.download_list:
                                 self.download_list.append(href)
                                 process_url(href)
 

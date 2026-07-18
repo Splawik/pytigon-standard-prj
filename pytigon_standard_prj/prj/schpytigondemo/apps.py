@@ -19,7 +19,7 @@ APPS = [
     "_schtools.schlog",
     "_schtools.schcommander",
     "_schtools.schtools",
-    "_schtools.schattachements",
+    "_schtools.schattachments",
     "_schtools.schworkflow",
     "_schdata.schdoc",
     "_schdata.schchart",

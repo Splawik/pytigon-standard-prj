@@ -23,7 +23,7 @@ import sys
 import datetime
 from django.utils import timezone
 
-{% if app.view_code %}{{app.view_code|first_section|safe}} {% endif %}
+{% if app.view_code %}{% if not milestone %}#[[START SChApp.{{app.pk}}.view_code]]{% endif %}\n{{app.view_code|first_section|safe}}\n{% if not milestone %}#[[END]]{% endif %}\n{% endif %}
 
 {% if forms %}PFORM = form_with_perms('{{app.name}}') {% endif %}
 
@@ -32,25 +32,41 @@ class {{form.name}}(forms.Form):
     {% for field in form.schformfield_set.all %}{{field.as_declaration|safe}}
     {% endfor %}
     {% if form.process_code %}{% if form.asynchronous %}async {% endif %}def process(self, request, queryset=None):
+        {% if not milestone %}#[[START SChForm.{{form.pk}}.process_code]]{% endif %}
     {% for line in form.process_code.splitlines %}
         {{line|safe}}{% endfor %}{% endif %}
+        {% if not milestone %}#[[END]]{% endif %}
+    {% if not milestone %}#[[START SChForm.{{form.pk}}.end_class_code]]{% endif %}    
     {% if form.end_class_code and form.end_class_code != '' %}{% for line in form.end_class_code.splitlines %}
     {{ line|safe }}{% endfor %}{% endif %}
+    {% if not milestone %}#[[END]]{% endif %}
+{% if not milestone %}#[[START SChForm.{{form.pk}}.end_code]]{% endif %}
 {% if form.end_code and form.end_code != '' %}{{form.end_code|safe}}{% endif %}
+{% if not milestone %}#[[END]]{% endif %}
 def view_{{form.name|lower}}(request, *argi, **argv):
     return PFORM(request, {{form.name}}, '{{form.parent.name}}/form{{form.name|lower}}.html', {})
 
 {% endfor %}
 {% for view in views %}{% if view.view_code and view.view_code != '' %}
+{% if not milestone %}#[[START SChView.{{view.pk}}.extra_code]]{% endif %}
 {{view.view_code_start|safe}}
+{% if not milestone %}#[[END]]{% endif %}
 {% if view.ret_type == 'T' %}@dict_to_template('{{view.parent.name}}/v_{{view.name|lower}}.html'){% endif %}{% if view.ret_type == 'O' %}@dict_to_odf('{{view.parent.name}}/v_{{view.name|lower}}.ods'){% endif %}{% if view.ret_type == 'S' %}@dict_to_ooxml('{{view.parent.name}}/v_{{view.name|lower}}.xlsx'){% endif %}{% if view.ret_type == 'P' %}@dict_to_pdf('{{view.parent.name}}/v_{{view.name|lower}}_pdf.html'){% endif %}{% if view.ret_type == 't' %}@dict_to_txt('{{view.parent.name}}/v_{{view.name|lower}}_txt.html'){% endif %}{% if view.ret_type == 'H' %}@dict_to_hdoc('{{view.parent.name}}/v_{{view.name|lower}}_hdoc.html'){% endif %}{% if view.ret_type == 'J' %}@dict_to_json{% endif %}{% if view.ret_type == 'X' %}@dict_to_xml{% endif %}
 {% if view.asynchronous %}async {% endif %}def {{view.get_name}}(request{% if view.param %}, {{view.param}}{% endif %}):
+    {% if not milestone %}#[[START ?SChView.{{view.pk}}.doc]]{% endif %}
     {% if view.doc %}"""{% for line in view.doc.splitlines %}
     {{line|safe}}{% endfor %}
     """{% endif %}
+    {% if not milestone %}#[[END]]{% endif %}
+    {% if not milestone %}#[[START SChView.{{view.pk}}.view_code]]{% endif %}
     {% for line in view.view_code.splitlines %}{{line|safe}}
     {% endfor %}
+    {% if not milestone %}#[[END]]{% endif %}
+{% if not milestone %}#[[START +SChView.{{view.pk}}.extra_code]]{% endif %}
 {{view.view_code_end}}
+{% if not milestone %}#[[END]]{% endif %}
 {% endif %}{% endfor %}
 
+{% if not milestone %}#[[START +SChApp.{{app.pk}}.view_code]]{% endif %}
 {% if app.view_code %}{{app.view_code|second_section|safe}} {% endif %}
+{% if not milestone %}#[[END]]{% endif %}

@@ -12,7 +12,7 @@
 %% id_extra
     {{ block.super }}
     % row_related_list "schworkflow/WorkflowItem" title="Workflow items" filter="actions__Action__{{object.id}}__default" icon_name="fa fa-lg fa-tasks" tag_class="+class='btn-info'" version="actions__"
-    % row_related_list "schattachements/Attachement" title="Attachements" filter="actions__Action__{{object.id}}__default" icon_name="fa fa-lg fa-paperclip" tag_class="+class='btn-info'" version="actions__"
+    % row_related_list "schattachments/Attachment" title="Attachments" filter="actions__Action__{{object.id}}__default" icon_name="fa fa-lg fa-paperclip" tag_class="+class='btn-info'" version="actions__"
 
 %% list_row_header
     th..._(Type)

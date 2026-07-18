@@ -1,4 +1,5 @@
-import os, sys
+import os
+import sys
 
 _lp = os.path.dirname(os.path.abspath(__file__))
 
@@ -7,19 +8,19 @@ if "PYTIGON_ROOT_PATH" in os.environ:
 else:
     _rp = os.path.abspath(os.path.join(_lp, "..", "..", ".."))
 
-if not _lp in sys.path:
+if _lp not in sys.path:
     sys.path.insert(0, _lp)
-if not _rp in sys.path:
+if _rp not in sys.path:
     sys.path.insert(0, _rp)
 
-from pytigon_lib import init_paths
+from pytigon_lib import init_paths  # noqa: E402
 
 init_paths()
 
 os.environ.setdefault("DJANGO_SETTINGS_MODULE", "settings_app")
 
-import django
-from django.core.wsgi import get_wsgi_application
+import django  # noqa: E402
+from django.core.wsgi import get_wsgi_application  # noqa: E402
 
 django.setup()
 

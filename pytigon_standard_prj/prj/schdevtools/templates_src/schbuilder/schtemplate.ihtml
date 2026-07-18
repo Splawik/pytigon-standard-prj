@@ -21,7 +21,7 @@
 %% list_row_header
     th..._(Name)
     th..._(Url)
-    th..._(Url paramaters)
+    th..._(Url parameters)
     th..._(Direct to template)
 
 
