@@ -16,6 +16,7 @@ from tables_demo.models import Example1Computer
 @dict_to_odf("views_demo/v_odf_example.ods")
 def odf_example(request, **argv):
     """
+
     Generate an ODF document from the v_odf_example.ods template.
 
     Fills the template with a name and description string via the
@@ -28,6 +29,7 @@ def odf_example(request, **argv):
 @dict_to_pdf("views_demo/v_pdf_example_pdf.html")
 def pdf_example(request, **argv):
     """
+
     Generate a PDF from the v_pdf_example_pdf.html template.
 
     Renders the HTML template with a name and description dict via
@@ -40,6 +42,7 @@ def pdf_example(request, **argv):
 @dict_to_json
 def json_example(request, **argv):
     """
+
     Return a sample JSON response.
 
     Serializes a name/description dict to JSON via ``@dict_to_json``.
@@ -51,6 +54,7 @@ def json_example(request, **argv):
 @dict_to_xml
 def xml_example(request, **argv):
     """
+
     Return all Example1Computer objects serialized as XML.
 
     Queries the full table and serializes the queryset via
@@ -63,6 +67,7 @@ def xml_example(request, **argv):
 @dict_to_ooxml("views_demo/v_xlsx_example.xlsx")
 def xlsx_example(request, **argv):
     """
+
     Generate an Excel (XLSX) file from the v_xlsx_example.xlsx template.
 
     Fills the template with name, description, and a numeric value via
@@ -75,6 +80,7 @@ def xlsx_example(request, **argv):
 @dict_to_txt("views_demo/v_txt_example_txt.html")
 def txt_example(request, **argv):
     """
+
     Generate a plain-text response from the v_txt_example_txt.html template.
 
     Renders the template as plain text with a name/description dict via
@@ -87,6 +93,7 @@ def txt_example(request, **argv):
 @dict_to_template("views_demo/v_template_example.html")
 def template_example(request, **argv):
     """
+
     Render the standard template example page.
 
     Passes a name/description dict to v_template_example.html via
@@ -99,6 +106,7 @@ def template_example(request, **argv):
 @dict_to_hdoc("views_demo/v_hdoc_example_hdoc.html")
 def hdoc_example(request, **argv):
     """
+
     Generate an HDOC output from the v_hdoc_example_hdoc.html template.
 
     Renders the template as HDOC format with a name/description dict via
@@ -111,6 +119,7 @@ def hdoc_example(request, **argv):
 @dict_to_template("views_demo/v_plotly_example.html")
 def plotly_example(request, **argv):
     """
+
     Create a Plotly scatter plot and return its HTML fragment.
 
     Generates random data for a scatter plot via plotly.graph_objects,
@@ -149,6 +158,7 @@ def plotly_example(request, **argv):
 @dict_to_template("views_demo/v_plotly_export_example.html")
 def plotly_export_example(request, **argv):
     """
+
     Create and export Plotly figures as inline SVG.
 
     Generates an iris dataset scatter plot and a European population pie

@@ -4,7 +4,7 @@ build-backend = "hatchling.build"
 
 [project]
 name = "pytigon-standard-prj"
-version = "0.260714"
+version = "0.260719"
 description = "Pytigon - standard projects for pytigon"
 authors = [
     { name = "Sławomir Chołaj", email = "slawomir.cholaj@gmail.com" },

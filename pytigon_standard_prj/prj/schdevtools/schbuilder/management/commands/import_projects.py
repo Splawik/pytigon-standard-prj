@@ -1,9 +1,6 @@
-from django.core.management.base import BaseCommand, CommandError
+from django.core.management.base import BaseCommand
 
-import sys
-import io
 import os
-import getopt
 
 from django.conf import settings
 
@@ -31,8 +28,19 @@ PRJS_TO_IMPORT = [
 class Command(BaseCommand):
     help = "Prepare installer files"
 
+    def add_arguments(self, parser):
+        parser.add_argument("prj_name", nargs="?", help="Project name, all - for all projects")
+
     def handle(self, *args, **options):
-        for prj_name in PRJS_TO_IMPORT:
+        if "prj_name" in options and options["prj_name"]:
+            if options["prj_name"] == "all":
+                projects = PRJS_TO_IMPORT
+            else:
+                projects = [options["prj_name"]]
+        else:
+            projects = PRJS_TO_IMPORT
+
+        for prj_name in projects:
             prjs = list(SChProject.objects.filter(name=prj_name))
             if len(prjs) == 0:
                 path = os.path.join(
@@ -45,3 +53,4 @@ class Command(BaseCommand):
                         prj_import_from_str(s)
                 except:
                     print("Prj: ", path, " not imported!")
+

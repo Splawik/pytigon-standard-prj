@@ -11,9 +11,11 @@
 
 %% user_header
     th...File name
+    th...value
     th...action
 
 %% user_row
     tr
         td...{{object.0}}
-        td
+        td...{{object.1}}
+        td...{{object.2}}

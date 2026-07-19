@@ -8,6 +8,7 @@
 {% endblock %}
 {% block user_header %}
         <th>File name</th>
+        <th>value</th>
         <th>
         action
         </th>
@@ -15,7 +16,8 @@
 {% block user_row %}
         <tr>
                 <td>{{object.0}}</td>
-                <td></td>
+                <td>{{object.1}}</td>
+                <td>{{object.2}}</td>
         </tr>
 {% endblock %}
 
