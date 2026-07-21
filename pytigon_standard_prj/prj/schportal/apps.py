@@ -1,5 +1,6 @@
 APPS = [
     "teleconference",
+    "schmcp",
     "_schtools.schtools",
     "_schwiki.schwiki",
     "_schdata.schdoc",
