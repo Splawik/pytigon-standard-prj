@@ -13,14 +13,14 @@ if _lp not in sys.path:
 if _rp not in sys.path:
     sys.path.insert(0, _rp)
 
-from pytigon_lib import init_paths  # noqa: E402
+from pytigon_lib import init_paths
 
 init_paths()
 
 os.environ.setdefault("DJANGO_SETTINGS_MODULE", "settings_app")
 
-import django  # noqa: E402
-from django.core.wsgi import get_wsgi_application  # noqa: E402
+import django
+from django.core.wsgi import get_wsgi_application
 
 django.setup()
 

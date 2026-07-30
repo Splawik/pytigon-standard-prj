@@ -48,7 +48,7 @@
         field_list/schapp_set,Applications,icon_name=client://apps/preferences-system-windows.png, target='_parent'
         field_list/schstatic_set,Static and other files,[|client://apps/system-file-manager.png],_parent
         field_edit/template_desktop,Desktop template(Templates),png://mimetypes/x-office-presentation.png,_parent
-        field_edit/template_smartphone,Smartphone template(Templates),png://mimetypes/x-office-presentation.png,_parent
+        field_edit/template_smartfon,Smartfon template(Templates),png://mimetypes/x-office-presentation.png,_parent
         field_edit/template_tablet,Tablet template(Templates),png://mimetypes/x-office-presentation.png,_parent
         field_edit/template_schweb,SChWeb template(Templates),png://mimetypes/x-office-presentation.png,_parent
         field_edit/template_theme,Theme template(Templates),png://mimetypes/x-office-presentation.png,_parent
@@ -61,7 +61,6 @@
         manage,Manage(Other options),[|client://categories/preferences-system.png]
         field_list/schlocale_set,Locale(Other options),[|client://apps/preferences-system-network-proxy.png]
         field_edit/icon_code,Icon code(Other options),[|client://categories/applications-graphics.png],_parent
-        field_edit/app_main,Init js script(Other options),client://actions/format-justify-left.png,_parent
         field_edit/user_app_template,Patches,client://actions/edit-find-replace.png,_parent
         field_edit/doc,Doc(Other options),[|client://apps/help-browser.png],_top2
         gen,Build,[|client://categories/applications-multimedia.png]
@@ -88,7 +87,7 @@
                 gui_type,gui_elements,login_required,start_page
         {% endform %}
         {% form "^/2" %}
-                desktop_gui_type,tablet_gui_type,smartphone_gui_type,public
+                desktop_gui_type,tablet_gui_type,smartfon_gui_type,public
         {% endform %}
         {% if standard_web_browser %}
                 {% form "^/12" %}
@@ -118,7 +117,7 @@
                 {% endform %}
         {% endif %}
         {% form "^/12" %}
-                git_repository,author_name,author_email,author_www
+                git_repository,autor_name,autor_email,autor_www
         {% endform %}
         {% modify setattr="textarea:cols=120;textarea:rows=15" %}
                 {% form "^/12" %}
