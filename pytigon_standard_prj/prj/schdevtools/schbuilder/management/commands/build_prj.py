@@ -16,9 +16,8 @@ class Command(BaseCommand):
             help="save output to file",
         )
         parser.add_argument(
-            "--milestone",
-            action="store_true",
-            help="Enable milestone mode",
+            "--forexternaledit",
+            help="Generate .py files for external editing",
         )
 
     def handle(self, *args, **options):
@@ -31,10 +30,10 @@ class Command(BaseCommand):
         else:
             o = None
 
-        if "milestone" in options and options["milestone"]:
-            c = {"milestone": True}
-        else:
+        if "forexternaledit" in options and options["forexternaledit"]:
             c = {}
+        else:
+            c = {"milestone": True}
 
         if options["prj_name"] == "all":
             object_list = SChProject.objects.filter(main_view=True)

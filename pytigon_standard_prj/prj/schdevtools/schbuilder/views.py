@@ -1360,7 +1360,7 @@ def view_importfromgit(request, *argi, **argv):
 @dict_to_template("schbuilder/v_gen.html")
 def gen(request, pk):
 
-    return {"object_list": reversed(build_prj(pk))}
+    return {"object_list": reversed(build_prj(pk, {"milestone": True}))}
 
 
 def prj_export(request, pk):
@@ -2278,3 +2278,9 @@ def sync_from_filesystem(request, pk):
         prj.save()
 
     return {"object_list": tab}
+
+
+@dict_to_template("schbuilder/v_gen_for_edit.html")
+def gen_for_edit(request, pk):
+
+    return {"object_list": reversed(build_prj(pk))}

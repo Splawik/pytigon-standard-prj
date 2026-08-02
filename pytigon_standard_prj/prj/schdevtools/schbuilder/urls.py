@@ -133,6 +133,7 @@ urlpatterns = [
     ),
     gen_row_action("SChProject", "run2", views.run2),
     gen_row_action("SChProject", "sync_from_filesystem", views.sync_from_filesystem),
+    gen_row_action("SChProject", "gen_for_edit", views.gen_for_edit),
     path(
         "devtools", TemplateView.as_view(template_name="schbuilder/devtools.html"), {}
     ),

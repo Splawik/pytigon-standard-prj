@@ -58,7 +58,8 @@
         field_edit/user_app_template,Patches,client://actions/edit-find-replace.png,_parent
         field_edit/doc,Doc(Other options),[|client://apps/help-browser.png],_top2
         gen,Build,[|client://categories/applications-multimedia.png]
-        gen_milestone,Build milestone version,[|png://actions/media-record.png]
+        gen_for_edit,Build for external edit(Special build),[|png://actions/media-record.png]
+        gen_milestone,Build milestone version(Special build),[|png://actions/media-record.png]
         sync_from_filesystem,Sync database with filesystem,[|png://actions/view-refresh.png]
         run,Run webserver,[|client://devices/network-wireless.png]
         run2,Run,[|client://actions/media-playback-start.png]

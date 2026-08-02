@@ -53,9 +53,11 @@ def view_{{form.name|lower}}(request, *argi, **argv):
 {% if not milestone %}#[[END]]{% endif %}
 {% if view.ret_type == 'T' %}@dict_to_template('{{view.parent.name}}/v_{{view.name|lower}}.html'){% endif %}{% if view.ret_type == 'O' %}@dict_to_odf('{{view.parent.name}}/v_{{view.name|lower}}.ods'){% endif %}{% if view.ret_type == 'S' %}@dict_to_ooxml('{{view.parent.name}}/v_{{view.name|lower}}.xlsx'){% endif %}{% if view.ret_type == 'P' %}@dict_to_pdf('{{view.parent.name}}/v_{{view.name|lower}}_pdf.html'){% endif %}{% if view.ret_type == 't' %}@dict_to_txt('{{view.parent.name}}/v_{{view.name|lower}}_txt.html'){% endif %}{% if view.ret_type == 'H' %}@dict_to_hdoc('{{view.parent.name}}/v_{{view.name|lower}}_hdoc.html'){% endif %}{% if view.ret_type == 'J' %}@dict_to_json{% endif %}{% if view.ret_type == 'X' %}@dict_to_xml{% endif %}
 {% if view.asynchronous %}async {% endif %}def {{view.get_name}}(request{% if view.param %}, {{view.param}}{% endif %}):
+    {% if not milestone %}#[[START ?SChView.{{view.pk}}.doc]]{% endif %}
     {% if view.doc %}"""{% for line in view.doc.splitlines %}
     {{line|safe}}{% endfor %}
     """{% endif %}
+    {% if not milestone %}#[[END]]{% endif %}
     {% if not milestone %}#[[START SChView.{{view.pk}}.view_code]]{% endif %}
     {% for line in view.view_code.splitlines %}{{line|safe}}
     {% endfor %}

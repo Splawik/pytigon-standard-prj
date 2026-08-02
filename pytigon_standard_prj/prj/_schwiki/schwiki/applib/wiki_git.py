@@ -86,7 +86,7 @@ class WikiGit:
             if not ".git" in root.replace("\\", "/").split("/"):
                 file_path = root[l + 1 :]
                 for file in files:
-                    if file == "config.json":
+                    if not (file.endswith(".md") or file.endswith(".imd")):
                         continue
 
                     if (
