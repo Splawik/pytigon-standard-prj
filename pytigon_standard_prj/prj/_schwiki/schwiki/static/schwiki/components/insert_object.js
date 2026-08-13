@@ -140,13 +140,13 @@ try {
                 div = component.closest(".modal-content");
                 div.style.opacity = "50%";
                 on_saved = (function flx_on_saved () {
-                    refresh_ajax_frame(div, "page", null, null, null);
+                    refresh_ajax_frame(div.parentElement.parentElement, "page", null, null, null);
                     return null;
                 }).bind(this);
 
                 changed = ed_component.state["changed"];
                 if (_pyfunc_truthy(changed)) {
-                    save(on_saved);
+                    ed_component.state["save"](on_saved);
                 } else {
                     on_saved();
                 }

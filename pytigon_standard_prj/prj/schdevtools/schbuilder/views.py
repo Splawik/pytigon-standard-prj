@@ -114,6 +114,8 @@ def clean_and_format_code(source_code: str, lint: bolean = False) -> str:
             capture_output=True,
             text=True,
             check=True,
+            encoding="utf-8",
+            errors="replace",
         )
         cleaned_code = lint_result.stdout
     else:
@@ -134,6 +136,8 @@ def clean_and_format_code(source_code: str, lint: bolean = False) -> str:
         capture_output=True,
         text=True,
         check=True,
+        encoding="utf-8",
+        errors="replace",
     )
     return format_result.stdout
 

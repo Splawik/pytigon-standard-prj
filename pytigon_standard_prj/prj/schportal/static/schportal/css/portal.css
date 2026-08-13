@@ -1,13 +1,14 @@
 .logo img {
-  margin-top: -6px;
   position: absolute;
-  right: 5px; }
+  left: 0px;
+  width: 2rem;
+  left: 0.3rem;
+  top: 0.3rem; }
 
 .logo span {
   top: 11px;
-  position: absolute;
-  font-size: 80%;
-  left: -10px !important; }
+  position: relative;
+  font-size: 80%; }
 
 .logo span.logo-lg {
   font-size: 120%; }

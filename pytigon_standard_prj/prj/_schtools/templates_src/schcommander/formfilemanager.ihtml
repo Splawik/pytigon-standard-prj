@@ -74,6 +74,7 @@
             self.CMD.Bind(wx.EVT_CHAR, self.on_char)
             self.CMD.DisableCellEditControl()
             self.CMD.GetTable().proxy.set_address("../../"+bencode(self.panels_dir[0][2])+"/_/")
+            self.CMD.GetTable().filter_by(1)
             self.CMD.GetTable().refresh(0)
 
             self.PANELS.body.Bind(wx.EVT_SET_FOCUS, self.on_panels_set_focus)
@@ -97,6 +98,7 @@
             self.GetParent().register_signal(self, "child_canceled")
             self.tasks = []
             self.msg.SetItemCount(len(self.msg.choices))
+            
 
         def filter_child_url(self, child, url):
             try:

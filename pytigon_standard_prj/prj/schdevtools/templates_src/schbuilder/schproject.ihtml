@@ -4,7 +4,7 @@
 % load exsyntax
 
 %% pythoncode
-    % if not form_list:
+    % if form_edit or form_add:
         script language=python
             def init_form(self):
                 import os

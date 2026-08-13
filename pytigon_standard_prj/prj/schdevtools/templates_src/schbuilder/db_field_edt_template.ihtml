@@ -1,4 +1,3 @@
-{# -*- coding: utf-8 -*- #}
 % extends "schsys/db_field_edt.html"
 
 % load exfiltry
@@ -251,7 +250,7 @@
         table width=100%
             tr
                 td width=350
-                    ctrl-tree name=_panel,,,width=350,,,height=calc(100% - top - 30)
+                    ctrl-tree name=_panel,,,width=345,,,height=calc(100% - top - 3)
                         % if object.get_rel_table:
                             li...{{object}}
                                 ul
@@ -575,7 +574,7 @@
                                         li...block ((pythoncode)/)
                                         li...snippet ((move rows))
                 td
-                    CTRL-STYLEDTEXT NAME=EDITOR,,,width=100%-345,,,HEIGHT=calc(100% - top - 30),,,MINHEIGHT=400,,,SRC={{ext}},,,HREF={{base_path}}{{save_path}}
+                    CTRL-STYLEDTEXT NAME=EDITOR,,,width=100%-345,,,HEIGHT=calc(100% - top - 3),,,MINHEIGHT=400,,,SRC={{ext}},,,HREF={{base_path}}{{save_path}}
                         DATA...{{txt|bencode}}
 
 %% content

@@ -23,6 +23,7 @@ from pytigon_lib.schtools.tools import bdecode
 
 from django.views.decorators.cache import cache_page
 from django.views.decorators.csrf import csrf_exempt
+from django.views.decorators.vary import vary_on_cookie
 
 from django.core.cache import cache
 
@@ -57,8 +58,9 @@ template_simple = """
 """
 
 
-@cache_page(settings.CACHE_MIDDLEWARE_SECONDS)
 @csrf_exempt
+@cache_page(settings.CACHE_MIDDLEWARE_SECONDS)
+@vary_on_cookie
 def view_page(request, app_or_subject, page_path):
 
     transfer_to_cache = False
