@@ -1,26 +1,24 @@
-import os
+import getpass
 import json
-
-
-from channels.generic.websocket import WebsocketConsumer
-
-
+import os
 import select
+import struct
+import subprocess
 import time
 from threading import Thread
-import subprocess
-import struct
-import getpass
+
+from channels.generic.websocket import (
+    WebsocketConsumer,
+)
 
 try:
-    import pty
     import fcntl
+    import pty
     import termios
 except:
     pass
 
 from django.conf import settings
-
 from pytigon_lib.schtools.tools import get_executable
 
 

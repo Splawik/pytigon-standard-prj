@@ -1,10 +1,7 @@
 from django.db import models
 from django.utils.translation import gettext_lazy as _
-
 from pytigon_lib.schdjangoext.fields import *
 from pytigon_lib.schdjangoext.models import *
-
-
 from schsimplescripts.script_tools import decode_script
 
 VIEW = """#Example: 
@@ -89,7 +86,7 @@ class Script(models.Model):
             self._view = ""
             self._template = ""
 
-        super(Script, self).save(*args, **kwargs)
+        super().save(*args, **kwargs)
 
     def get__view_if_empty(self, request, template_name, ext, extra_context, target):
         return VIEW

@@ -1,8 +1,9 @@
 def build(**argv):
     import os
     import subprocess
-    from django.conf import settings
+
     import pytigon
+    from django.conf import settings
     from pytigon_lib.schtools.nim_integration import install_if_not_exists
 
     path = argv["path"]
@@ -34,13 +35,13 @@ def build(**argv):
         for package in packages_list:
             if package:
                 subprocess.run(
-                    [   
+                    [
                         os.path.join(nim_path, "bin", exe.replace("nim", "nimble")),
                         "install",
-                        package
+                        package,
                     ]
                 )
-                
+
     options = [
         os.path.join(nim_path, "bin", exe),
         "c",

@@ -36,16 +36,15 @@
 </script>
 {% endblock %}
 {% block all %}
-        {% with form_width=320 form_height=50 show_title_bar=1 title="Applications" %}
+        {% with form_width=320 form_height=30 show_title_bar=1 title="Applications" %}
                 {{ block.super }}
         {% endwith %}
 {% endblock %}
 {% block body_start %}
-        <body class="toolbar">
+        <body class="toolbar" padding="0" margin="0">
 {% endblock %}
 {% block body %}
-        <p height="5px"></p>
-        <table class="toolbar">
+        <table class="toolbar" cellpadding="0" padding="0" margin="0">
                 <tr>
                         <td cellpadding="0" width="60">
                                 <CTRL-NOBG_BUTTON_TXT name="close_btn" label="Close" SRC="client://emblems/emblem-unreadable.png" href="close"></CTRL-NOBG_BUTTON_TXT>

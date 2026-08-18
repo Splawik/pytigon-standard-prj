@@ -1,4 +1,5 @@
 import sys
+
 from django.core.management.base import BaseCommand
 from schbuilder.models import SChProject
 from schbuilder.views import build_prj
@@ -25,12 +26,12 @@ class Command(BaseCommand):
             self.print_help("manage.py", "build_prj")
             sys.exit(1)
 
-        if "output" in options and options["output"]:
+        if options.get("output"):
             o = options["output"]
         else:
             o = None
 
-        if "forexternaledit" in options and options["forexternaledit"]:
+        if options.get("forexternaledit"):
             c = {}
         else:
             c = {"milestone": True}
@@ -47,8 +48,7 @@ class Command(BaseCommand):
             ret = build_prj(obj.pk, c)
             if o:
                 with open(o, "wt") as f:
-                    for item in ret:
-                        f.write("%s %s\n"(item[1], item[2]))
+                    f.writelines("%s %s\n"(item[1], item[2]) for item in ret)
             else:
                 for item in ret:
                     print("    ", item[1], item[2])

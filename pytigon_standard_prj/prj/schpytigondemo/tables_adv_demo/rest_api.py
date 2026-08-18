@@ -3,15 +3,20 @@
 Provides a demo endpoint that requires OAuth2 authentication and demonstrates
 handling both GET and POST HTTP methods.
 """
-from django.urls import path
-from rest_framework import serializers
-from rest_framework.decorators import api_view, permission_classes
-from rest_framework.response import Response
-from rest_framework.permissions import IsAuthenticated
-from oauth2_provider.contrib.rest_framework import TokenHasReadWriteScope
 
-@api_view(['GET','POST'])
-@permission_classes([IsAuthenticated | TokenHasReadWriteScope,])
+from django.urls import path
+from oauth2_provider.contrib.rest_framework import TokenHasReadWriteScope
+from rest_framework.decorators import api_view, permission_classes
+from rest_framework.permissions import IsAuthenticated
+from rest_framework.response import Response
+
+
+@api_view(["GET", "POST"])
+@permission_classes(
+    [
+        IsAuthenticated | TokenHasReadWriteScope,
+    ]
+)
 def hello_world(request):
     """Return a greeting message for GET requests or echo submitted data for POST.
 
@@ -19,7 +24,7 @@ def hello_world(request):
     read/write scope.
     """
     print(request.user)
-    if request.method == 'POST':
+    if request.method == "POST":
         return Response({"message": "Got some data!", "data": request.data})
     return Response({"message": "Hello, world!"})
 

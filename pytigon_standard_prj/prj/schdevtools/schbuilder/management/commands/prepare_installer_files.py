@@ -1,15 +1,9 @@
-from django.core.management.base import BaseCommand, CommandError
-
-import sys
-import io
 import os
-import getopt
 
 from django.conf import settings
-
-from pytigon_lib.schtools.install import install
-from schbuilder.views import prj_export
+from django.core.management.base import BaseCommand
 from schbuilder.models import SChProject
+from schbuilder.views import prj_export
 
 PRJS_TO_EXPORT = [
     "schdevtools",  # prepare with initial data
@@ -81,4 +75,3 @@ class Command(BaseCommand):
                         f.write(x.content.decode("utf-8"))
                     else:
                         f.write(x.content)
-

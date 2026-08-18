@@ -1,6 +1,4 @@
 from channels.generic.websocket import AsyncJsonWebsocketConsumer
-
-
 from pytigon_lib.schtools.env import get_environ
 
 ENV = get_environ()

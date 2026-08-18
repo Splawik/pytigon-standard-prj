@@ -1,41 +1,39 @@
-import sys
 import os.path
-from pathlib import Path
 import shutil
-
+from pathlib import Path
 
 from django.core.management.base import BaseCommand
-from pytigon_lib.schtools.main_paths import get_main_paths
 from pytigon_lib.schfs.download import download_and_process_file
+from pytigon_lib.schtools.main_paths import get_main_paths
 
 FILES_AUBE = [
-    { 
+    {
         "os": "Linux",
         "url": "https://github.com/jdx/aube/releases/download/v1.22.0/aube-v1.22.0-x86_64-unknown-linux-musl.tar.gz",
         "path": "",
-        "unpack": "tgz"
+        "unpack": "tgz",
     },
-    { 
+    {
         "os": "Windows",
         "url": "https://github.com/jdx/aube/releases/download/v1.22.0/aube-v1.22.0-x86_64-pc-windows-msvc.zip",
         "path": "",
-        "unpack": "zip"
-    }        
+        "unpack": "zip",
+    },
 ]
 
 FILES_ESBUILD = [
-    { 
+    {
         "os": "Linux",
         "url": "https://registry.npmjs.org/@esbuild/linux-x64/-/linux-x64-0.28.1.tgz",
         "path": "",
         "unpack": "tgz",
     },
-    { 
+    {
         "os": "Windows",
         "url": "https://registry.npmjs.org/@esbuild/win32-x64/-/win32-x64-0.28.1.tgz",
         "path": "",
         "unpack": "tgz",
-    }        
+    },
 ]
 
 

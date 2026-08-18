@@ -5,7 +5,7 @@ NEW_ROW_TEMPLATE = """% {% if choice.1 == 'NO'%}new_row{% else %}new_row_inline{
 ACTION_TEMPLATE = """action {{choice.0}}{% if choice.1 %},title={{ choice.1 }}{%endif%}{% if choice.2 %},icon_name={{ choice.2 }}{%endif%}{% if choice.3 %},target={{ choice.3 }}{%endif%}{% if choice.4 %},attrs={{ choice.4 }}{%endif%}{% if choice.5 %},tag_class={{ choice.5 }}{%endif%}{% if choice.6 %},url={{ choice.6 }}{%endif%}"""
 ROW_RELATED_LIST_TEMPLATE = """% row_related_list "{{choice.0}}" title="{{choice.1}}" filter="{{choice.2}}"{% if choice.3 %} icon_name="{{ choice.3 }}"{% endif %}"""
 
-ALL_TEMPLATE ="""
+ALL_TEMPLATE = """
 %% all
     % with {% if choice.0 %}title='{{choice.0}}{% endif %} {% if choice.1 %}table_type='{{choice.1}}'{% endif %} {% if choice.2 %}form_width={{choice.2}}{% endif %} {% if choice.3 %}form_height={{choice.3}}{% endif %}:
         {{ block.super }}
@@ -52,190 +52,279 @@ MOVE_ROWS_TEMPLATE = """
     % row_actions:...field_down,Move down
 """
 
-ACTIONS =  {
-    'form': {
-        'template': """% form:""",
+ACTIONS = {
+    "form": {
+        "template": """% form:""",
     },
-    'two_columns_form': {
-        'template': """% form "^/12:6:6":""",
+    "two_columns_form": {
+        "template": """% form "^/12:6:6":""",
     },
-    'three_columns_form': {
-        'template': """% form "^/12:4:4":""",
+    "three_columns_form": {
+        "template": """% form "^/12:4:4":""",
     },
-    'advanced_form': {
-        'title': 'Field parameters',
-        'choices': [
-            {'title': 'default label format [sm:md:lg]', 'values': [ '^', '12:12:12', '12:3:3', '12:4:4', '12:6:6']},
-            {'title': 'default field format [sm:md:lg]', 'values': [ '12:12:12', '12:6:6', '12:4:4', '12:3:3', '12:1:1']},
+    "advanced_form": {
+        "title": "Field parameters",
+        "choices": [
+            {
+                "title": "default label format [sm:md:lg]",
+                "values": ["^", "12:12:12", "12:3:3", "12:4:4", "12:6:6"],
+            },
+            {
+                "title": "default field format [sm:md:lg]",
+                "values": ["12:12:12", "12:6:6", "12:4:4", "12:3:3", "12:1:1"],
+            },
         ],
-        'template':  """% form {% choice.0 %}/{% choice.1 %}:""",
+        "template": """% form {% choice.0 %}/{% choice.1 %}:""",
     },
-    'form_field': {
-        'title': 'Field parameters',
-        'choices': [
-            {'title': 'name', 'values': [], 'source_of_values': 'object_fields'},
-            {'title': 'hidden', 'values': [ 'NO', 'YES'],},
+    "form_field": {
+        "title": "Field parameters",
+        "choices": [
+            {"title": "name", "values": [], "source_of_values": "object_fields"},
+            {
+                "title": "hidden",
+                "values": ["NO", "YES"],
+            },
         ],
-        'template': """{{choice.0}}{% if choice.1=="YES" %}:!{% endif %}""",
+        "template": """{{choice.0}}{% if choice.1=="YES" %}:!{% endif %}""",
     },
-    'field': {
-        'title': 'Field parameters',
-        'choices': [
-            {'title': 'name', 'values': [], 'source_of_values': 'object_fields'},
-            {'title': 'label format [sm:md:lg]', 'values': [ '^', '12:12:12', '12:3:3', '12:4:4', '12:6:6']},
-            {'title': 'field format [sm:md:lg]', 'values': [ '12:12:12', '12:6:6', '12:4:4', '12:3:3', '12:1:1']},
+    "field": {
+        "title": "Field parameters",
+        "choices": [
+            {"title": "name", "values": [], "source_of_values": "object_fields"},
+            {
+                "title": "label format [sm:md:lg]",
+                "values": ["^", "12:12:12", "12:3:3", "12:4:4", "12:6:6"],
+            },
+            {
+                "title": "field format [sm:md:lg]",
+                "values": ["12:12:12", "12:6:6", "12:4:4", "12:3:3", "12:1:1"],
+            },
         ],
-        'template': """% form {{choice.0}} {{choice.1 }}/{{ choice.2 }}""",
+        "template": """% form {{choice.0}} {{choice.1 }}/{{ choice.2 }}""",
     },
-    'field_list': {
-        'title': 'Field parameters',
-        'choices': [
-            {'title': 'related field name', 'values': [], 'source_of_values': 'relfields'},
-            {'title': 'title', 'values': []},
-            {'title': 'button icon name', 'values': []},
-            {'title': 'list icon name', 'values': []},
-            {'title': 'target', 'values': ['_inline', '_parent', 'popup',] },
+    "field_list": {
+        "title": "Field parameters",
+        "choices": [
+            {
+                "title": "related field name",
+                "values": [],
+                "source_of_values": "relfields",
+            },
+            {"title": "title", "values": []},
+            {"title": "button icon name", "values": []},
+            {"title": "list icon name", "values": []},
+            {
+                "title": "target",
+                "values": [
+                    "_inline",
+                    "_parent",
+                    "popup",
+                ],
+            },
         ],
-        'template': FIELD_LIST_TEMPLATE,
+        "template": FIELD_LIST_TEMPLATE,
     },
-    'field_edit': {
-        'title': 'Field parameters',
-        'choices': [
-            {'title': 'edited field name', 'values': [], 'source_of_values': 'txtfields'},
-            {'title': 'title', 'values': []},
-            {'title': 'button icon name', 'values': []},
-            {'title': 'list icon name', 'values': []},
-            {'title': 'target', 'values': ['_parent', '_inline', 'popup',] },
+    "field_edit": {
+        "title": "Field parameters",
+        "choices": [
+            {
+                "title": "edited field name",
+                "values": [],
+                "source_of_values": "txtfields",
+            },
+            {"title": "title", "values": []},
+            {"title": "button icon name", "values": []},
+            {"title": "list icon name", "values": []},
+            {
+                "title": "target",
+                "values": [
+                    "_parent",
+                    "_inline",
+                    "popup",
+                ],
+            },
         ],
-        'template': FIELD_EDIT_TEMPLATE,
+        "template": FIELD_EDIT_TEMPLATE,
     },
-    'action': {
-        'title': 'Action parameters',
-        'choices': [
-            {'title': 'action', 'values': []},
-            {'title': 'title', 'values': []},
-            {'title': 'button icon name', 'values': []},
-            {'title': 'list icon name', 'values': []},
-            {'title': 'target', 'values': ["_blank", "_parent", "_top", "_self", "popup", "popup_edit", "popup_info", "popup_delete", "inline_edit", "inline_info", "inline_delete", "inline", "none", "refresh_obj", "refresh_page", "refresh_app",]},
-            {'title': 'attrs', 'values': [ "+disabled='disabled'", "data-inline-position='^tr:after'"] },
-            {'title': 'tag_class', 'values': ['+btn-danger', '+<<class1>> <<class2>>', '<<class>>',]},
-            {'title': 'url', 'values': []},
+    "action": {
+        "title": "Action parameters",
+        "choices": [
+            {"title": "action", "values": []},
+            {"title": "title", "values": []},
+            {"title": "button icon name", "values": []},
+            {"title": "list icon name", "values": []},
+            {
+                "title": "target",
+                "values": [
+                    "_blank",
+                    "_parent",
+                    "_top",
+                    "_self",
+                    "popup",
+                    "popup_edit",
+                    "popup_info",
+                    "popup_delete",
+                    "inline_edit",
+                    "inline_info",
+                    "inline_delete",
+                    "inline",
+                    "none",
+                    "refresh_obj",
+                    "refresh_page",
+                    "refresh_app",
+                ],
+            },
+            {
+                "title": "attrs",
+                "values": ["+disabled='disabled'", "data-inline-position='^tr:after'"],
+            },
+            {
+                "title": "tag_class",
+                "values": [
+                    "+btn-danger",
+                    "+<<class1>> <<class2>>",
+                    "<<class>>",
+                ],
+            },
+            {"title": "url", "values": []},
         ],
-        'template': ACTION_TEMPLATE,
+        "template": ACTION_TEMPLATE,
     },
-    'row_related_list': {
-        'title': 'Action parameters',
-        'choices': [
-            {'title': 'application/table', 'values': [], 'source_of_values': 'tables'},
-            {'title': 'title', 'values': []},
-            {'title': 'filter', 'values': []},
-            {'title': 'icon name', 'values': []},
+    "row_related_list": {
+        "title": "Action parameters",
+        "choices": [
+            {"title": "application/table", "values": [], "source_of_values": "tables"},
+            {"title": "title", "values": []},
+            {"title": "filter", "values": []},
+            {"title": "icon name", "values": []},
         ],
-        'template': ROW_RELATED_LIST_TEMPLATE,
+        "template": ROW_RELATED_LIST_TEMPLATE,
     },
-    'view_row': {
-        'title': 'Parameters',
-        'choices': [
-            {'title': 'title', 'values': []},
-            {'title': 'button icon name', 'values': []},
-            {'title': 'list icon name', 'values': []},
+    "view_row": {
+        "title": "Parameters",
+        "choices": [
+            {"title": "title", "values": []},
+            {"title": "button icon name", "values": []},
+            {"title": "list icon name", "values": []},
         ],
-        'template': VIEW_ROW_TEMPLATE,
+        "template": VIEW_ROW_TEMPLATE,
     },
-    'new_row': {
-        'title': 'Parameters',
-        'choices': [
-            {'title': 'title', 'values': [], },
-            {'title': 'inline', 'values': ['NO', 'YES'], },
-            {'title': 'button icon name', 'values': []},
-            {'title': 'list icon name', 'values': []},
+    "new_row": {
+        "title": "Parameters",
+        "choices": [
+            {
+                "title": "title",
+                "values": [],
+            },
+            {
+                "title": "inline",
+                "values": ["NO", "YES"],
+            },
+            {"title": "button icon name", "values": []},
+            {"title": "list icon name", "values": []},
         ],
-        'template': NEW_ROW_TEMPLATE,
+        "template": NEW_ROW_TEMPLATE,
     },
-    'list_action': {
-        'title': 'Parameters',
-        'choices': [
-            {'title': 'title', 'values': [], },
-            {'title': 'inline', 'values': ['NO', 'YES'], },
-            {'title': 'button icon name', 'values': []},
-            {'title': 'list icon name', 'values': []},
+    "list_action": {
+        "title": "Parameters",
+        "choices": [
+            {
+                "title": "title",
+                "values": [],
+            },
+            {
+                "title": "inline",
+                "values": ["NO", "YES"],
+            },
+            {"title": "button icon name", "values": []},
+            {"title": "list icon name", "values": []},
         ],
-        'template': NEW_ROW_TEMPLATE,
+        "template": NEW_ROW_TEMPLATE,
     },
-    'permision': {
-       'title': 'Parameters',
-       'choices': [
-           {'title': 'application/permission', 'values': [], 'source_of_values': 'permissions'},
-       ],
-       'template': """ perms.{{choice.0}} """,
-    },
-    'user_in_group': {
-       'title': 'Parameters',
-       'choices': [
-           {'title': 'group', 'values': []},
-       ],
-       'template': """request.user|user_in_group:'{{choice.0}}'""",
-    },
-    'all': {
-        'title': 'Block parameters',
-        'choices': [
-            { 'title': 'title', 'values': [] },
-            { 'title': 'table type', 'values': [ 'datatable',] },
-            { 'title': 'form width', 'values': [] },
-            { 'title': 'form height', 'values': [] },
+    "permision": {
+        "title": "Parameters",
+        "choices": [
+            {
+                "title": "application/permission",
+                "values": [],
+                "source_of_values": "permissions",
+            },
         ],
-        'template': ALL_TEMPLATE,
+        "template": """ perms.{{choice.0}} """,
     },
-    'list_row_attr': {
-        'template': LIST_ROW_ATTR_TEMPLATE,
-    },
-    'id_extra': {
-        'template': ID_EXTRA_TEMPLATE,
-    },
-    'dialog_type': {
-        'title': 'Block parameters',
-        'choices': [
-            {'title': 'type', 'values': [ 'modal-lg', 'modal-sm', ]},
+    "user_in_group": {
+        "title": "Parameters",
+        "choices": [
+            {"title": "group", "values": []},
         ],
-        'template': DIALOG_TYPE_TEMPLATE,
+        "template": """request.user|user_in_group:'{{choice.0}}'""",
     },
-    'scroll': {
-        'template': SCROLL_TEMPLATE,
+    "all": {
+        "title": "Block parameters",
+        "choices": [
+            {"title": "title", "values": []},
+            {
+                "title": "table type",
+                "values": [
+                    "datatable",
+                ],
+            },
+            {"title": "form width", "values": []},
+            {"title": "form height", "values": []},
+        ],
+        "template": ALL_TEMPLATE,
     },
-    'pythoncode': {
-        'template': PYTHONCODE_TEMPLATE,
+    "list_row_attr": {
+        "template": LIST_ROW_ATTR_TEMPLATE,
     },
-    'move_rows': {
-        'template': MOVE_ROWS_TEMPLATE,
+    "id_extra": {
+        "template": ID_EXTRA_TEMPLATE,
+    },
+    "dialog_type": {
+        "title": "Block parameters",
+        "choices": [
+            {
+                "title": "type",
+                "values": [
+                    "modal-lg",
+                    "modal-sm",
+                ],
+            },
+        ],
+        "template": DIALOG_TYPE_TEMPLATE,
+    },
+    "scroll": {
+        "template": SCROLL_TEMPLATE,
+    },
+    "pythoncode": {
+        "template": PYTHONCODE_TEMPLATE,
+    },
+    "move_rows": {
+        "template": MOVE_ROWS_TEMPLATE,
     },
 }
 
 
 TABLE_SNIPPETS = {
-    "get_form_source":
-        """def get_form_source(self)
+    "get_form_source": """def get_form_source(self)
 """,
-    "set_field_value":
-        """def set_field_value(self, field_name, attr_name, value):
+    "set_field_value": """def set_field_value(self, field_name, attr_name, value):
 """,
-    "init_new":
-        """def init_new(self, request, view, value=None):
+    "init_new": """def init_new(self, request, view, value=None):
     if value:
         app, tbl, id, grp = value.split('__')
         return { 'application': app, 'table': tbl, 'parent_id': id, 'group': grp }
     else:
         return { 'application': 'default', 'table': 'default', 'parent_id': 0, 'group': 'default' }
 """,
-    "template_for_object":
-        """def template_for_object(self, view, context, doc_type):
+    "template_for_object": """def template_for_object(self, view, context, doc_type):
     if doc_type == "pdf":
         x = ReportDef.objects.filter(name=self.report_def_name)
         if x.count() > 0:
             return "%s/report_%s_pdf.html" % (x[0].app, self.report_def_name)
     return None
 """,
-    "template_for_list":
-        """@staticmethod
+    "template_for_list": """@staticmethod
 def template_for_list(view, model, context, doc_type):
     if doc_type in ("html", "json") and "filter" in context:
         tmp = DocReg.objects.filter(name=context["filter"].replace("_", "/"))
@@ -267,8 +356,7 @@ def template_for_list(view, model, context, doc_type):
 
     return None
 """,
-    "table_action":
-        """    @classmethod
+    "table_action": """    @classmethod
 def table_action(cls, list_view, request, data):
     if "action" in data:
         if data["action"] == "insert_rows":
@@ -277,14 +365,11 @@ def table_action(cls, list_view, request, data):
             return actions.refresh(request)    
     return standard_table_action(cls, list_view, request, data, ["copy", "paste"])
 """,
-    "row_action":
-        """def row_action(model, request, args, kwargs):
+    "row_action": """def row_action(model, request, args, kwargs):
 """,
-    "filter_by_permissions":
-        """def filter_by_permissions(queryset_or_obj, request):
+    "filter_by_permissions": """def filter_by_permissions(queryset_or_obj, request):
 """,
-    "get_form_class":
-        """    def get_form_class(self, view, request, create):
+    "get_form_class": """    def get_form_class(self, view, request, create):
     base_form = view.get_form_class()
 
     object_list = schelements_models.Element.get_children_for_element("C", "O-DIV")
@@ -305,8 +390,7 @@ def table_action(cls, list_view, request, data):
         )
     return _Form
 """,
-    "is_form_valid":
-        """@staticmethod
+    "is_form_valid": """@staticmethod
 def is_form_valid(form):
     if form.is_valid():
         x = form.cleaned_data['field1']
@@ -318,18 +402,15 @@ def is_form_valid(form):
     else:
         return False
 """,
-    "post_form":
-        """    def post_form(self, view, form, request):
+    "post_form": """    def post_form(self, view, form, request):
     pk = form.cleaned_data["parent_element_id"]
     if pk:
         self.parent_element = schelements_models.Element.objects.get(pk=pk)
     return True
 """,
-    "save_from_request":
-        """save_from_request(self, request, view_type, param):
+    "save_from_request": """save_from_request(self, request, view_type, param):
 """,
-    "get_derived_object":
-        """def get_derived_object(self, param=None):
+    "get_derived_object": """def get_derived_object(self, param=None):
     t = None
     if type(self) == DocHead:
         if param and "view" in param and "add_param" in param["view"].kwargs:
@@ -350,8 +431,7 @@ def is_form_valid(form):
                 return getattr(self, name)
     return self
 """,
-    "filter":
-        """@classmethod
+    "filter": """@classmethod
 def filter(cls, value):
     if value:
         app, tbl, id, grp = value.split('__')
@@ -359,11 +439,9 @@ def filter(cls, value):
     else:
         return cls.objects.all()
 """,
-    "sort":
-        """def sort(queryset, sort, order):
+    "sort": """def sort(queryset, sort, order):
 """,
-    "redirect_href":
-        """def redirect_href(self, view, request):
+    "redirect_href": """def redirect_href(self, view, request):
     t = None
     if type(self)==Element:
         if 'add_param' in view.kwargs:

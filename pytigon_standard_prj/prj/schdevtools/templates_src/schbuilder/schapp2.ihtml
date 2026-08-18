@@ -36,15 +36,14 @@
 
 
 %% all
-    %with form_width=320 form_height=50 show_title_bar=1 title=_("Applications")
+    %with form_width=320 form_height=30 show_title_bar=1 title=_("Applications")
         {{ block.super }}
 
 %% body_start
-    <body class="toolbar">
+    <body class="toolbar" padding="0" margin="0">
 
 %% body
-    p height=5px
-    table class=toolbar
+    table class=toolbar,,,cellpadding=0,,,padding=0,,,margin=0
         tr
             td cellpadding=0,,,width=60
                 CTRL-NOBG_BUTTON_TXT name=close_btn,,,label=Close,,,SRC=client://emblems/emblem-unreadable.png,,,href=close

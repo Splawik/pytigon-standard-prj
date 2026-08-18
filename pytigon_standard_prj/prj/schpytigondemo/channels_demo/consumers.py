@@ -1,6 +1,5 @@
 import asyncio
 
-
 from channels.generic.websocket import AsyncJsonWebsocketConsumer
 
 

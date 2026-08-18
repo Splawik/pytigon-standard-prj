@@ -1,66 +1,63 @@
-from django.http import HttpResponseRedirect, HttpResponse
-from django.shortcuts import reverse
-from django import forms
-from django.template.loader import render_to_string
-from django.template import Context, Template
-from django.conf import settings
-from django.views.generic import TemplateView
-
-from pytigon_lib.schviews.form_fun import form_with_perms
-from pytigon_lib.schviews.viewtools import dict_to_template, dict_to_json
-from pytigon_lib.schdjangoext.tools import make_href
-
-from django.utils.translation import gettext_lazy as _
-
-from . import models
-import os
-import sys
-import datetime
-from django.utils import timezone
-
-
-import shutil
-import json
-import zipfile
 import base64
-import polib
-import locale
-import io
-import time
 import configparser
+import datetime
 import hashlib
-
-from os import environ
+import io
+import json
+import locale
+import os
+import shutil
 import subprocess
+import sys
+import time
+import zipfile
+from os import environ
 
-
-from django.db import transaction
-from django.template.loader import get_template
-
-from pytigon_lib.schviews.viewtools import change_pos, duplicate_row  # noqa: F401
+import polib
 import pytigon_lib.schindent.indent_style
+from django import forms
+from django.conf import settings
+from django.db import transaction
+from django.http import HttpResponse, HttpResponseRedirect
+from django.shortcuts import reverse
+from django.template import Context, Template
+from django.template.loader import get_template, render_to_string
+from django.utils import timezone
+from django.utils.translation import gettext_lazy as _
+from django.views.generic import TemplateView
+from dulwich import index, porcelain
+from dulwich.repo import Repo
+from pytigon.ext_lib.pygettext import main as gtext
+from pytigon.schserw.schsys.context_processors import sch_standard
 from pytigon_lib.schdjangoext.django_ihtml import ihtml_to_html
-
-from pytigon_lib.schfs.vfstools import ZipWriter, open_and_create_dir
-from pytigon_lib.schtools.install import Ptig
-from pytigon_lib.schtools.process import py_run
-from pytigon_lib.schtools.tools import bencode
-from pytigon_lib.schtools.tools import (
-    transform_backslash_input_str,
-    transform_backslash_output_str,
-)
 
 # from pytigon_lib.schtools.cc import import_plugin, make
 from pytigon_lib.schdjangoext.python_style_template_loader import compile_template
+from pytigon_lib.schdjangoext.tools import make_href
+from pytigon_lib.schfs.vfstools import ZipWriter, open_and_create_dir
+from pytigon_lib.schtools.install import Ptig
+from pytigon_lib.schtools.process import py_run
+from pytigon_lib.schtools.tools import (
+    bencode,
+    transform_backslash_input_str,
+    transform_backslash_output_str,
+)
+from pytigon_lib.schviews.form_fun import form_with_perms
+from pytigon_lib.schviews.viewtools import (  # noqa: F401
+    change_pos,
+    dict_to_hdoc,
+    dict_to_json,
+    dict_to_odf,
+    dict_to_ooxml,
+    dict_to_pdf,
+    dict_to_template,
+    dict_to_txt,
+    dict_to_xml,
+    duplicate_row,
+    render_to_response,
+)
 
-from pytigon.ext_lib.pygettext import main as gtext
-
-from pytigon.schserw.schsys.context_processors import sch_standard
-
-from dulwich import porcelain
-from dulwich.repo import Repo
-from dulwich import index
-
+from . import models
 
 try:
     import sass
@@ -68,9 +65,7 @@ except ImportError:
     sass = None
 
 import pytigon.schserw.settings
-
 from schbuilder.applib.scan_edit_blocks import extract_blocks, extract_text_block
-
 
 _template = """
         [ gui_style | {{prj.gui_type}}({{prj.gui_elements}}) ]
@@ -80,10 +75,11 @@ _template = """
 """
 
 
-def clean_and_format_code(source_code: str, lint: bolean = False) -> str:
+def clean_and_format_code(base_path: str, lint: bolean = False) -> str:
     """Removes unused imports, sorts imports, and formats Python code using ruff module."""
     # Get the path to the currently running Python interpreter.
     # This ensures the script uses the correct virtual environment (venv).
+    messages = []
     python_exe = sys.executable
 
     # 1. REMOVE AND SORT IMPORTS (python -m ruff check)
@@ -102,24 +98,25 @@ def clean_and_format_code(source_code: str, lint: bolean = False) -> str:
             "I",
         ]
     cmd += [
-        "--stdin-filename",
-        "generated_code.py",
-        "-",
+        base_path,
+        "--exit-zero",
     ]
 
     if lint:
         lint_result = subprocess.run(
             cmd,
-            input=source_code,
             capture_output=True,
             text=True,
-            check=True,
+            check=False,
             encoding="utf-8",
             errors="replace",
         )
-        cleaned_code = lint_result.stdout
-    else:
-        cleaned_code = source_code
+        for item in lint_result.stdout.split("\n"):
+            if item:
+                messages.append((datetime.datetime.now(), "ruff fix", item))
+        for item in lint_result.stderr.split("\n"):
+            if item:
+                messages.append((datetime.datetime.now(), "ruff fix errors", item))
 
     # 2. ADJUST CODE LAYOUT AND FORMATTING (python -m ruff format)
     format_result = subprocess.run(
@@ -128,18 +125,22 @@ def clean_and_format_code(source_code: str, lint: bolean = False) -> str:
             "-m",
             "ruff",
             "format",
-            "--stdin-filename",
-            "generated_code.py",
-            "-",
+            base_path,
         ],
-        input=cleaned_code,
         capture_output=True,
         text=True,
-        check=True,
+        check=False,
         encoding="utf-8",
         errors="replace",
     )
-    return format_result.stdout
+    for item in format_result.stdout.split("\n"):
+        if item:
+            messages.append((datetime.datetime.now(), "ruff check", item))
+    for item in format_result.stderr.split("\n"):
+        if item:
+            messages.append((datetime.datetime.now(), "ruff check error", item))
+
+    return messages
 
 
 def callback_fun_tab(obj1, obj2):
@@ -175,17 +176,6 @@ def template_to_file(base_path, template, file_name, context):
     modified_source = transform_backslash_input_str(raw_source)
     txt = Template(modified_source).render(Context(context))
     txt = transform_backslash_output_str(txt)
-    if file_name.endswith(".py"):
-        txt2 = txt
-        try:
-            txt2 = clean_and_format_code(
-                txt, "milestone" in context and context["milestone"]
-            )
-        except:
-            print("ruff not installed!")
-            txt2 = None
-        if txt2:
-            txt = txt2
     with open(os.path.join(base_path, file_name), "w", encoding="utf-8") as f:
         f.write(txt)
 
@@ -249,7 +239,7 @@ def copy_files_and_dirs(src, dst):
                 copy_files_and_dirs(srcname, dstname)
             else:
                 shutil.copy2(srcname, dstname)
-        except (IOError, os.error) as why:
+        except OSError as why:
             errors.append((srcname, dstname, str(why)))
         except shutil.Error as err:
             errors.extend(err.args[0])
@@ -357,7 +347,7 @@ def locale_gen_internal(pk):
     if prj.ext_apps:
         for pos in prj.ext_apps.replace("\n", ",").replace(";", ",").split(","):
             pos2 = pos.split(".")[0]
-            if pos2 and pos2 not in ext_apps:
+            if pos2 and not pos2 in ext_apps:
                 ext_apps.append(pos2)
                 app_path2 = os.path.join(base_path, pos2)
                 locale_path2 = os.path.join(app_path2, "locale")
@@ -759,7 +749,7 @@ def build_prj(pk, config={}):
         )
 
         for template in templates:
-            if "." in template.name and ".ihtml" not in template.name:
+            if "." in template.name and not ".ihtml" in template.name:
                 str_to_file(
                     base_path,
                     template.template_code,
@@ -802,16 +792,7 @@ def build_prj(pk, config={}):
             if file_obj.type in ("U", "C", "J", "P", "R", "I", "O", "B"):
                 _handle_static_file(file_obj, base_path, prj, app)
                 continue
-            elif file_obj.type == "f":
-                file_name = (
-                    base_path
-                    + "/"
-                    + app.name
-                    + "/templatetags/"
-                    + file_obj.name
-                    + ".py"
-                )
-            elif file_obj.type == "t":
+            elif file_obj.type == "f" or file_obj.type == "t":
                 file_name = (
                     base_path
                     + "/"
@@ -1215,6 +1196,10 @@ def build_prj(pk, config={}):
         #            object_list.append((datetime.datetime.now(), "compile error", pos))
         #            success = False
 
+    messages = clean_and_format_code(base_path, True)
+    for item in messages:
+        object_list.append(item)
+
     return object_list
 
 
@@ -1550,7 +1535,7 @@ def installer(request, pk):
         zip.writestr(path_to_meta + "LICENSE", btxt)
     txt = ""
     with open(os.path.join(base_path, "install.ini"), "rt") as f:
-        for line in f.readlines():
+        for line in f:
             if line.startswith("PIP ") or line.startswith("PIP="):
                 x = line.split("=", 1)
                 for item in x[1].replace(",", ";").split(";"):
@@ -1964,7 +1949,7 @@ def autocomplete(request, id, key):
         ret = []
         for table in tables:
             app_perm = table.parent.name.lower()
-            if app_perm not in ret:
+            if not app_perm in ret:
                 ret.append(app_perm)
             ret.append(table.parent.name.lower() + ".add_" + table.name.lower())
             ret.append(table.parent.name.lower() + ".change_" + table.name.lower())

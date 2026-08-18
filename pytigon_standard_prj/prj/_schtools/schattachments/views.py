@@ -1,11 +1,9 @@
+import mimetypes
+from wsgiref.util import FileWrapper
+
 from django.http import HttpResponse
 
-
 from . import models
-
-
-from wsgiref.util import FileWrapper
-import mimetypes
 
 
 def download(request, pk):

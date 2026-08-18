@@ -1,9 +1,6 @@
 from django import forms
-
-from pytigon_lib.schviews.form_fun import form_with_perms
-
 from django.utils.translation import gettext_lazy as _
-
+from pytigon_lib.schviews.form_fun import form_with_perms
 
 PFORM = form_with_perms("tables_adv_demo")
 

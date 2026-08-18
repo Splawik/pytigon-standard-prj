@@ -1,13 +1,10 @@
 from django import forms
-
-from pytigon_lib.schviews.form_fun import form_with_perms
-from pytigon_lib.schviews.viewtools import dict_to_template, dict_to_json
-from pytigon_lib.schdjangoext import formfields as ext_form_fields
-
 from django.utils.translation import gettext_lazy as _
+from pytigon_lib.schdjangoext import formfields as ext_form_fields
+from pytigon_lib.schviews.form_fun import form_with_perms
+from pytigon_lib.schviews.viewtools import dict_to_json, dict_to_template
 
 from . import models
-
 
 PFORM = form_with_perms("forms_demo")
 
@@ -95,7 +92,7 @@ class form_test2(forms.Form):
     regex_field = forms.RegexField(
         label=_("Regular expression field"),
         required=True,
-        regex="^\d{11}$",
+        regex=r"^\d{11}$",
         max_length=None,
         min_length=None,
     )

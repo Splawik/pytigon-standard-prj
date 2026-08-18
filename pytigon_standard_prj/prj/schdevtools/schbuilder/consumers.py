@@ -1,13 +1,12 @@
+import asyncio
 import os
 import sys
-import asyncio
-
-
-from channels.generic.websocket import AsyncJsonWebsocketConsumer
-
+from os import environ
 
 import psutil
-from os import environ
+from channels.generic.websocket import (
+    AsyncJsonWebsocketConsumer,
+)
 from django.conf import settings
 
 

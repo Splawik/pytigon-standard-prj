@@ -1,13 +1,10 @@
+import pytigon_lib.schdjangoext.fields as ext_models
 from django.db import models
 from django.utils import timezone
 from django.utils.translation import gettext_lazy as _
-
 from pytigon_lib.schdjangoext.fields import *
-import pytigon_lib.schdjangoext.fields as ext_models
-from pytigon_lib.schdjangoext.models import *
-
-
 from pytigon_lib.schdjangoext.import_from_db import run_code_from_db_field
+from pytigon_lib.schdjangoext.models import *
 
 NEW = """#Example: 
 #import datetime

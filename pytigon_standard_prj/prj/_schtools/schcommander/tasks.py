@@ -1,7 +1,5 @@
-from pytigon_lib.schtasks.publish import publish
-
-
 from pytigon_lib.schfs.tasks import filesystemcmd
+from pytigon_lib.schtasks.publish import publish
 
 
 @publish("vfs_action")

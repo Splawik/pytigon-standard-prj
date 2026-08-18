@@ -1,16 +1,11 @@
-from django.db import models
-from django.utils.translation import gettext_lazy as _
-
-from pytigon_lib.schdjangoext.fields import *
 import pytigon_lib.schdjangoext.fields as ext_models
-from pytigon_lib.schdjangoext.models import *
-
 import tables_demo.models
-
-
-from tables_demo.models import *
+from django.db import models
 from django.forms import fields as form_fields
-
+from django.utils.translation import gettext_lazy as _
+from pytigon_lib.schdjangoext.fields import *
+from pytigon_lib.schdjangoext.models import *
+from tables_demo.models import *
 
 GenreChoices = [
     ("r", "Rock"),

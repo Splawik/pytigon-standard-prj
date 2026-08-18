@@ -104,7 +104,10 @@
             except:
                 pass
             if cmd in ('COPY', 'MOVE', 'MKDIR', 'RENAME', 'NEWFILE'):
+                print("A1", cmd)
                 ret = self.CMD.GetTable().run_cmd(cmd, ( bencode(self.panels_dir[self.tab][2]), bencode(child.dest.GetValue())), 1)
+                print("A2", ret)
+                print("A3", ( bencode(self.panels_dir[self.tab][2]), bencode(child.dest.GetValue())) )
             elif cmd in ('DELETE',):
                 ret = self.CMD.GetTable().run_cmd(cmd, ( bencode(self.panels_dir[self.tab][2]),), 1)
             else:
@@ -453,7 +456,7 @@
 
 
         def _on_base(self, event, command):
-            self.child_win = self.new_child_page("{{base_path}}schcommander/form/%s/" % command, parameters={'dir': self.panels_dir[self.tab2][2], })
+            self.child_win = self.new_child_page("{{base_path}}schcommander/form/%s/" % command, parameters={'dest': self.panels_dir[self.tab2][2], })
 
         def on_rename(self, event):
             self._on_base(event, "Rename")

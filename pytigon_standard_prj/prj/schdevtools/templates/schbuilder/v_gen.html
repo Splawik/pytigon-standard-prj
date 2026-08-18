@@ -15,7 +15,7 @@
         </th>
 {% endblock %}
 {% block user_row %}
-        <tr>
+        <tr background-color="{% if 'error' in object.1 %}#f00{% else %}#fff{% endif %}">
                 <td>{{object.0|isoformat}}</td>
                 <td>{{object.1}}</td>
                 <td>{{object.2}}</td>

@@ -1,25 +1,21 @@
+import inspect
 import os
 import os.path
 import sys
+import traceback
 
-from django.db import models
-from django.utils.translation import gettext_lazy as _
-
-from pytigon_lib.schdjangoext.fields import *
-import pytigon_lib.schdjangoext.fields as ext_models
-from pytigon_lib.schdjangoext.models import *
-
-
-import inspect
-from django.template import engines
 import pytigon
+import pytigon_lib.schdjangoext.fields as ext_models
 from django.conf import settings
-from django.template.loader import render_to_string
+from django.db import models
 from django.forms import fields as form_fields
 from django.forms import models as form_model_fields
+from django.template import engines
+from django.template.loader import render_to_string
+from django.utils.translation import gettext_lazy as _
 from pytigon_lib.schdjangoext import formfields as ext_form_fields
-
-import traceback
+from pytigon_lib.schdjangoext.fields import *
+from pytigon_lib.schdjangoext.models import *
 
 field_default = {
     "null": False,
@@ -155,7 +151,7 @@ FormField_CHOICES = list(
 )
 for f in dir(form_model_fields) + dir(ext_form_fields):
     if f.endswith("Field") and f != "Field":
-        if (f, f) not in FormField_CHOICES:
+        if not (f, f) in FormField_CHOICES:
             FormField_CHOICES.append((f, f))
 FormField_CHOICES.append(("UserField", "UserField"))
 
@@ -539,7 +535,7 @@ class SChProject(JSONModel):
             return ret
         for a in l:
             if a != "" and not a.startswith("@"):
-                if a not in ret:
+                if not a in ret:
                     ret.append(a)
         return ret
 
@@ -556,7 +552,7 @@ class SChProject(JSONModel):
             if a.startswith("@"):
                 a = a[1:]
                 if a != "":
-                    if a not in ret:
+                    if not a in ret:
                         ret.append(a)
         return ret
 
@@ -775,7 +771,7 @@ class SChApp(JSONModel):
                     try:
                         module = __import__(ext_app + ".models")
                         app = getattr(module, ext_app.split(".")[1])
-                        models = getattr(app, "models")
+                        models = app.models
                         for name in dir(models):
                             obj = getattr(models, name)
                             if inspect.isclass(obj):
@@ -783,7 +779,7 @@ class SChApp(JSONModel):
                     except Exception:
                         pass
             for ext_app in ext_apps:
-                if "schserw." not in ext_app:
+                if not "schserw." in ext_app:
                     try:
                         appset = ext_app.split(".")[0].strip()
                         appname = ext_app.split(".")[1].strip()
@@ -929,13 +925,13 @@ class SChApp(JSONModel):
             if table.base_table and "." in table.base_table:
                 x = table.base_table.split(".")
                 if x[-2] != "models":
-                    if x[-2] not in tab:
+                    if not x[-2] in tab:
                         tab.append(x[-2])
             for field in table.schfield_set.all():
                 if field.is_rel():
                     if field.rel_to and "." in field.rel_to:
                         x = field.rel_to.split(".")
-                        if x[-2] not in tab:
+                        if not x[-2] in tab:
                             tab.append(x[-2])
         return tab
 

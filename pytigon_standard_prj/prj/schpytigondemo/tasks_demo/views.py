@@ -1,11 +1,11 @@
-from django.http import HttpResponse
-
-from pytigon_lib.schviews.viewtools import dict_to_template
-
-
-from django_q.tasks import async_task
 import asyncio
+
 from django.contrib import messages
+from django.http import HttpResponse
+from django_q.tasks import async_task
+from pytigon_lib.schviews.viewtools import (
+    dict_to_template,
+)
 
 
 @dict_to_template("tasks_demo/v_test_task.html")

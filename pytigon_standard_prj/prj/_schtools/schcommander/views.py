@@ -1,22 +1,17 @@
-from django.http import HttpResponse
 from django import forms
-
+from django.http import HttpResponse
+from django.utils.translation import gettext_lazy as _
+from pytigon_lib.schtable.vfstable import (
+    vfsconvert,
+    vfsopen,
+    vfsopen_page,
+    vfssave,
+    vfstable_view,
+    vfsview,
+)
 from pytigon_lib.schviews.form_fun import form_with_perms
 
-from django.utils.translation import gettext_lazy as _
-
 from . import models
-
-
-from pytigon_lib.schtable.vfstable import (
-    vfstable_view,
-    vfsopen,
-    vfssave,
-    vfsview,
-    vfsopen_page,
-    vfsconvert,
-)
-
 
 PFORM = form_with_perms("schcommander")
 

@@ -1,12 +1,10 @@
+import pytigon_lib.schdjangoext.fields as ext_models
+import schelements.models
 from django.db import models
 from django.utils import timezone
 from django.utils.translation import gettext_lazy as _
-
 from pytigon_lib.schdjangoext.fields import *
-import pytigon_lib.schdjangoext.fields as ext_models
 from pytigon_lib.schdjangoext.models import *
-
-import schelements.models
 
 
 def upload_path_fun(obj, filename):
@@ -90,7 +88,7 @@ class Attachement(AssociatedJSONModel):
         self.ext = self.file.url.split(".")[-1].upper()
         if not self.name:
             self.name = str(self.file)
-        super(Attachement, self).save(*args, **kwargs)
+        super().save(*args, **kwargs)
 
     def is_image(self):
         if self.ext.lower() in ("png", "jpg", "jpeg", "svg"):

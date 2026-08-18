@@ -1,21 +1,17 @@
-from django.http import HttpResponse
-from django import forms
+import csv
+import os
 
+import openpyxl
+from django import forms
+from django.http import HttpResponse
+from django.utils.translation import gettext_lazy as _
+from pyexcel_ods3 import get_data
+from pytigon_lib.schdjangoext.tools import import_model
+from pytigon_lib.schfs.vfstools import get_temp_filename
 from pytigon_lib.schviews.form_fun import form_with_perms
 from pytigon_lib.schviews.viewtools import dict_to_template
 
-from django.utils.translation import gettext_lazy as _
-
 from . import models
-import os
-
-
-from pytigon_lib.schdjangoext.tools import import_model
-from pyexcel_ods3 import get_data
-from pytigon_lib.schfs.vfstools import get_temp_filename
-import openpyxl
-import csv
-
 
 PFORM = form_with_perms("schtools")
 
@@ -181,7 +177,7 @@ def import_table(request, app, table):
                 tree = False
                 tmp = []
                 for pos in header:
-                    if pos not in tmp:
+                    if not pos in tmp:
                         tmp.append(pos)
                     else:
                         tree = True
@@ -208,7 +204,7 @@ def import_table(request, app, table):
                                     if row[id2]:
                                         setattr(x, attr_name, value)
                                         if parent:
-                                            setattr(x, "parent", parent)
+                                            x.parent = parent
                                 else:
                                     setattr(x, attr_name, value)
                             else:

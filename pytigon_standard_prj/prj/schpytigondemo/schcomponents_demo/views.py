@@ -1,7 +1,6 @@
-from pytigon_lib.schviews.viewtools import dict_to_json
-
-
 import json
+
+from pytigon_lib.schviews.viewtools import dict_to_json
 
 
 @dict_to_json

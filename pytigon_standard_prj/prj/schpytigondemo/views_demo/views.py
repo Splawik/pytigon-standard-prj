@@ -1,15 +1,13 @@
 from pytigon_lib.schviews.viewtools import (
-    dict_to_template,
-    dict_to_odf,
-    dict_to_pdf,
-    dict_to_json,
-    dict_to_xml,
-    dict_to_ooxml,
-    dict_to_txt,
     dict_to_hdoc,
+    dict_to_json,
+    dict_to_odf,
+    dict_to_ooxml,
+    dict_to_pdf,
+    dict_to_template,
+    dict_to_txt,
+    dict_to_xml,
 )
-
-
 from tables_demo.models import Example1Computer
 
 
@@ -127,9 +125,10 @@ def plotly_example(request, **argv):
     ``plotly_content`` to the v_plotly_example.html template.
     """
 
-    import plotly.graph_objects as go
-    import numpy as np
     from io import StringIO
+
+    import numpy as np
+    import plotly.graph_objects as go
 
     np.random.seed(1)
 
@@ -167,6 +166,7 @@ def plotly_export_example(request, **argv):
     """
 
     from io import BytesIO
+
     import plotly.express as px
 
     df = px.data.iris()

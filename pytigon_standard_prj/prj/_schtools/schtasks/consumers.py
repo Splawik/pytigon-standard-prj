@@ -1,7 +1,7 @@
 import asyncio
 
-
 from channels.generic.websocket import AsyncJsonWebsocketConsumer
+from schlib.schtasks.publish import CommunicationByCacheReceiver
 
 
 class TaskEventsConsumer(AsyncJsonWebsocketConsumer):

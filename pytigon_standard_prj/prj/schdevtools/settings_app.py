@@ -1,6 +1,6 @@
+import json
 import os
 import sys
-import json
 
 PRJ_TITLE = "Developer tools"
 PRJ_NAME = "schdevtools"
@@ -13,21 +13,19 @@ if "PYTIGON_ROOT_PATH" in os.environ:
 else:
     _rp = os.path.abspath(os.path.join(_lp, "..", ".."))
 
-if _lp not in sys.path:
+if not _lp in sys.path:
     sys.path.insert(0, _lp)
-if _rp not in sys.path:
+if not _rp in sys.path:
     sys.path.insert(0, _rp)
 
 from pytigon_lib import init_paths
 
 init_paths(PRJ_NAME, _lp)
 
+from apps import APPS, APPS_EXT
+from pytigon.schserw.settings import *
 from pytigon_lib.schdjangoext.django_init import get_app_config
 from pytigon_lib.schtools.platform_info import platform_name
-
-from pytigon.schserw.settings import *
-
-from apps import APPS, APPS_EXT
 
 try:
     from global_db_settings import setup_databases
@@ -37,7 +35,7 @@ except ImportError:
 LOCAL_ROOT_PATH = os.path.abspath(os.path.join(_lp, ".."))
 ROOT_PATH = _rp
 URL_ROOT_PREFIX = ""
-if LOCAL_ROOT_PATH not in sys.path:
+if not LOCAL_ROOT_PATH in sys.path:
     sys.path.append(LOCAL_ROOT_PATH)
 
 if ENV("PUBLISH_IN_SUBFOLDER"):
@@ -118,6 +116,17 @@ if platform_name() != "Android":
         #'filer.thumbnail_processors.scale_and_crop_with_subject_location',
         "easy_thumbnails.processors.filters",
     )
+
+OLD_DEFAULT_FILE_STORAGE_FS = DEFAULT_FILE_STORAGE_FS
+
+from pytigon_lib.schdjangoext.django_storage import OSFS_EXT
+
+
+def DEFAULT_FILE_STORAGE_FS():
+    storage = OLD_DEFAULT_FILE_STORAGE_FS()
+    storage.mount("home", OSFS_EXT(os.path.expanduser("~")))
+    return storage
+
 
 from pytigon_lib.schtools.install_init import init
 
@@ -252,7 +261,7 @@ try:
 except ImportError:
     pass
 
-GEN_TIME = "2026-08-13 19:06:49"
+GEN_TIME = "2026-08-17 19:09:06"
 
 
 for key, value in os.environ.items():

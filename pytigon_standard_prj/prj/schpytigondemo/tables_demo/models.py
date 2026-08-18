@@ -1,15 +1,12 @@
-from django.db import models
-from django.utils.translation import gettext_lazy as _
-
-from pytigon_lib.schdjangoext.fields import *
 import pytigon_lib.schdjangoext.fields as ext_models
-from pytigon_lib.schdjangoext.models import *
-
-
+from django.db import models
 from django.db.models.signals import post_save
 from django.dispatch import receiver
-from schattachments.models import Attachment
+from django.utils.translation import gettext_lazy as _
+from pytigon_lib.schdjangoext.fields import *
+from pytigon_lib.schdjangoext.models import *
 from pytigon_lib.schdjangoext.tools import from_migrations
+from schattachments.models import Attachment
 
 if not from_migrations():
 

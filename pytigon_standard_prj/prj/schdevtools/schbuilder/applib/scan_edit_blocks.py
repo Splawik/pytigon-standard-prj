@@ -1,7 +1,7 @@
-import os
-import re
 import configparser
 import datetime
+import os
+import re
 
 from django.utils import timezone
 
@@ -53,7 +53,7 @@ def extract_blocks(folder_path):
             try:
                 with open(file_path, "r", encoding="utf-8") as f:
                     lines = f.readlines()
-            except (IOError, UnicodeDecodeError):
+            except (OSError, UnicodeDecodeError):
                 continue
 
             i = 0
@@ -129,4 +129,3 @@ def extract_text_block(text: str) -> str:
             output_lines.append(corrected_line)
 
     return "\n".join(output_lines)
-

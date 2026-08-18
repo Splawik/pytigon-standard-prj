@@ -1,18 +1,14 @@
-from django.http import HttpResponseRedirect, HttpResponse
+from django.core.exceptions import PermissionDenied
+from django.http import Http404, HttpResponse, HttpResponseRedirect
 from django.shortcuts import reverse
-from django.template import Template
-from django.template import RequestContext
-
-from pytigon_lib.schviews.viewtools import render_to_response
-
+from django.template import RequestContext, Template
+from pytigon_lib.schdjangoext.fastform import form_from_str
+from pytigon_lib.schdjangoext.import_from_db import run_code_from_db_field
+from pytigon_lib.schviews.viewtools import (
+    render_to_response,
+)
 
 from . import models
-
-
-from django.http import Http404
-from pytigon_lib.schdjangoext.fastform import form_from_str
-from django.core.exceptions import PermissionDenied
-from pytigon_lib.schdjangoext.import_from_db import run_code_from_db_field
 
 SCRIPT_TEMPLATE = """
 {%% extends 'schsimplescripts/script_form.html' %%}

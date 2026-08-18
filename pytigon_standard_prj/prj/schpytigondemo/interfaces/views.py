@@ -1,12 +1,8 @@
-from django.conf import settings
-
-from pytigon_lib.schviews.viewtools import dict_to_template
-
-
 import os
 
-
+from django.conf import settings
 from pytigon_lib.schtools import nim_ext
+from pytigon_lib.schviews.viewtools import dict_to_template
 
 ext_path = os.path.join(settings.DATA_PATH, settings.PRJ_NAME, "prjlib")
 
@@ -17,8 +13,9 @@ except Exception:
 
 
 def make_csum_fun():
-    from pytigon_lib.schtools.llvm_exec import compile_str_to_module, get_function
     from ctypes import CFUNCTYPE, c_int
+
+    from pytigon_lib.schtools.llvm_exec import compile_str_to_module, get_function
 
     fun_str = """
     define dso_local i32 @cadd(i32 %0, i32 %1) #0 {
@@ -62,7 +59,7 @@ def test_interfaces(request, **argv):
     import interfaces.applib
 
     try:
-        from wasmtime import Store, Module, Instance
+        from wasmtime import Instance, Module, Store
 
         wasm_path = os.path.join(interfaces.applib.__path__[0], "test_zig.wasm")
         store = Store()

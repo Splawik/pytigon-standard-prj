@@ -1,14 +1,14 @@
 {% extends "forms/user_tab.html" %}
 {% load exfiltry %}
 {% load exsyntax %}
-{% block extrahead %}
+{% block xextrahead %}
         {% if OK %}
-                <meta name="target" content="_parent_refr">
+                <meta name="target" xcontent="_parent_refr">
                 </meta>
         {% endif %}
 {% endblock %}
 {% block form_content_schbutton %}
-        <input type="submit" value="OK" class="btn btn-info" target="_self" height="64">
+        <input type="submit" value="OK" href="." class="btn btn-info" target="_self" height="64">
         </input>
 {% endblock %}
 {% block all %}
