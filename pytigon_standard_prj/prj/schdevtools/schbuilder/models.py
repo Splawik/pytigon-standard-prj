@@ -171,132 +171,132 @@ def get_field_choices():
 
 
 Field_CHOICES = [
-    ("PtigForeignKey", "PtigForeignKey!"),
-    ("PtigManyToManyField", "PtigManyToManyField!"),
-    ("PtigHiddenForeignKey", "PtigHiddenForeignKey!"),
-    ("PtigForeignKeyWithIcon", "PtigForeignKeyWithIcon!"),
-    ("PtigManyToManyFieldWithIcon", "PtigManyToManyFieldWithIcon!"),
-    ("PtigTreeForeignKey", "PtigTreeForeignKey!"),
-    ("UserField", "UserField"),
+    ("PtigForeignKey", _("PtigForeignKey!")),
+    ("PtigManyToManyField", _("PtigManyToManyField!")),
+    ("PtigHiddenForeignKey", _("PtigHiddenForeignKey!")),
+    ("PtigForeignKeyWithIcon", _("PtigForeignKeyWithIcon!")),
+    ("PtigManyToManyFieldWithIcon", _("PtigManyToManyFieldWithIcon!")),
+    ("PtigTreeForeignKey", _("PtigTreeForeignKey!")),
+    ("UserField", _("UserField")),
 ]
 
 Gui_CHOICES = [
-    ("standard", "standard"),
-    ("modern", "modern"),
-    ("tree", "tree"),
-    ("tray", "tray"),
-    ("dialog", "dialog"),
-    ("one_form", "one_form"),
+    ("standard", _("standard")),
+    ("modern", _("modern")),
+    ("tree", _("tree")),
+    ("tray", _("tray")),
+    ("dialog", _("dialog")),
+    ("one_form", _("one_form")),
 ]
 
 IconSize_CHOICES = [
-    ("0", "small"),
-    ("1", "medium"),
-    ("2", "large"),
+    ("0", _("small")),
+    ("1", _("medium")),
+    ("2", _("large")),
 ]
 
 View_CHOICES = [
-    ("t", "Table action"),
-    ("r", "Row action"),
-    ("u", "View"),
+    ("t", _("Table action")),
+    ("r", _("Row action")),
+    ("u", _("View")),
 ]
 
 Url_CHOICES = [
-    ("-", "default"),
-    ("desktop", "desktop only"),
-    ("panel", "desktop panel"),
-    ("header", "desktop header"),
-    ("footer", "desktop footer"),
-    ("script", "javascript"),
-    ("pscript", "python script"),
-    ("browser", "browser only"),
-    ("browser_panel", "prowser_panel"),
-    ("browser_header", "browser_header"),
-    ("browser_footer", "browser_footer"),
+    ("-", _("default")),
+    ("desktop", _("desktop only")),
+    ("panel", _("desktop panel")),
+    ("header", _("desktop header")),
+    ("footer", _("desktop footer")),
+    ("script", _("javascript")),
+    ("pscript", _("python script")),
+    ("browser", _("browser only")),
+    ("browser_panel", _("prowser_panel")),
+    ("browser_header", _("browser_header")),
+    ("browser_footer", _("browser_footer")),
 ]
 
 ViewRetType_CHOICES = [
-    ("T", "Template"),
-    ("O", "Odf format (default .ods)"),
-    ("P", "Pdf"),
-    ("J", "Json"),
-    ("X", "Xml"),
-    ("U", "User defined"),
-    ("S", "OOXML (default .xlsx)"),
-    ("t", "Txt"),
-    ("H", "Html to docx template (.hdoc)"),
+    ("T", _("Template")),
+    ("O", _("Odf format (default .ods)")),
+    ("P", _("Pdf")),
+    ("J", _("Json")),
+    ("X", _("Xml")),
+    ("U", _("User defined")),
+    ("S", _("OOXML (default .xlsx)")),
+    ("t", _("Txt")),
+    ("H", _("Html to docx template (.hdoc)")),
 ]
 
 HtmlGui_CHOICES = [
-    ("auto", "auto"),
-    ("desktop_standard", "desktop_standard"),
-    ("desktop_modern", "desktop_modern"),
-    ("tablet_standard", "tablet_standard"),
-    ("tablet_modern", "tablet_modern"),
-    ("smartphone_standard", "smartphone_standard"),
-    ("smartphone_modern", "smartphone_modern"),
+    ("auto", _("auto")),
+    ("desktop_standard", _("desktop_standard")),
+    ("desktop_modern", _("desktop_modern")),
+    ("tablet_standard", _("tablet_standard")),
+    ("tablet_modern", _("tablet_modern")),
+    ("smartphone_standard", _("smartphone_standard")),
+    ("smartphone_modern", _("smartphone_modern")),
 ]
 
 ContentType_CHOICES = [
-    ("pythonjs", "pythonjs"),
-    ("react_pjsx", "react_pjsx"),
-    ("css", "css"),
-    ("js", "js"),
+    ("pythonjs", _("pythonjs")),
+    ("react_pjsx", _("react_pjsx")),
+    ("css", _("css")),
+    ("js", _("js")),
 ]
 
 Static_CHOICES = [
-    ("C", "css (included in desktop.html)"),
-    ("J", "javascript (included in desktop.html)"),
-    ("P", "python to javascript (included in desktop.html)"),
-    ("R", "component (included in desktop.html)"),
-    ("I", "sass to css (included in desktop.html)"),
-    ("U", "custom file (embeded translation for .pyj, .webc, .sass)"),
-    ("O", "Other project file"),
-    ("B", "Other project file (base64 encoded)"),
+    ("C", _("css (included in desktop.html)")),
+    ("J", _("javascript (included in desktop.html)")),
+    ("P", _("python to javascript (included in desktop.html)")),
+    ("R", _("component (included in desktop.html)")),
+    ("I", _("sass to css (included in desktop.html)")),
+    ("U", _("custom file (embeded translation for .pyj, .webc, .sass)")),
+    ("O", _("Other project file")),
+    ("B", _("Other project file (base64 encoded)")),
 ]
 
 FileType_CHOICES = [
-    ("f", "TemplateFilters"),
-    ("t", "TemplateTags"),
-    ("c", "Custom file"),
-    ("m", "Management command"),
-    ("p", "Plugin code"),
-    ("i", "Plugin template"),
-    ("l", "Library code"),
-    ("s", "GraphQL schema"),
-    ("r", "Rest api"),
-    ("j", "Frontend view"),
-    ("T", "Frontend template"),
-    ("n", "Pytigon extension in nim"),
-    ("N", "Nim executable source file"),
-    ("E", "Nimpy extension"),
-    ("C", "css (included in desktop.html)"),
-    ("J", "javascript (included in desktop.html)"),
-    ("P", "python to javascript (included in desktop.html)"),
-    ("R", "component (included in desktop.html)"),
-    ("I", "sass to css (included in desktop.html)"),
-    ("U", "custom file (embeded translation for .pyj, .webc, .sass)"),
-    ("O", "Other application file"),
-    ("B", "Other application file (base64 encoded)"),
+    ("f", _("TemplateFilters")),
+    ("t", _("TemplateTags")),
+    ("c", _("Custom file")),
+    ("m", _("Management command")),
+    ("p", _("Plugin code")),
+    ("i", _("Plugin template")),
+    ("l", _("Library code")),
+    ("s", _("GraphQL schema")),
+    ("r", _("Rest api")),
+    ("j", _("Frontend view")),
+    ("T", _("Frontend template")),
+    ("n", _("Pytigon extension in nim")),
+    ("N", _("Nim executable source file")),
+    ("E", _("Nimpy extension")),
+    ("C", _("css (included in desktop.html)")),
+    ("J", _("javascript (included in desktop.html)")),
+    ("P", _("python to javascript (included in desktop.html)")),
+    ("R", _("component (included in desktop.html)")),
+    ("I", _("sass to css (included in desktop.html)")),
+    ("U", _("custom file (embeded translation for .pyj, .webc, .sass)")),
+    ("O", _("Other application file")),
+    ("B", _("Other application file (base64 encoded)")),
 ]
 
 Consumer_CHOICES = [
-    ("WebsocketConsumer", "WebsocketConsumer"),
-    ("AsyncWebsocketConsumer", "AsyncWebsocketConsumer"),
-    ("JsonWebsocketConsumer", "JsonWebsocketConsumer"),
-    ("AsyncJsonWebsocketConsumer", "AsyncJsonWebsocketConsumer"),
-    ("AsyncHttpConsumer", "AsyncHttpConsumer"),
-    ("AsyncConsumer", "AsyncConsumer"),
-    ("SyncConsumer", "SyncConsumer"),
+    ("WebsocketConsumer", _("WebsocketConsumer")),
+    ("AsyncWebsocketConsumer", _("AsyncWebsocketConsumer")),
+    ("JsonWebsocketConsumer", _("JsonWebsocketConsumer")),
+    ("AsyncJsonWebsocketConsumer", _("AsyncJsonWebsocketConsumer")),
+    ("AsyncHttpConsumer", _("AsyncHttpConsumer")),
+    ("AsyncConsumer", _("AsyncConsumer")),
+    ("SyncConsumer", _("SyncConsumer")),
 ]
 
 GuiElements_CHOICES = [
-    ("toolbar(file(open,exit),clipboard)", "toolbar(file(open,exit),clipboard)"),
+    ("toolbar(file(open,exit),clipboard)", _("toolbar(file(open,exit),clipboard)")),
     (
         "toolbar(file(open,save,save_as,exit),clipboard)",
-        "toolbar(file(open,save,save_as,exit),clipboard)",
+        _("toolbar(file(open,save,save_as,exit),clipboard)"),
     ),
-    ("toolbar(browse)", "toolbar(browse)"),
+    ("toolbar(browse)", _("toolbar(browse)")),
 ]
 
 
@@ -310,29 +310,38 @@ class SChProject(JSONModel):
         ordering = ["id"]
 
     name = models.CharField(
-        "Name", null=False, blank=False, editable=True, max_length=64
+        _("Name"), null=False, blank=False, editable=True, max_length=64
     )
     title = models.CharField(
-        "Title", null=False, blank=False, editable=True, max_length=255
+        _("Title"), null=False, blank=False, editable=True, max_length=255
     )
     version = models.CharField(
-        "Version", null=True, blank=True, editable=True, default="latest", max_length=16
+        _("Version"),
+        null=True,
+        blank=True,
+        editable=True,
+        default="latest",
+        max_length=16,
     )
     main_view = models.BooleanField(
-        "Show in main view",
+        _("Show in main view"),
         null=True,
         blank=True,
         editable=True,
         default=True,
     )
     ext_apps = models.CharField(
-        "External applications", null=True, blank=True, editable=True, max_length=4096
+        _("External applications"),
+        null=True,
+        blank=True,
+        editable=True,
+        max_length=4096,
     )
     plugins = models.CharField(
-        "Plugins", null=True, blank=True, editable=True, max_length=4096
+        _("Plugins"), null=True, blank=True, editable=True, max_length=4096
     )
     gui_type = models.CharField(
-        "Gui type",
+        _("Gui type"),
         null=False,
         blank=False,
         editable=True,
@@ -340,7 +349,7 @@ class SChProject(JSONModel):
         max_length=32,
     )
     gui_elements = models.CharField(
-        "Gui elements",
+        _("Gui elements"),
         null=True,
         blank=True,
         editable=True,
@@ -348,49 +357,49 @@ class SChProject(JSONModel):
         max_length=1024,
     )
     login_required = models.BooleanField(
-        "Login required",
+        _("Login required"),
         null=True,
         blank=True,
         editable=True,
         default=False,
     )
     public = models.BooleanField(
-        "Public",
+        _("Public"),
         null=True,
         blank=True,
         editable=True,
         default=False,
     )
     main = models.BooleanField(
-        "Main project",
+        _("Main project"),
         null=True,
         blank=True,
         editable=True,
         default=False,
     )
     start_page = models.CharField(
-        "Start page", null=True, blank=True, editable=True, max_length=255
+        _("Start page"), null=True, blank=True, editable=True, max_length=255
     )
     user_app_template = models.TextField(
-        "Patches",
+        _("Patches"),
         null=True,
         blank=True,
         editable=False,
     )
     app_main = models.TextField(
-        "Main application entrypoint",
+        _("Main application entrypoint"),
         null=True,
         blank=True,
         editable=False,
     )
     doc = models.TextField(
-        "Doc",
+        _("Doc"),
         null=True,
         blank=True,
         editable=False,
     )
     desktop_gui_type = models.CharField(
-        "Gui type for pc web browser",
+        _("Gui type for pc web browser"),
         null=False,
         blank=False,
         editable=True,
@@ -399,7 +408,7 @@ class SChProject(JSONModel):
         max_length=32,
     )
     smartphone_gui_type = models.CharField(
-        "Gui type for smartphone",
+        _("Gui type for smartphone"),
         null=False,
         blank=False,
         editable=True,
@@ -408,7 +417,7 @@ class SChProject(JSONModel):
         max_length=32,
     )
     tablet_gui_type = models.CharField(
-        "Gui type for tablet",
+        _("Gui type for tablet"),
         null=False,
         blank=False,
         editable=True,
@@ -417,46 +426,46 @@ class SChProject(JSONModel):
         max_length=32,
     )
     additional_settings = models.TextField(
-        "Additional settings",
+        _("Additional settings"),
         null=True,
         blank=True,
         editable=True,
     )
     custom_tags = models.TextField(
-        "Custom tags",
+        _("Custom tags"),
         null=True,
         blank=True,
         editable=True,
     )
     readme_file = models.TextField(
-        "README.md",
+        _("README.md"),
         null=True,
         blank=True,
         editable=False,
     )
     license_file = models.TextField(
-        "LICENSE",
+        _("LICENSE"),
         null=True,
         blank=True,
         editable=False,
     )
     install_file = models.TextField(
-        "install.ini",
+        _("install.ini"),
         null=True,
         blank=True,
         editable=False,
     )
     encoded_zip = models.TextField(
-        "Encoded zip file",
+        _("Encoded zip file"),
         null=True,
         blank=True,
         editable=False,
     )
     icon = models.CharField(
-        "Icon", null=True, blank=True, editable=True, max_length=256
+        _("Icon"), null=True, blank=True, editable=True, max_length=256
     )
     icon_size = models.CharField(
-        "Icon size",
+        _("Icon size"),
         null=False,
         blank=False,
         editable=True,
@@ -465,56 +474,56 @@ class SChProject(JSONModel):
         max_length=1,
     )
     icon_code = models.TextField(
-        "Icon code (svg)",
+        _("Icon code (svg)"),
         null=True,
         blank=True,
         editable=False,
     )
     git_repository = models.CharField(
-        "Git repository", null=True, blank=True, editable=True, max_length=255
+        _("Git repository"), null=True, blank=True, editable=True, max_length=255
     )
     author_name = models.CharField(
-        "Author name", null=True, blank=True, editable=True, max_length=255
+        _("Author name"), null=True, blank=True, editable=True, max_length=255
     )
     author_email = models.CharField(
-        "Author email", null=True, blank=True, editable=True, max_length=256
+        _("Author email"), null=True, blank=True, editable=True, max_length=256
     )
     author_www = models.CharField(
-        "Author www page", null=True, blank=True, editable=True, max_length=256
+        _("Author www page"), null=True, blank=True, editable=True, max_length=256
     )
     components_initial_state = models.CharField(
-        "The initial state of the components",
+        _("The initial state of the components"),
         null=True,
         blank=True,
         editable=True,
         max_length=1024,
     )
     template_desktop = models.TextField(
-        "Template for desktop",
+        _("Template for desktop"),
         null=True,
         blank=True,
         editable=False,
     )
     template_smartphone = models.TextField(
-        "Template for smartphone",
+        _("Template for smartphone"),
         null=True,
         blank=True,
         editable=False,
     )
     template_tablet = models.TextField(
-        "Template for tablet",
+        _("Template for tablet"),
         null=True,
         blank=True,
         editable=False,
     )
     template_schweb = models.TextField(
-        "Template for schweb (native app)",
+        _("Template for schweb (native app)"),
         null=True,
         blank=True,
         editable=False,
     )
     template_theme = models.TextField(
-        "Base template",
+        _("Base template"),
         null=True,
         blank=True,
         editable=False,
@@ -660,77 +669,77 @@ class SChApp(JSONModel):
         null=False,
         blank=False,
         editable=True,
-        verbose_name="Parent",
+        verbose_name=_("Parent"),
     )
     name = models.CharField(
-        "Name", null=False, blank=False, editable=True, max_length=64
+        _("Name"), null=False, blank=False, editable=True, max_length=64
     )
     title = models.CharField(
-        "Title", null=True, blank=True, editable=True, max_length=255
+        _("Title"), null=True, blank=True, editable=True, max_length=255
     )
     module_name = models.CharField(
-        "Module name", null=False, blank=False, editable=True, max_length=64
+        _("Module name"), null=False, blank=False, editable=True, max_length=64
     )
     module_title = models.CharField(
-        "Module title", null=True, blank=True, editable=True, max_length=255
+        _("Module title"), null=True, blank=True, editable=True, max_length=255
     )
     perms = models.BooleanField(
-        "Perms",
+        _("Perms"),
         null=False,
         blank=False,
         editable=True,
         default=False,
     )
     index = models.CharField(
-        "Index", null=True, blank=True, editable=True, max_length=255
+        _("Index"), null=True, blank=True, editable=True, max_length=255
     )
     model_code = models.TextField(
-        "Model code",
+        _("Model code"),
         null=True,
         blank=True,
         editable=False,
     )
     view_code = models.TextField(
-        "View code",
+        _("View code"),
         null=True,
         blank=True,
         editable=False,
     )
     urls_code = models.TextField(
-        "Urls code",
+        _("Urls code"),
         null=True,
         blank=True,
         editable=False,
     )
     tasks_code = models.TextField(
-        "Tasks code",
+        _("Tasks code"),
         null=True,
         blank=True,
         editable=True,
     )
     consumer_code = models.TextField(
-        "Consumer code",
+        _("Consumer code"),
         null=True,
         blank=True,
         editable=True,
     )
     doc = models.TextField(
-        "Doc",
+        _("Doc"),
         null=True,
         blank=True,
         editable=False,
     )
     user_param = models.TextField(
-        "Urser parameter",
+        _("Urser parameter"),
         null=True,
         blank=True,
         editable=True,
     )
     icon = models.CharField(
-        "Icon", null=True, blank=True, editable=True, max_length=256
+        _("Icon"), null=True, blank=True, editable=True, max_length=256
     )
     icon_size = models.CharField(
-        "Icon size",
+        _("Icon size"),
         null=False,
         blank=False,
         editable=True,
@@ -739,7 +748,7 @@ class SChApp(JSONModel):
         max_length=1,
     )
     icon_code = models.TextField(
-        "Icon code",
+        _("Icon code"),
         null=True,
         blank=True,
         editable=False,
@@ -957,13 +966,13 @@ class SChChoice(models.Model):
         null=False,
         blank=False,
         editable=True,
-        verbose_name="Parent",
+        verbose_name=_("Parent"),
     )
     name = models.CharField(
-        "Name", null=False, blank=False, editable=True, max_length=255
+        _("Name"), null=False, blank=False, editable=True, max_length=255
     )
     verbose_name = models.CharField(
-        "Verbose name", null=False, blank=False, editable=True, max_length=255
+        _("Verbose name"), null=False, blank=False, editable=True, max_length=255
     )
 
     def __str__(self):
@@ -988,13 +997,13 @@ class SChChoiceItem(models.Model):
         null=False,
         blank=False,
         editable=True,
-        verbose_name="Parent",
+        verbose_name=_("Parent"),
     )
     name = models.CharField(
-        "Key name", null=False, blank=False, editable=True, max_length=255
+        _("Key name"), null=False, blank=False, editable=True, max_length=255
     )
     value = models.CharField(
-        "Verbose name", null=False, blank=False, editable=True, max_length=255
+        _("Verbose name"), null=False, blank=False, editable=True, max_length=255
     )
 
     def __str__(self):
@@ -1019,34 +1028,34 @@ class SChTable(models.Model):
         null=False,
         blank=False,
         editable=True,
-        verbose_name="Parent",
+        verbose_name=_("Parent"),
     )
     base_table = models.CharField(
-        "Base table", null=True, blank=True, editable=True, max_length=255
+        _("Base table"), null=True, blank=True, editable=True, max_length=255
     )
     name = models.CharField(
-        "Name", null=False, blank=False, editable=True, max_length=255
+        _("Name"), null=False, blank=False, editable=True, max_length=255
     )
     verbose_name = models.CharField(
-        "Verbose name", null=False, blank=False, editable=True, max_length=255
+        _("Verbose name"), null=False, blank=False, editable=True, max_length=255
     )
     verbose_name_plural = models.CharField(
-        "Verbose name plural", null=False, blank=False, editable=True, max_length=255
+        _("Verbose name plural"), null=False, blank=False, editable=True, max_length=255
     )
     metaclass_code = models.TextField(
-        "Metaclass code",
+        _("Metaclass code"),
         null=True,
         blank=True,
         editable=False,
     )
     table_code = models.TextField(
-        "Table code",
+        _("Table code"),
         null=True,
         blank=True,
         editable=False,
     )
     ordering = models.CharField(
-        "Ordering",
+        _("Ordering"),
         null=True,
         blank=True,
         editable=True,
@@ -1054,23 +1063,23 @@ class SChTable(models.Model):
         max_length=255,
     )
     doc = models.TextField(
-        "Doc",
+        _("Doc"),
         null=True,
         blank=True,
         editable=False,
     )
     generic = models.BooleanField(
-        "Generic",
+        _("Generic"),
         null=False,
         blank=False,
         editable=True,
         default=False,
     )
     url_params = models.CharField(
-        "Url params", null=True, blank=True, editable=True, max_length=255
+        _("Url params"), null=True, blank=True, editable=True, max_length=255
     )
     proxy_model = models.CharField(
-        "Proxy model", null=True, blank=True, editable=True, max_length=255
+        _("Proxy model"), null=True, blank=True, editable=True, max_length=255
     )
 
     def get_models(self):
@@ -1113,16 +1122,16 @@ class SChField(models.Model):
         null=False,
         blank=False,
         editable=True,
-        verbose_name="Parent",
+        verbose_name=_("Parent"),
     )
     name = models.CharField(
-        "Name", null=True, blank=True, editable=True, max_length=255
+        _("Name"), null=True, blank=True, editable=True, max_length=255
     )
     description = models.CharField(
-        "Description", null=True, blank=True, editable=True, max_length=255
+        _("Description"), null=True, blank=True, editable=True, max_length=255
     )
     type = models.CharField(
-        "Type",
+        _("Type"),
         null=False,
         blank=False,
         editable=True,
@@ -1130,57 +1139,57 @@ class SChField(models.Model):
         max_length=64,
     )
     null = models.BooleanField(
-        "Null",
+        _("Null"),
         null=False,
         blank=False,
         editable=True,
         default=False,
     )
     blank = models.BooleanField(
-        "Blank",
+        _("Blank"),
         null=False,
         blank=False,
         editable=True,
         default=False,
     )
     editable = models.BooleanField(
-        "Editable",
+        _("Editable"),
         null=False,
         blank=False,
         editable=True,
         default=False,
     )
     unique = models.BooleanField(
-        "Unique",
+        _("Unique"),
         null=False,
         blank=False,
         editable=True,
         default=False,
     )
     db_index = models.BooleanField(
-        "DB index",
+        _("DB index"),
         null=False,
         blank=False,
         editable=True,
         default=False,
     )
     default = models.CharField(
-        "Default", null=True, blank=True, editable=True, max_length=255
+        _("Default"), null=True, blank=True, editable=True, max_length=255
     )
     help_text = models.CharField(
-        "Help text", null=True, blank=True, editable=True, max_length=255
+        _("Help text"), null=True, blank=True, editable=True, max_length=255
     )
     choices = models.CharField(
-        "Choices", null=True, blank=True, editable=True, max_length=255
+        _("Choices"), null=True, blank=True, editable=True, max_length=255
     )
     rel_to = models.CharField(
-        "Relation to", null=True, blank=True, editable=True, max_length=255
+        _("Relation to"), null=True, blank=True, editable=True, max_length=255
     )
     param = models.CharField(
-        "Param", null=True, blank=True, editable=True, max_length=255
+        _("Param"), null=True, blank=True, editable=True, max_length=255
     )
     url_params = models.CharField(
-        "Url params", null=True, blank=True, editable=True, max_length=255
+        _("Url params"), null=True, blank=True, editable=True, max_length=255
     )
 
     def init_new(self, request, view, param=None):
@@ -1242,7 +1251,7 @@ class SChField(models.Model):
                 rel_model = self.rel_to
             if "ForeignKey" in self.type or "OneToOne" in self.type:
                 ret = (
-                    "%s = %s%s(%s, on_delete=models.CASCADE, null=%s, blank=%s, editable=%s, verbose_name='%s', "
+                    "%s = %s%s(%s, on_delete=models.CASCADE, null=%s, blank=%s, editable=%s, verbose_name=_('%s'), "
                     % (
                         self.name,
                         module,
@@ -1255,7 +1264,7 @@ class SChField(models.Model):
                     )
                 )
             elif "ManyToMany" in self.type:
-                ret = "%s = %s%s(%s, editable=%s, verbose_name='%s', " % (
+                ret = "%s = %s%s(%s, editable=%s, verbose_name=_('%s'), " % (
                     self.name,
                     module,
                     self.type,
@@ -1265,7 +1274,7 @@ class SChField(models.Model):
                 )
             else:
                 ret = (
-                    "%s = %s%s(%s, null=%s, blank=%s, editable=%s, verbose_name='%s', "
+                    "%s = %s%s(%s, null=%s, blank=%s, editable=%s, verbose_name=_('%s'), "
                     % (
                         self.name,
                         module,
@@ -1278,7 +1287,7 @@ class SChField(models.Model):
                     )
                 )
         else:
-            ret = "%s = %s%s('%s', null=%s, blank=%s, editable=%s, " % (
+            ret = "%s = %s%s(_('%s'), null=%s, blank=%s, editable=%s, " % (
                 self.name,
                 module,
                 self.type,
@@ -1346,13 +1355,13 @@ class SChView(models.Model):
         null=False,
         blank=False,
         editable=True,
-        verbose_name="Parent",
+        verbose_name=_("Parent"),
     )
     name = models.CharField(
-        "Name", null=False, blank=False, editable=True, max_length=255
+        _("Name"), null=False, blank=False, editable=True, max_length=255
     )
     view_type = models.CharField(
-        "View type",
+        _("View type"),
         null=False,
         blank=False,
         editable=True,
@@ -1360,20 +1369,22 @@ class SChView(models.Model):
         max_length=1,
     )
     param = models.CharField(
-        "Param", null=True, blank=True, editable=True, max_length=255
+        _("Param"), null=True, blank=True, editable=True, max_length=255
     )
-    url = models.CharField("Url", null=True, blank=True, editable=True, max_length=255)
+    url = models.CharField(
+        _("Url"), null=True, blank=True, editable=True, max_length=255
+    )
     view_code = models.TextField(
-        "View code",
+        _("View code"),
         null=True,
         blank=True,
         editable=False,
     )
     url_params = models.CharField(
-        "Url params", null=True, blank=True, editable=True, max_length=255
+        _("Url params"), null=True, blank=True, editable=True, max_length=255
     )
     ret_type = models.CharField(
-        "Return value type",
+        _("Return value type"),
         null=False,
         blank=False,
         editable=True,
@@ -1382,20 +1393,20 @@ class SChView(models.Model):
         max_length=1,
     )
     asynchronous = models.BooleanField(
-        "Async",
+        _("Async"),
         null=True,
         blank=True,
         editable=True,
         default=False,
     )
     extra_code = models.TextField(
-        "Extra code",
+        _("Extra code"),
         null=True,
         blank=True,
         editable=False,
     )
     doc = models.TextField(
-        "Doc",
+        _("Doc"),
         null=True,
         blank=True,
         editable=False,
@@ -1542,10 +1553,10 @@ class SChStatic(models.Model):
         null=False,
         blank=False,
         editable=True,
-        verbose_name="Parent",
+        verbose_name=_("Parent"),
     )
     type = models.CharField(
-        "Type",
+        _("Type"),
         null=False,
         blank=False,
         editable=True,
@@ -1553,16 +1564,16 @@ class SChStatic(models.Model):
         max_length=1,
     )
     name = models.CharField(
-        "Name", null=False, blank=False, editable=True, max_length=64
+        _("Name"), null=False, blank=False, editable=True, max_length=64
     )
     content = models.TextField(
-        "Content",
+        _("Content"),
         null=True,
         blank=True,
         editable=False,
     )
     doc = models.TextField(
-        "Doc",
+        _("Doc"),
         null=True,
         blank=True,
         editable=False,
@@ -1593,27 +1604,29 @@ class SChTemplate(models.Model):
         null=False,
         blank=False,
         editable=True,
-        verbose_name="Parent",
+        verbose_name=_("Parent"),
     )
     name = models.CharField(
-        "Name", null=False, blank=False, editable=True, max_length=255
+        _("Name"), null=False, blank=False, editable=True, max_length=255
     )
     direct_to_template = models.BooleanField(
-        "Direct to template",
+        _("Direct to template"),
         null=True,
         blank=True,
         editable=True,
     )
-    url = models.CharField("Url", null=True, blank=True, editable=True, max_length=64)
+    url = models.CharField(
+        _("Url"), null=True, blank=True, editable=True, max_length=64
+    )
     url_parm = models.CharField(
-        "Parameters passed to the template",
+        _("Parameters passed to the template"),
         null=True,
         blank=True,
         editable=True,
         max_length=128,
     )
     template_code = models.TextField(
-        "Template code",
+        _("Template code"),
         null=True,
         blank=True,
         editable=False,
@@ -1621,13 +1634,13 @@ class SChTemplate(models.Model):
     static_files = models.ManyToManyField(
         SChStatic,
         editable=True,
-        verbose_name="Static files",
+        verbose_name=_("Static files"),
     )
     tags_mount = models.CharField(
-        "Mount component tags", null=True, blank=True, editable=True, max_length=256
+        _("Mount component tags"), null=True, blank=True, editable=True, max_length=256
     )
     asynchronous = models.BooleanField(
-        "Async",
+        _("Async"),
         null=True,
         blank=True,
         editable=True,
@@ -1855,16 +1868,16 @@ class SChAppMenu(models.Model):
         null=False,
         blank=False,
         editable=True,
-        verbose_name="Parent",
+        verbose_name=_("Parent"),
     )
     name = models.CharField(
-        "Name", null=False, blank=False, editable=True, max_length=255
+        _("Name"), null=False, blank=False, editable=True, max_length=255
     )
     url = models.CharField(
-        "Url", null=False, blank=False, editable=True, max_length=255
+        _("Url"), null=False, blank=False, editable=True, max_length=255
     )
     url_type = models.CharField(
-        "Url type",
+        _("Url type"),
         null=True,
         blank=True,
         editable=True,
@@ -1873,13 +1886,13 @@ class SChAppMenu(models.Model):
         max_length=16,
     )
     perms = models.CharField(
-        "Perms", null=True, blank=True, editable=True, max_length=255
+        _("Perms"), null=True, blank=True, editable=True, max_length=255
     )
     icon = models.CharField(
-        "Icon", null=True, blank=True, editable=True, max_length=255
+        _("Icon"), null=True, blank=True, editable=True, max_length=255
     )
     icon_size = models.CharField(
-        "Icon size",
+        _("Icon size"),
         null=False,
         blank=False,
         editable=True,
@@ -1888,7 +1901,7 @@ class SChAppMenu(models.Model):
         max_length=1,
     )
     icon_code = models.TextField(
-        "Icon code (svg)",
+        _("Icon code (svg)"),
         null=True,
         blank=True,
         editable=False,
@@ -1955,41 +1968,41 @@ class SChForm(models.Model):
         null=False,
         blank=False,
         editable=True,
-        verbose_name="Parent",
+        verbose_name=_("Parent"),
     )
     name = models.CharField(
-        "Name", null=False, blank=False, editable=True, max_length=64
+        _("Name"), null=False, blank=False, editable=True, max_length=64
     )
     module = models.CharField(
-        "Module", null=True, blank=True, editable=True, max_length=64
+        _("Module"), null=True, blank=True, editable=True, max_length=64
     )
     process_code = models.TextField(
-        "Process code",
+        _("Process code"),
         null=True,
         blank=True,
         editable=True,
     )
     end_class_code = models.TextField(
-        "End class code",
+        _("End class code"),
         null=True,
         blank=True,
         editable=True,
     )
     end_code = models.TextField(
-        "End code",
+        _("End code"),
         null=True,
         blank=True,
         editable=True,
     )
     asynchronous = models.BooleanField(
-        "Async",
+        _("Async"),
         null=True,
         blank=True,
         editable=True,
         default=False,
     )
     doc = models.TextField(
-        "Doc",
+        _("Doc"),
         null=True,
         blank=True,
         editable=True,
@@ -2023,13 +2036,13 @@ class SChFormField(models.Model):
         null=False,
         blank=False,
         editable=True,
-        verbose_name="Parent",
+        verbose_name=_("Parent"),
     )
     name = models.CharField(
-        "Name", null=False, blank=False, editable=True, max_length=64
+        _("Name"), null=False, blank=False, editable=True, max_length=64
     )
     type = models.CharField(
-        "Type",
+        _("Type"),
         null=False,
         blank=False,
         editable=True,
@@ -2037,29 +2050,29 @@ class SChFormField(models.Model):
         max_length=64,
     )
     required = models.BooleanField(
-        "Required",
+        _("Required"),
         null=False,
         blank=False,
         editable=True,
         default=False,
     )
     label = models.CharField(
-        "Label", null=False, blank=False, editable=True, max_length=64
+        _("Label"), null=False, blank=False, editable=True, max_length=64
     )
     initial = models.CharField(
-        "Initial", null=True, blank=True, editable=True, max_length=256
+        _("Initial"), null=True, blank=True, editable=True, max_length=256
     )
     widget = models.CharField(
-        "Widget", null=True, blank=True, editable=True, max_length=256
+        _("Widget"), null=True, blank=True, editable=True, max_length=256
     )
     help_text = models.CharField(
-        "Help text", null=True, blank=True, editable=True, max_length=256
+        _("Help text"), null=True, blank=True, editable=True, max_length=256
     )
     error_messages = models.CharField(
-        "Error messages", null=True, blank=True, editable=True, max_length=64
+        _("Error messages"), null=True, blank=True, editable=True, max_length=64
     )
     param = models.CharField(
-        "Param", null=True, blank=True, editable=True, max_length=1024
+        _("Param"), null=True, blank=True, editable=True, max_length=1024
     )
 
     def init_new(self, request, view, param=None):
@@ -2131,34 +2144,34 @@ class SChTask(models.Model):
         null=False,
         blank=False,
         editable=True,
-        verbose_name="Parent",
+        verbose_name=_("Parent"),
     )
     name = models.CharField(
-        "Name", null=False, blank=False, editable=True, max_length=255
+        _("Name"), null=False, blank=False, editable=True, max_length=255
     )
     code = models.TextField(
-        "Code",
+        _("Code"),
         null=True,
         blank=True,
         editable=False,
     )
     doc = models.TextField(
-        "Doc",
+        _("Doc"),
         null=True,
         blank=True,
         editable=False,
     )
     perms = models.CharField(
-        "Perms", null=True, blank=True, editable=True, max_length=255
+        _("Perms"), null=True, blank=True, editable=True, max_length=255
     )
     publish = models.BooleanField(
-        "Publish",
+        _("Publish"),
         null=True,
         blank=True,
         editable=True,
     )
     publish_group = models.CharField(
-        "Publish group", null=True, blank=True, editable=True, max_length=64
+        _("Publish group"), null=True, blank=True, editable=True, max_length=64
     )
 
     def template_for_object(self, view, context, doc_type):
@@ -2188,10 +2201,10 @@ class SChFile(models.Model):
         null=False,
         blank=False,
         editable=True,
-        verbose_name="Parent",
+        verbose_name=_("Parent"),
     )
     type = models.CharField(
-        "type",
+        _("type"),
         null=False,
         blank=False,
         editable=True,
@@ -2199,16 +2212,16 @@ class SChFile(models.Model):
         max_length=3,
     )
     name = models.CharField(
-        "Name", null=False, blank=False, editable=True, max_length=256
+        _("Name"), null=False, blank=False, editable=True, max_length=256
     )
     content = models.TextField(
-        "Content",
+        _("Content"),
         null=True,
         blank=True,
         editable=False,
     )
     doc = models.TextField(
-        "Doc",
+        _("Doc"),
         null=True,
         blank=True,
         editable=False,
@@ -2240,10 +2253,10 @@ class SChLocale(models.Model):
         null=False,
         blank=False,
         editable=True,
-        verbose_name="Parent",
+        verbose_name=_("Parent"),
     )
     name = models.CharField(
-        "Name", null=False, blank=False, editable=True, max_length=16
+        _("Name"), null=False, blank=False, editable=True, max_length=16
     )
 
 
@@ -2265,16 +2278,16 @@ class SChTranslate(models.Model):
         null=False,
         blank=False,
         editable=False,
-        verbose_name="Parent",
+        verbose_name=_("Parent"),
     )
     description = models.CharField(
-        "Description", null=False, blank=False, editable=True, max_length=1024
+        _("Description"), null=False, blank=False, editable=True, max_length=1024
     )
     translation = models.CharField(
-        "Translation", null=True, blank=True, editable=True, max_length=1024
+        _("Translation"), null=True, blank=True, editable=True, max_length=1024
     )
     status = models.CharField(
-        "Status", null=True, blank=True, editable=False, max_length=16
+        _("Status"), null=True, blank=True, editable=False, max_length=16
     )
 
 
@@ -2296,28 +2309,30 @@ class SChChannelConsumer(models.Model):
         null=False,
         blank=False,
         editable=True,
-        verbose_name="Parent",
+        verbose_name=_("Parent"),
     )
     name = models.CharField(
-        "Name", null=False, blank=False, editable=True, max_length=255
+        _("Name"), null=False, blank=False, editable=True, max_length=255
     )
     consumer_type = models.CharField(
-        "Consumer type",
+        _("Consumer type"),
         null=False,
         blank=False,
         editable=True,
         choices=Consumer_CHOICES,
         max_length=64,
     )
-    url = models.CharField("Url", null=True, blank=True, editable=True, max_length=255)
+    url = models.CharField(
+        _("Url"), null=True, blank=True, editable=True, max_length=255
+    )
     consumer_code = models.TextField(
-        "Consumer code",
+        _("Consumer code"),
         null=True,
         blank=True,
         editable=False,
     )
     doc = models.TextField(
-        "Doc",
+        _("Doc"),
         null=True,
         blank=True,
         editable=False,

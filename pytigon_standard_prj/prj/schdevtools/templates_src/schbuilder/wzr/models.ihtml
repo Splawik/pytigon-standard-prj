@@ -24,11 +24,12 @@ from pytigon_lib.schhtml.htmltools import superstrip
 {% if choices %}
 {% for choice in choices %}
 {{choice.name}} = [
-    {% for item in choice.schchoiceitem_set.all %}("{{item.name|safe}}","{{item.value|safe}}"),
+    {% for item in choice.schchoiceitem_set.all %}("{{item.name|safe}}", _("{{item.value|safe}}")),
     {% endfor %}
     ]
 {% endfor %}
 {% endif %}
+
 
 {% for table in tables %}
 class {{table.name}}({%if table.base_table %}{{table.get_base_table}}{%else%}{%if table.proxy_model %}{{table.proxy_model}}{% else %} models.Model{% endif %}{%endif%}):

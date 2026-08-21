@@ -99,15 +99,15 @@
 
 
         def filter_child_url(self, child, url):
+            print("TT1", child, url)
             try:
                 cmd = url.split('/form/')[-1].split("/")[0].upper()
+                print("TT2", url)
             except:
                 pass
             if cmd in ('COPY', 'MOVE', 'MKDIR', 'RENAME', 'NEWFILE'):
-                print("A1", cmd)
+                print("TT3", cmd, ( bencode(self.panels_dir[self.tab][2]), bencode(child.dest.GetValue())))
                 ret = self.CMD.GetTable().run_cmd(cmd, ( bencode(self.panels_dir[self.tab][2]), bencode(child.dest.GetValue())), 1)
-                print("A2", ret)
-                print("A3", ( bencode(self.panels_dir[self.tab][2]), bencode(child.dest.GetValue())) )
             elif cmd in ('DELETE',):
                 ret = self.CMD.GetTable().run_cmd(cmd, ( bencode(self.panels_dir[self.tab][2]),), 1)
             else:
@@ -142,6 +142,7 @@
             class callback:
                 def on_websocket_message(msg):
                     nonlocal form
+                    print("on_websocket_message", msg)
                     msg2 = schjson.loads(msg)
                     if msg2['status'] == 'event':
                         form.msg.append_html(msg2['data'])

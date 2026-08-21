@@ -106,6 +106,13 @@ EXPLORER_CONNECTIONS = {"Default": "default"}
 EXPLORER_DEFAULT_CONNECTION = "default"
 
 
+CACHES["default"] = {
+    "BACKEND": "diskcache.DjangoCache",
+    "LOCATION": os.path.join(TEMP_PATH, "schdev_cache"),
+    "SHARDS": 1,
+    "DATABASE_TIMEOUT": 5.0,
+}
+
 if platform_name() != "Android":
     INSTALLED_APPS.append("easy_thumbnails")
 
@@ -261,7 +268,7 @@ try:
 except ImportError:
     pass
 
-GEN_TIME = "2026-08-17 19:09:06"
+GEN_TIME = "2026-08-21 14:42:01"
 
 
 for key, value in os.environ.items():

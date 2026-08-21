@@ -8,7 +8,7 @@
         meta name=target,,,content=_parent_refr
 
 %% form_content_schbutton
-    input type=submit,,,value=OK,,,class=btn btn-info,,,target=_self,,,height=64
+    input type=submit,,,href=.,,,value=OK,,,class=btn btn-info,,,target=_self,,,height=64
 
 
 %% all

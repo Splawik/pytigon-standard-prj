@@ -39,7 +39,12 @@ def view_move(request, *argi, **argv):
 
 
 class Copy(forms.Form):
-    dest = forms.ChoiceField(label=_("Destination"), required=False, choices=[])
+    dest = forms.CharField(
+        label=_("Destination"), required=False, max_length=None, min_length=None
+    )
+
+    def preprocess_request(self, request):
+        return None
 
 
 def view_copy(request, *argi, **argv):
