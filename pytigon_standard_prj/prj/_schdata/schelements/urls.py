@@ -1,6 +1,7 @@
 from django.urls import path, re_path
 from django.utils.translation import gettext_lazy as _
-from pytigon_lib.schviews import generic_table_start, gen_tab_action, gen_row_action
+from pytigon_lib.schviews import gen_row_action, gen_tab_action, generic_table_start
+
 from . import views
 
 urlpatterns = [

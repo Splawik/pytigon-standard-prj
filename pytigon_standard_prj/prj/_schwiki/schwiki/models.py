@@ -1,16 +1,13 @@
 from django.db import models
 from django.utils import timezone
 from django.utils.translation import gettext_lazy as _
-
 from pytigon_lib.schdjangoext.fields import *
 from pytigon_lib.schdjangoext.models import *
-
-
-from pytigon_lib.schtools.wiki import wiki_from_str, make_href
 from pytigon_lib.schindent.indent_markdown import (
-    IndentMarkdownProcessor,
     REG_OBJ_RENDERER,
+    IndentMarkdownProcessor,
 )
+from pytigon_lib.schtools.wiki import make_href, wiki_from_str
 
 PUBLISH_FUN = """#Example: 
 #import datetime
@@ -22,15 +19,15 @@ PUBLISH_FUN = """#Example:
 
 
 page_type_choices = [
-    ("W", "Wiki"),
-    ("I", "Indent html"),
-    ("H", "Html"),
+    ("W", _("Wiki")),
+    ("I", _("Indent html")),
+    ("H", _("Html")),
 ]
 
 menu_icon_size_choices = [
-    ("0", "small"),
-    ("1", "medium"),
-    ("2", "large"),
+    ("0", _("small")),
+    ("1", _("medium")),
+    ("2", _("large")),
 ]
 
 
@@ -44,49 +41,54 @@ class Page(JSONModel):
         ordering = ["id"]
 
     subject = models.CharField(
-        "Subject", null=False, blank=False, editable=True, db_index=True, max_length=64
+        _("Subject"),
+        null=False,
+        blank=False,
+        editable=True,
+        db_index=True,
+        max_length=64,
     )
     name = models.CharField(
-        "Name", null=False, blank=False, editable=True, db_index=True, max_length=64
+        _("Name"), null=False, blank=False, editable=True, db_index=True, max_length=64
     )
     description = models.CharField(
-        "Description", null=True, blank=True, editable=True, max_length=256
+        _("Description"), null=True, blank=True, editable=True, max_length=256
     )
     content_src = models.TextField(
-        "Content source",
+        _("Content source"),
         null=True,
         blank=True,
         editable=False,
     )
     content = models.TextField(
-        "Content",
+        _("Content"),
         null=True,
         blank=True,
         editable=False,
     )
     base_template = models.CharField(
-        "Base template", null=True, blank=True, editable=True, max_length=64
+        _("Base template"), null=True, blank=True, editable=True, max_length=64
     )
     rights_group = models.CharField(
-        "Rights group", null=True, blank=True, editable=True, max_length=64
+        _("Rights group"), null=True, blank=True, editable=True, max_length=64
     )
     prj_name = models.CharField(
-        "Project name", null=True, blank=True, editable=True, max_length=64
+        _("Project name"), null=True, blank=True, editable=True, max_length=64
     )
     menu = models.CharField(
-        "Menu path", null=True, blank=True, editable=True, max_length=64
+        _("Menu path"), null=True, blank=True, editable=True, max_length=64
     )
     menu_position = models.IntegerField(
-        "Menu position",
+        _("Menu position"),
         null=True,
         blank=True,
         editable=True,
     )
     menu_icon = models.CharField(
-        "Icon in menu", null=True, blank=True, editable=True, max_length=256
+        _("Icon in menu"), null=True, blank=True, editable=True, max_length=256
     )
     menu_icon_size = models.CharField(
-        "Icon size",
+        _("Icon size"),
         null=False,
         blank=False,
         editable=True,
@@ -95,13 +97,13 @@ class Page(JSONModel):
         max_length=1,
     )
     operator = models.CharField(
-        "Operator", null=True, blank=True, editable=False, max_length=64
+        _("Operator"), null=True, blank=True, editable=False, max_length=64
     )
     update_time = models.DateTimeField(
-        "Update time", null=False, blank=False, editable=False, auto_now=True
+        _("Update time"), null=False, blank=False, editable=False, auto_now=True
     )
     published = models.BooleanField(
-        "Published",
+        _("Published"),
         null=True,
         blank=False,
         editable=False,
@@ -109,7 +111,7 @@ class Page(JSONModel):
         db_index=True,
     )
     latest = models.BooleanField(
-        "Latest",
+        _("Latest"),
         null=True,
         blank=False,
         editable=False,
@@ -119,7 +121,7 @@ class Page(JSONModel):
     def save_from_request(self, request, view_type, param):
         if "direct_save" in request.POST:
             self.operator = request.user.username
-            super(Page, self).save()
+            super().save()
         else:
             conf_list = WikiConf.objects.filter(subject=self.subject)
             conf_exists = False
@@ -172,7 +174,7 @@ class Page(JSONModel):
 
     def save(self, *args, **kwargs):
         # if not self.id:
-        super(Page, self).save(*args, **kwargs)
+        super().save(*args, **kwargs)
         if self.content_src:
             # content = html_from_wiki(self, self.content_src+"\n\n\n&nbsp;")
             conf = WikiConf.objects.filter(subject=self.subject).first()
@@ -191,7 +193,7 @@ class Page(JSONModel):
         else:
             content = ""
         self.content = content
-        super(Page, self).save(*args, **kwargs)
+        super().save(*args, **kwargs)
 
     def template_for_object(self, view, context, doc_type):
         if doc_type == "py":
@@ -268,60 +270,60 @@ class WikiConf(JSONModel):
         ordering = ["id"]
 
     subject = models.CharField(
-        "Wiki subject", null=False, blank=False, editable=True, max_length=64
+        _("Wiki subject"), null=False, blank=False, editable=True, max_length=64
     )
     group_of_rights_to_view = models.CharField(
-        "A group of rights to view wiki",
+        _("A group of rights to view wiki"),
         null=True,
         blank=True,
         editable=True,
         max_length=64,
     )
     group_of_rights_to_edit = models.CharField(
-        "A group of rights to edit wiki",
+        _("A group of rights to edit wiki"),
         null=True,
         blank=True,
         editable=True,
         max_length=64,
     )
     backup_copies = models.IntegerField(
-        "Number of backup copies",
+        _("Number of backup copies"),
         null=False,
         blank=False,
         editable=True,
     )
     publish_fun = models.TextField(
-        "Function called after publishing",
+        _("Function called after publishing"),
         null=True,
         blank=True,
         editable=False,
     )
     scss = models.TextField(
-        "Additional scss styles",
+        _("Additional scss styles"),
         null=True,
         blank=True,
         editable=False,
     )
     css = models.TextField(
-        "Css styles",
+        _("Css styles"),
         null=True,
         blank=True,
         editable=False,
     )
     page_header = models.TextField(
-        "Page header",
+        _("Page header"),
         null=True,
         blank=True,
         editable=False,
     )
     page_footer = models.TextField(
-        "Page footer",
+        _("Page footer"),
         null=True,
         blank=True,
         editable=False,
     )
     git_repository = models.CharField(
-        "Git repository", null=True, blank=True, editable=True, max_length=256
+        _("Git repository"), null=True, blank=True, editable=True, max_length=256
     )
 
     def get_css(self):

@@ -1,16 +1,12 @@
-from django.http import HttpResponse
-from django import forms
+import json
 
+from django import forms
+from django.http import HttpResponse, HttpResponseBadRequest
+from django.utils.translation import gettext_lazy as _
+from django_q.tasks import async_task
 from pytigon_lib.schviews.form_fun import form_with_perms
 
-from django.utils.translation import gettext_lazy as _
-
-
-import json
-from django.http import HttpResponseBadRequest
 from .models import history
-from django_q.tasks import async_task
-
 
 PFORM = form_with_perms("schbrowser")
 
@@ -40,7 +36,7 @@ class MultiDownload(forms.Form):
     download_mask = forms.CharField(
         label=_("Download href mask"),
         required=False,
-        initial=".*hq\.mp3.*",
+        initial=r".*hq\.mp3.*",
         max_length=None,
         min_length=None,
     )
@@ -63,7 +59,7 @@ class MultiDownload(forms.Form):
         parm["levels"] = self.cleaned_data["levels"]
         parm["test_only"] = self.cleaned_data["test_only"]
 
-        if "http" not in parm["base_address"]:
+        if not "http" in parm["base_address"]:
             parm["base_address"] = "http://" + parm["base_address"]
 
         if not parm["source_page"]:

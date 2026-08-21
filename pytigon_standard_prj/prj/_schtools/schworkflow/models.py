@@ -69,11 +69,11 @@ def handle_event(event):
 
 
 workflow_item_status_choices = [
-    ("0", "active"),
-    ("1", "accepted"),
-    ("2", "rejected"),
-    ("8", "next"),
-    ("9", "cancelled"),
+    ("0", _("active")),
+    ("1", _("accepted")),
+    ("2", _("rejected")),
+    ("8", _("next")),
+    ("9", _("cancelled")),
 ]
 
 
@@ -91,34 +91,34 @@ class WorkflowType(models.Model):
         ]
 
     name = models.CharField(
-        "Name", null=False, blank=False, editable=True, db_index=True, max_length=64
+        _("Name"), null=False, blank=False, editable=True, db_index=True, max_length=64
     )
     script_for_new_item = models.TextField(
-        "Script for new workflow item",
+        _("Script for new workflow item"),
         null=True,
         blank=True,
         editable=False,
     )
     script_for_accept_item = models.TextField(
-        "Script for accept workflow item",
+        _("Script for accept workflow item"),
         null=True,
         blank=True,
         editable=False,
     )
     script_for_reject_item = models.TextField(
-        "Script for reject workflow item",
+        _("Script for reject workflow item"),
         null=True,
         blank=True,
         editable=False,
     )
     script_for_refresh_queue = models.TextField(
-        "Script for refresh workflow queue",
+        _("Script for refresh workflow queue"),
         null=True,
         blank=True,
         editable=False,
     )
     script_for_handle_event = models.TextField(
-        "Script for handle event",
+        _("Script for handle event"),
         null=True,
         blank=True,
         editable=False,
@@ -245,40 +245,40 @@ class WorkflowItem(AssociatedJSONModel):
         null=False,
         blank=False,
         editable=True,
-        verbose_name="Workflow type",
+        verbose_name=_("Workflow type"),
         db_index=True,
     )
     level = models.IntegerField(
-        "Level",
+        _("Level"),
         null=True,
         blank=True,
         editable=True,
         default=0,
     )
     user_email = models.EmailField(
-        "User s email",
+        _("User s email"),
         null=True,
         blank=True,
         editable=True,
         db_index=True,
     )
     creation_date = models.DateTimeField(
-        "Creation date", null=False, blank=False, editable=True, auto_now=True
+        _("Creation date"), null=False, blank=False, editable=True, auto_now=True
     )
     acceptance_date = models.DateTimeField(
-        "Acceptance date",
+        _("Acceptance date"),
         null=True,
         blank=True,
         editable=True,
     )
     title = models.CharField(
-        "Title", null=True, blank=True, editable=True, db_index=True, max_length=128
+        _("Title"), null=True, blank=True, editable=True, db_index=True, max_length=128
     )
     item_type = models.CharField(
-        "Item type", null=True, blank=True, editable=True, max_length=16
+        _("Item type"), null=True, blank=True, editable=True, max_length=16
     )
     status = models.CharField(
-        "Status",
+        _("Status"),
         null=True,
         blank=True,
         editable=True,

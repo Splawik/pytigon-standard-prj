@@ -20,8 +20,8 @@ if not from_migrations():
 
 
 tag_CHOICE = [
-    ("0", "Standard"),
-    ("1", "Important"),
+    ("0", _("Standard")),
+    ("1", _("Important")),
 ]
 
 
@@ -41,10 +41,10 @@ class Example1User(models.Model):
         ordering = ["id"]
 
     username = models.CharField(
-        "User name", null=False, blank=False, editable=True, max_length=64
+        _("User name"), null=False, blank=False, editable=True, max_length=64
     )
     email = models.EmailField(
-        "Email",
+        _("Email"),
         null=True,
         blank=True,
         editable=True,
@@ -71,19 +71,19 @@ class Example1Computer(models.Model):
         ordering = ["id"]
 
     sn = models.CharField(
-        "Serial number", null=False, blank=False, editable=True, max_length=64
+        _("Serial number"), null=False, blank=False, editable=True, max_length=64
     )
     description = models.CharField(
-        "Description", null=False, blank=False, editable=True, max_length=64
+        _("Description"), null=False, blank=False, editable=True, max_length=64
     )
     ip = models.GenericIPAddressField(
-        "IP",
+        _("IP"),
         null=True,
         blank=True,
         editable=True,
     )
     active = models.BooleanField(
-        "Active",
+        _("Active"),
         null=False,
         blank=False,
         editable=True,
@@ -116,10 +116,10 @@ class Example2Peripheral(models.Model):
         null=False,
         blank=False,
         editable=True,
-        verbose_name="Parent",
+        verbose_name=_("Parent"),
     )
     description = models.CharField(
-        "Description", null=False, blank=False, editable=True, max_length=64
+        _("Description"), null=False, blank=False, editable=True, max_length=64
     )
 
 
@@ -144,19 +144,24 @@ class Example3Tag(models.Model):
         ordering = ["id"]
 
     tag = models.CharField(
-        "Tag", null=False, blank=False, editable=True, choices=tag_CHOICE, max_length=64
+        _("Tag"),
+        null=False,
+        blank=False,
+        editable=True,
+        choices=tag_CHOICE,
+        max_length=64,
     )
     description = models.CharField(
-        "Description", null=True, blank=True, editable=True, max_length=64
+        _("Description"), null=True, blank=True, editable=True, max_length=64
     )
     app = models.CharField(
-        "Application", null=False, blank=False, editable=True, max_length=64
+        _("Application"), null=False, blank=False, editable=True, max_length=64
     )
     table = models.CharField(
-        "Table", null=True, blank=True, editable=True, max_length=64
+        _("Table"), null=True, blank=True, editable=True, max_length=64
     )
     parent_id = models.IntegerField(
-        "Parent id",
+        _("Parent id"),
         null=True,
         blank=True,
         editable=True,
@@ -202,7 +207,9 @@ class Example4Parameter(JSONModel):
 
         ordering = ["id"]
 
-    key = models.CharField("Key", null=False, blank=False, editable=True, max_length=32)
+    key = models.CharField(
+        _("Key"), null=False, blank=False, editable=True, max_length=32
+    )
 
     def get_form_class(self, view, request, create):
         from django import forms
@@ -266,7 +273,7 @@ class Example5ParamGroup(TreeModel):
         null=True,
         blank=True,
         editable=True,
-        verbose_name="Parent",
+        verbose_name=_("Parent"),
     )
     main_parameter = ext_models.PtigForeignKey(
         Example4Parameter,
@@ -274,7 +281,7 @@ class Example5ParamGroup(TreeModel):
         null=False,
         blank=False,
         editable=True,
-        verbose_name="Main parameter",
+        verbose_name=_("Main parameter"),
     )
     second_parameter = ext_models.PtigForeignKey(
         Example4Parameter,
@@ -282,7 +289,7 @@ class Example5ParamGroup(TreeModel):
         null=False,
         blank=False,
         editable=True,
-        verbose_name="Second parameter",
+        verbose_name=_("Second parameter"),
         related_name="second_parameters",
         search_fields=[
             "key__startswith",
@@ -291,7 +298,7 @@ class Example5ParamGroup(TreeModel):
     parameters = ext_models.PtigManyToManyField(
         Example4Parameter,
         editable=True,
-        verbose_name="Parameters",
+        verbose_name=_("Parameters"),
         related_name="group_parameters",
     )
 

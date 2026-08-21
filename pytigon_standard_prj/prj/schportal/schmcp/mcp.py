@@ -18,7 +18,6 @@ Enable by importing this module at startup (see ``examples/__init__.py``).
 import logging
 
 import httpx
-
 from pytigon.schserw.mcp import MCPToolset, tool
 
 print("MCP SERVER started")

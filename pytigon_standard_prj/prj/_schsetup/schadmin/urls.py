@@ -1,6 +1,7 @@
-from django.urls import path, include
-from pytigon_lib.schviews import generic_table_start
+from django.urls import include, path
 from django.views.generic import TemplateView
+from pytigon_lib.schviews import generic_table_start
+
 from . import views
 
 urlpatterns = [

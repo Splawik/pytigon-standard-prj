@@ -1,26 +1,23 @@
-from django.http import HttpResponseRedirect, HttpResponse
+import datetime
+
 from django import forms
-
-from pytigon_lib.schviews.form_fun import form_with_perms
-from pytigon_lib.schviews.viewtools import dict_to_template
-from pytigon_lib.schdjangoext.tools import make_href
-from pytigon_lib.schdjangoext import formfields as ext_form_fields
-from pytigon_lib.schviews import actions
-
+from django.db import transaction
+from django.db.models import F, Q
+from django.http import HttpResponse, HttpResponseRedirect
+from django.urls import resolve
+from django.utils import timezone
 from django.utils.translation import gettext_lazy as _
+from pytigon_lib.schdjangoext import formfields as ext_form_fields
+from pytigon_lib.schdjangoext.fastform import form_from_str
+from pytigon_lib.schdjangoext.import_from_db import get_fun_from_db_field
+from pytigon_lib.schdjangoext.tools import make_href
+from pytigon_lib.schviews import actions
+from pytigon_lib.schviews.form_fun import form_with_perms
+from pytigon_lib.schviews.viewtools import (
+    dict_to_template,
+)
 
 from . import models
-import datetime
-from django.utils import timezone
-
-
-from django.urls import resolve
-from django.db import transaction
-
-from pytigon_lib.schdjangoext.fastform import form_from_str
-from django.db.models import Q, F
-
-from pytigon_lib.schdjangoext.import_from_db import get_fun_from_db_field
 
 
 def year_ago():
@@ -122,11 +119,9 @@ def __change_status(request, pk, action="accept"):
                     errors = err.args
 
                 if not errors:
-                    if new_status:
-                        doc_head.status = action_name
-                        doc_head.save()
-                    elif (
-                        action_name
+                    if (
+                        new_status
+                        or action_name
                         and action_name[:1] != "_"
                         and action_name != doc_head.status
                     ):
@@ -135,8 +130,7 @@ def __change_status(request, pk, action="accept"):
 
                     if action != "accept":
                         models.DocItem.objects.filter(
-                            parent=doc_head,
-                            level__gt=reg_status.order if reg_status.order >= 0 else 0,
+                            parent=doc_head, level__gt=max(reg_status.order, 0)
                         ).delete()
 
                     doc_status.date = timezone.now()

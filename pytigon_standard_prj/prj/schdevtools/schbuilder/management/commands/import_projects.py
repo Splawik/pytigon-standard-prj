@@ -2,10 +2,10 @@ import os
 
 from django.conf import settings
 from django.core.management.base import BaseCommand
-from schbuilder.models import SChProject
-from schbuilder.views import prj_import_from_str
 
 import pytigon_standard_prj
+from schbuilder.models import SChProject
+from schbuilder.views import prj_import_from_str
 
 PRJS_TO_IMPORT = [
     "schdevtools",  # prepare with initial data

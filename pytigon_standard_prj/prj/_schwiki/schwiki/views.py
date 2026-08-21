@@ -1,35 +1,26 @@
-from django.http import HttpResponseRedirect, HttpResponse
-from django.shortcuts import render
-from django.template import Template
-from django.template import RequestContext
 from django.conf import settings
-
-from pytigon_lib.schviews.viewtools import dict_to_template
-from pytigon_lib.schdjangoext.tools import make_href
-from pytigon_lib.schviews import actions
-
-
-from . import models
-from django.utils import timezone
-
-
-from .models import Page
-from pytigon_lib.schdjangoext.fastform import form_from_str
+from django.core.cache import cache
+from django.http import HttpResponse, HttpResponseRedirect, JsonResponse
+from django.shortcuts import render
+from django.template import RequestContext, Template
 from django.template.loader import select_template
-from django.http import JsonResponse
-from pytigon_lib.schtools.schjson import json_loads, json_dumps
-
-from pytigon_lib.schtools.tools import bdecode
-
+from django.utils import timezone
 from django.views.decorators.cache import cache_page
 from django.views.decorators.csrf import csrf_exempt
 from django.views.decorators.vary import vary_on_cookie
-
-from django.core.cache import cache
-
-from pytigon_lib.schindent.indent_markdown import get_obj_renderer
-
+from pytigon_lib.schdjangoext.fastform import form_from_str
 from pytigon_lib.schdjangoext.import_from_db import run_code_from_db_field
+from pytigon_lib.schdjangoext.tools import make_href
+from pytigon_lib.schindent.indent_markdown import get_obj_renderer
+from pytigon_lib.schtools.schjson import json_dumps, json_loads
+from pytigon_lib.schtools.tools import bdecode
+from pytigon_lib.schviews import actions
+from pytigon_lib.schviews.viewtools import (
+    dict_to_template,
+)
+
+from . import models
+from .models import Page
 
 template_start_wiki = """
 {# -*- coding: utf-8 -*- #}
@@ -263,8 +254,7 @@ def edit_page_object(request, **argv):
             line = data["line"]
             x = line.split("#", 1)
             obj_name = x[0].strip()[1:].strip()
-            if obj_name.endswith(":"):
-                obj_name = obj_name[:-1]
+            obj_name = obj_name.removesuffix(":")
             if len(x) > 1:
                 s = x[1].strip()
                 if s and s[0] == "{":
@@ -338,8 +328,7 @@ def edit_object_on_page(request, page_id, line_number):
 
     x = line.split("#", 1)
     obj_name = x[0].strip()[1:].strip()
-    if obj_name.endswith(":"):
-        obj_name = obj_name[:-1]
+    obj_name = obj_name.removesuffix(":")
     if len(x) > 1:
         s = x[1].strip()
         param = json_loads(s.replace("\\n", "\n"))
@@ -396,7 +385,7 @@ def edit_object_on_page_form(request, page_id, line_number, object_name):
                             param2 = param
                             old_param = json_load(x[1])
                             for key in old_param:
-                                if key not in param2 or param2[key] == None:
+                                if not key in param2 or param2[key] == None:
                                     param2[key] = old_param[key]
                             return param2
                         except:
@@ -414,14 +403,14 @@ def edit_object_on_page_form(request, page_id, line_number, object_name):
                     if len(x) > 1:
                         old_param = json_loads(x[1])
                         for key in old_param:
-                            if key not in param or param[key] == None:
+                            if not key in param or param[key] == None:
                                 param[key] = old_param[key]
 
                 x = current_line.lstrip()
                 indent = len(current_line) - len(x)
                 line = (indent * " ") + "% " + object_name
                 c = obj_conf.get_info()
-                if "inline_content" in c and c["inline_content"]:
+                if c.get("inline_content"):
                     line += ":"
                 if param:
                     if len(line) < param_indent:

@@ -1,19 +1,12 @@
-from django.http import HttpResponseRedirect, HttpResponse
-from django.template import Template
-from django.template import RequestContext
-
+from django.db.models import F
+from django.http import HttpResponse, HttpResponseRedirect
+from django.template import RequestContext, Template
+from pytigon_lib.schdjangoext.fastform import form_from_str
+from pytigon_lib.schdjangoext.import_from_db import run_code_from_db_field
 from pytigon_lib.schdjangoext.tools import make_href
-from pytigon_lib.schviews import actions
-
+from pytigon_lib.schviews import actions, make_path
 
 from . import models
-
-
-from pytigon_lib.schdjangoext.fastform import form_from_str
-from pytigon_lib.schviews import make_path
-from django.db.models import F
-
-from pytigon_lib.schdjangoext.import_from_db import run_code_from_db_field
 
 
 def edit_group(request, group):

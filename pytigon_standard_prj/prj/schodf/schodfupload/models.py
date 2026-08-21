@@ -1,6 +1,5 @@
 from django.db import models
 from django.utils.translation import gettext_lazy as _
-
 from pytigon_lib.schdjangoext.fields import *
 from pytigon_lib.schdjangoext.models import *
 
@@ -15,7 +14,7 @@ class Rights(models.Model):
         ordering = ["id"]
 
     title = models.CharField(
-        "Title", null=True, blank=True, editable=True, max_length=64
+        _("Title"), null=True, blank=True, editable=True, max_length=64
     )
 
 

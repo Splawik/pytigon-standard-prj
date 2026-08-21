@@ -45,22 +45,22 @@ class ActionType(models.Model):
         ]
 
     name = models.CharField(
-        "Name", null=False, blank=False, editable=True, db_index=True, max_length=64
+        _("Name"), null=False, blank=False, editable=True, db_index=True, max_length=64
     )
     script_for_new_item = models.TextField(
-        "Script for new task",
+        _("Script for new task"),
         null=True,
         blank=True,
         editable=False,
     )
     script_for_close_item = models.TextField(
-        "Script for close action",
+        _("Script for close action"),
         null=True,
         blank=True,
         editable=False,
     )
     script_for_email_text = models.TextField(
-        "Script for get email text",
+        _("Script for get email text"),
         null=True,
         blank=True,
         editable=False,
@@ -144,7 +144,7 @@ class Action(AssociatedJSONModel):
         null=False,
         blank=False,
         editable=True,
-        verbose_name="Action type",
+        verbose_name=_("Action type"),
     )
     parent_action = ext_models.PtigForeignKey(
         "self",
@@ -152,61 +152,61 @@ class Action(AssociatedJSONModel):
         null=True,
         blank=True,
         editable=True,
-        verbose_name="Parent action",
+        verbose_name=_("Parent action"),
     )
     description = models.CharField(
-        "Description", null=False, blank=False, editable=True, max_length=256
+        _("Description"), null=False, blank=False, editable=True, max_length=256
     )
     start_date = models.DateTimeField(
-        "Start date", null=False, blank=False, editable=True, auto_now_add=True
+        _("Start date"), null=False, blank=False, editable=True, auto_now_add=True
     )
     deadline = models.DateTimeField(
-        "Deadline",
+        _("Deadline"),
         null=True,
         blank=True,
         editable=True,
     )
     email_action_owner = models.EmailField(
-        "Email address of the action owner",
+        _("Email address of the action owner"),
         null=True,
         blank=True,
         editable=True,
         db_index=True,
     )
     email_action_done = models.EmailField(
-        "Email - action done",
+        _("Email - action done"),
         null=True,
         blank=True,
         editable=True,
     )
     email_deadline_exceeded = models.EmailField(
-        "Email - deadline exceeded",
+        _("Email - deadline exceeded"),
         null=True,
         blank=True,
         editable=True,
     )
     info = models.TextField(
-        "Info",
+        _("Info"),
         null=True,
         blank=True,
         editable=False,
     )
     has_attachment = models.BooleanField(
-        "Has an attachment",
+        _("Has an attachment"),
         null=True,
         blank=True,
         editable=True,
         default=False,
     )
     has_workflow = models.BooleanField(
-        "Has a workflow",
+        _("Has a workflow"),
         null=True,
         blank=True,
         editable=True,
         default=False,
     )
     status = models.CharField(
-        "None", null=True, blank=True, editable=True, db_index=True, max_length=16
+        _("None"), null=True, blank=True, editable=True, db_index=True, max_length=16
     )
 
     @classmethod

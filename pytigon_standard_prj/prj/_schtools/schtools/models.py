@@ -18,7 +18,7 @@ class Parameter(models.Model):
         ]
 
     type = models.CharField(
-        "Parameter type",
+        _("Parameter type"),
         null=True,
         blank=True,
         editable=True,
@@ -26,7 +26,7 @@ class Parameter(models.Model):
         max_length=16,
     )
     subtype = models.CharField(
-        "Parameter subtype",
+        _("Parameter subtype"),
         null=True,
         blank=True,
         editable=True,
@@ -34,10 +34,10 @@ class Parameter(models.Model):
         max_length=16,
     )
     key = models.CharField(
-        "Key", null=False, blank=False, editable=True, db_index=True, max_length=64
+        _("Key"), null=False, blank=False, editable=True, db_index=True, max_length=64
     )
     value = models.CharField(
-        "Value", null=False, blank=False, editable=True, max_length=64
+        _("Value"), null=False, blank=False, editable=True, max_length=64
     )
 
     @classmethod
@@ -62,13 +62,13 @@ class Autocomplete(models.Model):
         ordering = ["id"]
 
     type = models.CharField(
-        "Type", null=False, blank=False, editable=True, db_index=True, max_length=64
+        _("Type"), null=False, blank=False, editable=True, db_index=True, max_length=64
     )
     label = models.CharField(
-        "Label", null=False, blank=False, editable=True, db_index=True, max_length=64
+        _("Label"), null=False, blank=False, editable=True, db_index=True, max_length=64
     )
     value = models.TextField(
-        "Value",
+        _("Value"),
         null=False,
         blank=False,
         editable=True,

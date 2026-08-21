@@ -1,27 +1,20 @@
-import sys
-import os
 import argparse
+import os
 
-from pytigon_lib.schhtml.pdfdc import PdfDc
-from pytigon_lib.schhtml.cairodc import CairoDc
 from pytigon_lib.schhtml.docxdc import DocxDc
-from pytigon_lib.schhtml.xlsxdc import XlsxDc
-from pytigon_lib.schhtml.basedc import BaseDc
 from pytigon_lib.schhtml.htmlviewer import HtmlViewerParser
-from pytigon_lib.schindent.indent_style import ihtml_to_html_base
-from pytigon_lib.schindent.indent_markdown import markdown_to_html
-
+from pytigon_lib.schhtml.pdfdc import PdfDc
+from pytigon_lib.schhtml.xlsxdc import XlsxDc
 from pytigon_lib.schindent.indent_markdown import (
     IndentMarkdownProcessor,
-    REG_OBJ_RENDERER,
+    markdown_to_html,
 )
+from pytigon_lib.schindent.indent_style import ihtml_to_html_base
 
 BASE_PATH = os.getcwd()
 
 
 def main(argv):
-    import schwiki.applib.makdown_obj_simple
-    import schwiki.applib.markdown_obj_subblocks
 
     parser = argparse.ArgumentParser(description="Converter")
     parser.add_argument(

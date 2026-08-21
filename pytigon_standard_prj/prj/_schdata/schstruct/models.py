@@ -1,13 +1,9 @@
+import pytigon_lib.schdjangoext.fields as ext_models
+import schelements.models
 from django.db import models
 from django.utils.translation import gettext_lazy as _
-
 from pytigon_lib.schdjangoext.fields import *
-import pytigon_lib.schdjangoext.fields as ext_models
 from pytigon_lib.schdjangoext.models import *
-
-import schelements.models
-
-
 from schelements.models import *
 
 
@@ -25,19 +21,19 @@ class CommonGroupDef(schelements.models.BaseObject):
         ]
 
     on_new_elem_event = models.TextField(
-        "On new elemetn event",
+        _("On new elemetn event"),
         null=True,
         blank=True,
         editable=False,
     )
     allowed_new_fields = models.TextField(
-        "Allowed new fields",
+        _("Allowed new fields"),
         null=True,
         blank=True,
         editable=False,
     )
     main_group = models.BooleanField(
-        "Main group",
+        _("Main group"),
         null=True,
         blank=True,
         editable=True,
@@ -69,7 +65,7 @@ class CommonGroup(JSONModel):
         null=True,
         blank=True,
         editable=True,
-        verbose_name="Parent",
+        verbose_name=_("Parent"),
     )
     gparent = models.ForeignKey(
         "self",
@@ -77,33 +73,37 @@ class CommonGroup(JSONModel):
         null=True,
         blank=True,
         editable=True,
-        verbose_name="Grand parent",
+        verbose_name=_("Grand parent"),
         related_name="gparentrel",
     )
     title = models.CharField(
-        "Title", null=True, blank=True, editable=True, max_length=64
+        _("Title"), null=True, blank=True, editable=True, max_length=64
     )
     group_def_name = models.CharField(
-        "Group definition name", null=False, blank=False, editable=True, max_length=64
+        _("Group definition name"),
+        null=False,
+        blank=False,
+        editable=True,
+        max_length=64,
     )
     gp_group_def_name = models.CharField(
-        "Grand parent group definition name",
+        _("Grand parent group definition name"),
         null=False,
         blank=False,
         editable=True,
         max_length=64,
     )
     tag_name = models.CharField(
-        "Tag name", null=True, blank=True, editable=True, max_length=64
+        _("Tag name"), null=True, blank=True, editable=True, max_length=64
     )
     key1 = models.CharField(
-        "Key 1", null=True, blank=True, editable=True, db_index=True, max_length=64
+        _("Key 1"), null=True, blank=True, editable=True, db_index=True, max_length=64
     )
     key2 = models.CharField(
-        "Key 2", null=True, blank=True, editable=True, db_index=True, max_length=64
+        _("Key 2"), null=True, blank=True, editable=True, db_index=True, max_length=64
     )
     key3 = models.CharField(
-        "Key 3", null=True, blank=True, editable=True, db_index=True, max_length=64
+        _("Key 3"), null=True, blank=True, editable=True, db_index=True, max_length=64
     )
 
     def code(self):

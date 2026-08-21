@@ -1,15 +1,10 @@
 from django import forms
-
-from pytigon_lib.schviews.form_fun import form_with_perms
-
 from django.utils.translation import gettext_lazy as _
-
-from . import models
-
-
 from pytigon_lib.schfs.vfstools import get_temp_filename
 from pytigon_lib.schtools.install import Ptig
+from pytigon_lib.schviews.form_fun import form_with_perms
 
+from . import models
 
 PFORM = form_with_perms("schinstall")
 

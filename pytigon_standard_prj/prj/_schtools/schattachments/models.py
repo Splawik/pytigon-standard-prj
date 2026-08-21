@@ -36,33 +36,37 @@ class Attachment(AssociatedJSONModel):
         ]
 
     name = models.CharField(
-        "Name", null=True, blank=True, editable=True, max_length=256
+        _("Name"), null=True, blank=True, editable=True, max_length=256
     )
     ext = models.CharField(
-        "Extension", null=True, blank=True, editable=False, max_length=64
+        _("Extension"), null=True, blank=True, editable=False, max_length=64
     )
     thumb = models.TextField(
-        "thumbnail",
+        _("thumbnail"),
         null=True,
         blank=True,
         editable=False,
     )
     upload_date = models.DateTimeField(
-        "Upload date",
+        _("Upload date"),
         null=False,
         blank=False,
         editable=False,
         default=timezone.now,
     )
     modify_date = models.DateTimeField(
-        "Modify date",
+        _("Modify date"),
         null=True,
         blank=True,
         editable=False,
         default=timezone.now,
     )
     file = models.FileField(
-        "Select file", null=False, blank=False, editable=True, upload_to=upload_path_fun
+        _("Select file"),
+        null=False,
+        blank=False,
+        editable=True,
+        upload_to=upload_path_fun,
     )
     folder = ext_models.PtigForeignKey(
         schelements.models.Element,
@@ -70,7 +74,7 @@ class Attachment(AssociatedJSONModel):
         null=True,
         blank=True,
         editable=True,
-        verbose_name="Folder",
+        verbose_name=_("Folder"),
         db_index=True,
         search_fields=[
             "name__icontains",
@@ -78,10 +82,10 @@ class Attachment(AssociatedJSONModel):
         limit_choices_to={"type__startswith": "C-FLD"},
     )
     description = models.CharField(
-        "Description", null=True, blank=True, editable=True, max_length=256
+        _("Description"), null=True, blank=True, editable=True, max_length=256
     )
     status = models.CharField(
-        "Status", null=True, blank=True, editable=True, max_length=16
+        _("Status"), null=True, blank=True, editable=True, max_length=16
     )
 
     def save(self, *args, **kwargs):

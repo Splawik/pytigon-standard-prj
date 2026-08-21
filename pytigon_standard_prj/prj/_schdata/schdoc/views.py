@@ -1,25 +1,19 @@
-from django.http import HttpResponseRedirect, HttpResponse
 from django import forms
-from django.template import Template
-from django.template import RequestContext
-
-from pytigon_lib.schviews.form_fun import form_with_perms
-from pytigon_lib.schdjangoext.tools import make_href
-from pytigon_lib.schviews import actions
-
-from django.utils.translation import gettext_lazy as _
-
-from . import models
+from django.db.models import F
+from django.http import HttpResponse, HttpResponseRedirect
+from django.template import RequestContext, Template
 from django.utils import timezone
-
-
+from django.utils.translation import gettext_lazy as _
 from pytigon_lib.schdjangoext.django_ihtml import ihtml_to_html
 from pytigon_lib.schdjangoext.fastform import form_from_str
-from pytigon_lib.schviews import make_path
-from schelements.models import DocType, DocHead
-from django.db.models import F
-from schelements.views import year_ago
 from pytigon_lib.schdjangoext.import_from_db import run_code_from_db_field
+from pytigon_lib.schdjangoext.tools import make_href
+from pytigon_lib.schviews import actions, make_path
+from pytigon_lib.schviews.form_fun import form_with_perms
+from schelements.models import DocHead, DocType
+from schelements.views import year_ago
+
+from . import models
 
 
 def move_doc(request, id, to_pos="+1"):

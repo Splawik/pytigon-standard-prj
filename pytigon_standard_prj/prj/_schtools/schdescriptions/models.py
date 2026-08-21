@@ -18,10 +18,10 @@ class Description(AssociatedModel):
         ]
 
     lang = models.CharField(
-        "Language code", null=False, blank=False, editable=True, max_length=8
+        _("Language code"), null=False, blank=False, editable=True, max_length=8
     )
     description = models.CharField(
-        "Description", null=True, blank=True, editable=True, max_length=256
+        _("Description"), null=True, blank=True, editable=True, max_length=256
     )
 
     @classmethod

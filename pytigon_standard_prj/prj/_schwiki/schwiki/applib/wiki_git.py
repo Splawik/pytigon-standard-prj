@@ -1,14 +1,11 @@
-import os
 import json
+import os
+
 from django.conf import settings
-
-from dulwich import porcelain
+from dulwich import index, porcelain
 from dulwich.repo import Repo
-from dulwich import index
-
-from schwiki.models import WikiConf, Page
-
 from pytigon_lib.schtools.wiki import wiki_from_str
+from schwiki.models import Page
 
 
 class WikiGit:
@@ -140,7 +137,7 @@ class WikiGit:
                         else:
                             y = file_path.split("/")
                         if subfolders_in_main_menu:
-                            if len(y)>1:
+                            if len(y) > 1:
                                 obj.menu = y[0] + "/" + y[1]
                             else:
                                 obj.menu = y[0]

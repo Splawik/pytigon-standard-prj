@@ -1,6 +1,6 @@
+import json
 import os
 import sys
-import json
 
 PRJ_TITLE = "Setup application"
 PRJ_NAME = "_schsetup"
@@ -13,19 +13,18 @@ if "PYTIGON_ROOT_PATH" in os.environ:
 else:
     _rp = os.path.abspath(os.path.join(_lp, "..", ".."))
 
-if _lp not in sys.path:
+if not _lp in sys.path:
     sys.path.insert(0, _lp)
-if _rp not in sys.path:
+if not _rp in sys.path:
     sys.path.insert(0, _rp)
 
 from pytigon_lib import init_paths
 
 init_paths(PRJ_NAME, _lp)
 
+from pytigon.schserw.settings import *
 from pytigon_lib.schdjangoext.django_init import get_app_config
 from pytigon_lib.schtools.platform_info import platform_name
-
-from pytigon.schserw.settings import *
 
 from apps import APPS, APPS_EXT
 
@@ -37,7 +36,7 @@ except ImportError:
 LOCAL_ROOT_PATH = os.path.abspath(os.path.join(_lp, ".."))
 ROOT_PATH = _rp
 URL_ROOT_PREFIX = ""
-if LOCAL_ROOT_PATH not in sys.path:
+if not LOCAL_ROOT_PATH in sys.path:
     sys.path.append(LOCAL_ROOT_PATH)
 
 if ENV("PUBLISH_IN_SUBFOLDER"):
@@ -184,7 +183,7 @@ try:
 except ImportError:
     pass
 
-GEN_TIME = "2026-08-02 16:47:50"
+GEN_TIME = "2026-08-21 17:31:36"
 
 
 for key, value in os.environ.items():

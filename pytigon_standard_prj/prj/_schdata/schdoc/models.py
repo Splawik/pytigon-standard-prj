@@ -1,14 +1,10 @@
-from django.db import models
-from django.utils.translation import gettext_lazy as _
-
-from pytigon_lib.schdjangoext.fields import *
 import pytigon_lib.schdjangoext.fields as ext_models
-from pytigon_lib.schdjangoext.models import *
-
 import schelements.models
-
-
+from django.db import models
 from django.db.models import Max
+from django.utils.translation import gettext_lazy as _
+from pytigon_lib.schdjangoext.fields import *
+from pytigon_lib.schdjangoext.models import *
 from schelements.models import *
 
 
@@ -45,7 +41,11 @@ class DocDef(schelements.models.BaseObject):
         ]
 
     doc_type = models.CharField(
-        "Associated document type", null=True, blank=True, editable=True, max_length=16
+        _("Associated document type"),
+        null=True,
+        blank=True,
+        editable=True,
+        max_length=16,
     )
 
     def __str__(self):
@@ -142,7 +142,7 @@ class Doc(JSONModel):
         null=True,
         blank=True,
         editable=False,
-        verbose_name="Parent",
+        verbose_name=_("Parent"),
     )
     parent_doc = ext_models.PtigForeignKey(
         schelements.models.DocHead,
@@ -150,24 +150,24 @@ class Doc(JSONModel):
         null=True,
         blank=True,
         editable=False,
-        verbose_name="Parent document",
+        verbose_name=_("Parent document"),
         db_index=True,
     )
     order = models.IntegerField(
-        "Order number",
+        _("Order number"),
         null=True,
         blank=True,
         editable=True,
     )
     doc_def_name = models.CharField(
-        "Document definition name",
+        _("Document definition name"),
         null=False,
         blank=False,
         editable=True,
         max_length=64,
     )
     date = models.DateTimeField(
-        "Date",
+        _("Date"),
         null=True,
         blank=True,
         editable=True,

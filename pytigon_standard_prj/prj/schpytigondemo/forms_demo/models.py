@@ -4,14 +4,14 @@ from pytigon_lib.schdjangoext.fields import *
 from pytigon_lib.schdjangoext.models import *
 
 test_choice = [
-    ("1", "Test 1"),
-    ("2", "Test 2"),
-    ("3", "Test 3"),
-    ("4", "Test 4"),
-    ("5", "Test 5"),
-    ("6", "Test 6"),
-    ("7", "Test 7"),
-    ("8", "Test 8"),
+    ("1", _("Test 1")),
+    ("2", _("Test 2")),
+    ("3", _("Test 3")),
+    ("4", _("Test 4")),
+    ("5", _("Test 5")),
+    ("6", _("Test 6")),
+    ("7", _("Test 7")),
+    ("8", _("Test 8")),
 ]
 
 
@@ -32,7 +32,7 @@ class Select2Example(models.Model):
         ordering = ["id"]
 
     name = models.CharField(
-        "Name", null=False, blank=False, editable=True, max_length=64
+        _("Name"), null=False, blank=False, editable=True, max_length=64
     )
 
     def __str__(self):

@@ -1,11 +1,11 @@
-import sys
-import os
 import io
+import os
+import sys
 
-from pytigon_lib.schhtml.pdfdc import PdfDc
-from pytigon_lib.schhtml.htmlviewer import HtmlViewerParser
-from pytigon_lib.schindent.indent_style import ihtml_to_html_base
 from django.core.files.storage import default_storage
+from pytigon_lib.schhtml.htmlviewer import HtmlViewerParser
+from pytigon_lib.schhtml.pdfdc import PdfDc
+from pytigon_lib.schindent.indent_style import ihtml_to_html_base
 
 BASE_PATH = os.path.abspath(os.getcwd())
 

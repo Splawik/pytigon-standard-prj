@@ -27,44 +27,51 @@ class Script(models.Model):
         ]
 
     name = models.CharField(
-        "Name", null=False, blank=False, editable=True, db_index=True, max_length=64
+        _("Name"), null=False, blank=False, editable=True, db_index=True, max_length=64
     )
     title = models.CharField(
-        "Title", null=True, blank=True, editable=True, max_length=64
+        _("Title"), null=True, blank=True, editable=True, max_length=64
     )
     code = models.TextField(
-        "Code",
+        _("Code"),
         null=True,
         blank=True,
         editable=False,
     )
     category = models.CharField(
-        "Category", null=True, blank=True, editable=True, db_index=True, max_length=64
+        _("Category"),
+        null=True,
+        blank=True,
+        editable=True,
+        db_index=True,
+        max_length=64,
     )
     rights_group = models.CharField(
-        "Rights group", null=True, blank=True, editable=True, max_length=64
+        _("Rights group"), null=True, blank=True, editable=True, max_length=64
     )
-    menu = models.CharField("Menu", null=True, blank=True, editable=True, max_length=64)
+    menu = models.CharField(
+        _("Menu"), null=True, blank=True, editable=True, max_length=64
+    )
     doc = models.TextField(
-        "Doc",
+        _("Doc"),
         null=True,
         blank=True,
         editable=False,
     )
     _form = models.TextField(
-        "_form",
+        _("_form"),
         null=True,
         blank=True,
         editable=True,
     )
     _view = models.TextField(
-        "_view",
+        _("_view"),
         null=True,
         blank=True,
         editable=True,
     )
     _template = models.TextField(
-        "_template",
+        _("_template"),
         null=True,
         blank=True,
         editable=True,

@@ -1,19 +1,15 @@
 from django import forms
-
+from django.utils.translation import gettext_lazy as _
+from pytigon_lib.schdjangoext.spreadsheet_render import render_to_response_odf
+from pytigon_lib.schfs.vfstools import get_temp_filename
 from pytigon_lib.schviews.form_fun import form_with_perms
 
-from django.utils.translation import gettext_lazy as _
 
-
-from pytigon_lib.schfs.vfstools import get_temp_filename
-from pytigon_lib.schdjangoext.spreadsheet_render import render_to_response_odf
-
-
-class y(object):
+class y:
     name = "Hello world!"
 
 
-class x(object):
+class x:
     stanowisko = y()
 
 

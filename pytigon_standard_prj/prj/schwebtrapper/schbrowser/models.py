@@ -1,8 +1,7 @@
+import pytigon_lib.schdjangoext.fields as ext_models
 from django.db import models
 from django.utils.translation import gettext_lazy as _
-
 from pytigon_lib.schdjangoext.fields import *
-import pytigon_lib.schdjangoext.fields as ext_models
 from pytigon_lib.schdjangoext.models import *
 
 
@@ -21,12 +20,14 @@ class bookmarks(models.Model):
         null=True,
         blank=True,
         editable=True,
-        verbose_name="Parent",
+        verbose_name=_("Parent"),
     )
     name = models.CharField(
-        "Name", null=False, blank=False, editable=True, max_length=64
+        _("Name"), null=False, blank=False, editable=True, max_length=64
     )
-    url = models.CharField("url", null=True, blank=True, editable=True, max_length=256)
+    url = models.CharField(
+        _("url"), null=True, blank=True, editable=True, max_length=256
+    )
 
 
 admin_register(bookmarks)
@@ -42,10 +43,10 @@ class history(models.Model):
         ordering = ["id"]
 
     date = models.DateTimeField(
-        "Date", null=True, blank=True, editable=True, auto_now=True
+        _("Date"), null=True, blank=True, editable=True, auto_now=True
     )
     url = models.CharField(
-        "url", null=False, blank=False, editable=True, max_length=256
+        _("url"), null=False, blank=False, editable=True, max_length=256
     )
 
 

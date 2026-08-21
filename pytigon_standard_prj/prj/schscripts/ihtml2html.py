@@ -1,5 +1,5 @@
-import sys
 import os
+import sys
 
 from pytigon_lib.schindent.indent_style import ihtml_to_html_base
 

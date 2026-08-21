@@ -1,31 +1,26 @@
-from django.db import models
+import copy
+import datetime
+
+import pytigon_lib.schdjangoext.fields as ext_models
+from django.apps import apps
+from django.contrib.contenttypes.models import ContentType
+from django.db import models, transaction
+from django.db.models import Q, Sum
+from django.db.models.signals import post_delete
+from django.dispatch import receiver
 from django.utils import timezone
 from django.utils.translation import gettext_lazy as _
-
-from pytigon_lib.schdjangoext.fields import *
-import pytigon_lib.schdjangoext.fields as ext_models
-from pytigon_lib.schdjangoext.models import *
-
-
-import copy
 from pytigon_lib.schdjangoext.django_ihtml import ihtml_to_html
-import datetime
-from django.db import transaction
-from django.contrib.contenttypes.models import ContentType
-from django.db.models import Q, Sum
-from django.apps import apps
-from django.dispatch import receiver
-from django.db.models.signals import post_delete
-
-from pytigon_lib.schviews.actions import new_row_ok
-from pytigon_lib.schdjangoext.import_from_db import run_code_from_db_field
-from pytigon_lib.schdjangoext.fastform import form_from_str, FAST_FORM_EXAMPLE
-
-from pytigon_lib.schdjangoext.import_from_db import get_fun_from_db_field
-from pytigon_lib.schviews.schrules import filter_queryset_by_rules, is_rules_active
-
-
+from pytigon_lib.schdjangoext.fastform import FAST_FORM_EXAMPLE, form_from_str
+from pytigon_lib.schdjangoext.fields import *
+from pytigon_lib.schdjangoext.import_from_db import (
+    get_fun_from_db_field,
+    run_code_from_db_field,
+)
+from pytigon_lib.schdjangoext.models import *
 from pytigon_lib.schviews import actions
+from pytigon_lib.schviews.actions import new_row_ok
+from pytigon_lib.schviews.schrules import filter_queryset_by_rules, is_rules_active
 
 
 def get_element_queryset():
@@ -248,7 +243,7 @@ TO_HTML_REC = """#header
 
 """
 
-HEAD_FORM = "\n".join(("#" + item for item in FAST_FORM_EXAMPLE.split("\n")))
+HEAD_FORM = "\n".join("#" + item for item in FAST_FORM_EXAMPLE.split("\n"))
 ITEM_FORM = HEAD_FORM
 DECLARATION = ITEM_FORM
 ACCEPT_FORM = ITEM_FORM
@@ -256,59 +251,59 @@ UNDO_FORM = ITEM_FORM
 
 
 account_type_choice_2 = [
-    ("B", "Balance"),
-    ("O", "Off-balance"),
-    ("N", "Non-financial"),
-    ("V", "Inventory"),
-    ("I", "Inventory income"),
-    ("D", "Disposal"),
+    ("B", _("Balance")),
+    ("O", _("Off-balance")),
+    ("N", _("Non-financial")),
+    ("V", _("Inventory")),
+    ("I", _("Inventory income")),
+    ("D", _("Disposal")),
 ]
 
 account_type_choice_1 = [
-    ("S", "Synthetic"),
-    ("A", "Analytical"),
+    ("S", _("Synthetic")),
+    ("A", _("Analytical")),
 ]
 
 element_type_choice = [
-    ("O-GRP", "Owner/Group"),
-    ("O-COM", "Owner/Company"),
-    ("O-DIV", "Owner/Division"),
-    ("O-DEP", "Owner/Department"),
-    ("O-POS", "Owner/Position"),
-    ("O-EMP", "Owner/Employee"),
-    ("O-LOC", "Owner/Location"),
-    ("O-PER", "Owner/Person"),
-    ("O-CUS", "Owner/Customer"),
-    ("O-SUP", "Owner/Supplier"),
-    ("O-DEV", "Owner/Device"),
-    ("O-OTH", "Owner/Other"),
-    ("O-ALI", "Owner/Alias"),
-    ("I-GRP", "Item/Group"),
-    ("I-SRV", "Item/Service"),
-    ("I-INT", "Item/Intellectual value"),
-    ("I-CUR", "Item/Currency"),
-    ("I-MAT", "Item/Material"),
-    ("I-RAW", "Item/Raw material"),
-    ("I-PRD", "Item/Product"),
-    ("I-IPR", "Item/Intermediate product"),
-    ("I-MER", "Item/Merchandise"),
-    ("I-DEV", "Item/Device"),
-    ("I-PMA", "Item/Production machine"),
-    ("I-VEH", "Item/Vehicle"),
-    ("I-OTH", "Item/Other"),
-    ("I-ALI", "Item/Alias"),
-    ("C-SYS", "Config/System"),
-    ("C-UNT", "Config/Unit of measure"),
-    ("C-DIC", "Config/Dictionary"),
-    ("C-OTH", "Config/Other"),
-    ("C-ALI", "Config/Alias"),
-    ("C-FLD", "Config/Folder"),
-    ("C-GRP", "Config/Group"),
+    ("O-GRP", _("Owner/Group")),
+    ("O-COM", _("Owner/Company")),
+    ("O-DIV", _("Owner/Division")),
+    ("O-DEP", _("Owner/Department")),
+    ("O-POS", _("Owner/Position")),
+    ("O-EMP", _("Owner/Employee")),
+    ("O-LOC", _("Owner/Location")),
+    ("O-PER", _("Owner/Person")),
+    ("O-CUS", _("Owner/Customer")),
+    ("O-SUP", _("Owner/Supplier")),
+    ("O-DEV", _("Owner/Device")),
+    ("O-OTH", _("Owner/Other")),
+    ("O-ALI", _("Owner/Alias")),
+    ("I-GRP", _("Item/Group")),
+    ("I-SRV", _("Item/Service")),
+    ("I-INT", _("Item/Intellectual value")),
+    ("I-CUR", _("Item/Currency")),
+    ("I-MAT", _("Item/Material")),
+    ("I-RAW", _("Item/Raw material")),
+    ("I-PRD", _("Item/Product")),
+    ("I-IPR", _("Item/Intermediate product")),
+    ("I-MER", _("Item/Merchandise")),
+    ("I-DEV", _("Item/Device")),
+    ("I-PMA", _("Item/Production machine")),
+    ("I-VEH", _("Item/Vehicle")),
+    ("I-OTH", _("Item/Other")),
+    ("I-ALI", _("Item/Alias")),
+    ("C-SYS", _("Config/System")),
+    ("C-UNT", _("Config/Unit of measure")),
+    ("C-DIC", _("Config/Dictionary")),
+    ("C-OTH", _("Config/Other")),
+    ("C-ALI", _("Config/Alias")),
+    ("C-FLD", _("Config/Folder")),
+    ("C-GRP", _("Config/Group")),
 ]
 
 doctype_status = [
-    ("0", "Disabled"),
-    ("1", "Activ"),
+    ("0", _("Disabled")),
+    ("1", _("Activ")),
 ]
 
 
@@ -331,10 +326,10 @@ class Element(TreeModel):
         null=True,
         blank=True,
         editable=True,
-        verbose_name="Parent",
+        verbose_name=_("Parent"),
     )
     type = models.CharField(
-        "Element type",
+        _("Element type"),
         null=False,
         blank=False,
         editable=True,
@@ -342,19 +337,19 @@ class Element(TreeModel):
         max_length=8,
     )
     subtype = models.CharField(
-        "Element subtype", null=True, blank=True, editable=False, max_length=16
+        _("Element subtype"), null=True, blank=True, editable=False, max_length=16
     )
     code = models.CharField(
-        "Code", null=True, blank=True, editable=True, db_index=True, max_length=16
+        _("Code"), null=True, blank=True, editable=True, db_index=True, max_length=16
     )
     path = models.CharField(
-        "Path", null=True, blank=True, editable=True, db_index=True, max_length=1024
+        _("Path"), null=True, blank=True, editable=True, db_index=True, max_length=1024
     )
     name = models.CharField(
-        "Name", null=False, blank=False, editable=True, max_length=64
+        _("Name"), null=False, blank=False, editable=True, max_length=64
     )
     description = models.CharField(
-        "Description", null=True, blank=True, editable=True, max_length=256
+        _("Description"), null=True, blank=True, editable=True, max_length=256
     )
     grand_parent1 = ext_models.PtigForeignKey(
         "self",
@@ -362,7 +357,7 @@ class Element(TreeModel):
         null=True,
         blank=True,
         editable=True,
-        verbose_name="Grand parent 1",
+        verbose_name=_("Grand parent 1"),
         related_name="grandparent1",
     )
     grand_parent2 = ext_models.PtigForeignKey(
@@ -371,7 +366,7 @@ class Element(TreeModel):
         null=True,
         blank=True,
         editable=True,
-        verbose_name="Grand parent 2",
+        verbose_name=_("Grand parent 2"),
         related_name="grandparent2",
         search_fields=[
             "name__icontains",
@@ -383,7 +378,7 @@ class Element(TreeModel):
         null=True,
         blank=True,
         editable=True,
-        verbose_name="Grand parent 3",
+        verbose_name=_("Grand parent 3"),
         related_name="grandparent3",
         search_fields=[
             "name__icontains",
@@ -395,7 +390,7 @@ class Element(TreeModel):
         null=True,
         blank=True,
         editable=True,
-        verbose_name="Grand parent 4",
+        verbose_name=_("Grand parent 4"),
         related_name="grandparent4",
         search_fields=[
             "name__icontains",
@@ -407,18 +402,18 @@ class Element(TreeModel):
         null=True,
         blank=True,
         editable=True,
-        verbose_name="First ancestor",
+        verbose_name=_("First ancestor"),
         related_name="first_ancestors",
     )
     can_have_children = models.BooleanField(
-        "Can have children",
+        _("Can have children"),
         null=True,
         blank=True,
         editable=False,
         default=True,
     )
     has_children = models.BooleanField(
-        "Element has children",
+        _("Element has children"),
         null=True,
         blank=True,
         editable=False,
@@ -662,7 +657,7 @@ class Element(TreeModel):
         global element_type_choice
         element_type_choice.append((type_code, type_name))
         s = Element.get_structure()
-        if type_code not in s:
+        if not type_code in s:
             s[type_code] = {"title": title, "table": table, "app": app}
 
     def get_derived_object(self, param=None):
@@ -760,7 +755,7 @@ class Element(TreeModel):
             buttons2 = self._get_new_buttons(self.type)
 
             for b in buttons2:
-                if b not in buttons:
+                if not b in buttons:
                     buttons.append(b)
 
             if self.description and "(" in self.description and ")" in self.description:
@@ -783,7 +778,7 @@ class Element(TreeModel):
                                 button["table"] = s[item]["table"]
                             else:
                                 button["table"] = ""
-                            if button not in buttons:
+                            if not button in buttons:
                                 buttons.append(button)
                 ret = []
                 for button in buttons:
@@ -914,7 +909,7 @@ class DocReg(models.Model):
         ]
 
     app = models.CharField(
-        "Application",
+        _("Application"),
         null=False,
         blank=False,
         editable=True,
@@ -922,58 +917,58 @@ class DocReg(models.Model):
         max_length=16,
     )
     name = models.CharField(
-        "Name", null=False, blank=False, editable=True, db_index=True, max_length=32
+        _("Name"), null=False, blank=False, editable=True, db_index=True, max_length=32
     )
     group = models.CharField(
-        "Group", null=True, blank=True, editable=True, db_index=True, max_length=64
+        _("Group"), null=True, blank=True, editable=True, db_index=True, max_length=64
     )
     description = models.CharField(
-        "Description", null=False, blank=False, editable=True, max_length=64
+        _("Description"), null=False, blank=False, editable=True, max_length=64
     )
     head_form = models.TextField(
-        "Head form",
+        _("Head form"),
         null=True,
         blank=True,
         editable=False,
     )
     head_template = models.TextField(
-        "Head template",
+        _("Head template"),
         null=True,
         blank=True,
         editable=False,
     )
     item_form = models.TextField(
-        "Item form",
+        _("Item form"),
         null=True,
         blank=True,
         editable=False,
     )
     item_template = models.TextField(
-        "Item template",
+        _("Item template"),
         null=True,
         blank=True,
         editable=False,
     )
     save_head_fun = models.TextField(
-        "Save head function",
+        _("Save head function"),
         null=True,
         blank=True,
         editable=False,
     )
     save_item_fun = models.TextField(
-        "Save item function",
+        _("Save item function"),
         null=True,
         blank=True,
         editable=False,
     )
     access_fun = models.TextField(
-        "Access function",
+        _("Access function"),
         null=True,
         blank=True,
         editable=False,
     )
     update_time = models.DateTimeField(
-        "Time of the last update",
+        _("Time of the last update"),
         null=False,
         blank=False,
         editable=True,
@@ -1124,17 +1119,17 @@ class DocType(models.Model):
         null=False,
         blank=False,
         editable=True,
-        verbose_name="Parent",
+        verbose_name=_("Parent"),
         db_index=True,
     )
     name = models.CharField(
-        "Name", null=False, blank=False, editable=True, db_index=True, max_length=16
+        _("Name"), null=False, blank=False, editable=True, db_index=True, max_length=16
     )
     description = models.CharField(
-        "Description", null=False, blank=False, editable=True, max_length=64
+        _("Description"), null=False, blank=False, editable=True, max_length=64
     )
     correction = models.BooleanField(
-        "Correction",
+        _("Correction"),
         null=True,
         blank=True,
         editable=True,
@@ -1142,43 +1137,43 @@ class DocType(models.Model):
         db_index=True,
     )
     head_form = models.TextField(
-        "Head form",
+        _("Head form"),
         null=True,
         blank=True,
         editable=False,
     )
     head_template = models.TextField(
-        "Head template",
+        _("Head template"),
         null=True,
         blank=True,
         editable=False,
     )
     item_form = models.TextField(
-        "Item form",
+        _("Item form"),
         null=True,
         blank=True,
         editable=False,
     )
     item_template = models.TextField(
-        "Item template",
+        _("Item template"),
         null=True,
         blank=True,
         editable=False,
     )
     save_head_fun = models.TextField(
-        "Save head function",
+        _("Save head function"),
         null=True,
         blank=True,
         editable=False,
     )
     save_item_fun = models.TextField(
-        "Save item function",
+        _("Save item function"),
         null=True,
         blank=True,
         editable=False,
     )
     doctype_status = models.CharField(
-        "Status of document type",
+        _("Status of document type"),
         null=True,
         blank=True,
         editable=True,
@@ -1187,14 +1182,14 @@ class DocType(models.Model):
         max_length=1,
     )
     update_time = models.DateTimeField(
-        "Time of the last update",
+        _("Time of the last update"),
         null=False,
         blank=False,
         editable=True,
         auto_now_add=True,
     )
     correction_name = models.CharField(
-        "Correction name", null=True, blank=True, editable=True, max_length=16
+        _("Correction name"), null=True, blank=True, editable=True, max_length=16
     )
 
     def __str__(self):
@@ -1253,7 +1248,11 @@ class DocHead(JSONModel):
         ]
 
     parents = models.ManyToManyField(
-        "self", editable=False, verbose_name="Parents", db_index=True, symmetrical=False
+        "self",
+        editable=False,
+        verbose_name=_("Parents"),
+        db_index=True,
+        symmetrical=False,
     )
     doc_type_parent = ext_models.PtigHiddenForeignKey(
         DocType,
@@ -1261,7 +1260,7 @@ class DocHead(JSONModel):
         null=False,
         blank=False,
         editable=False,
-        verbose_name="Document type parent",
+        verbose_name=_("Document type parent"),
         db_index=True,
     )
     parent_element = ext_models.PtigHiddenForeignKey(
@@ -1270,12 +1269,12 @@ class DocHead(JSONModel):
         null=True,
         blank=True,
         editable=False,
-        verbose_name="Parent element",
+        verbose_name=_("Parent element"),
         db_index=True,
         select2=True,
     )
     number = models.CharField(
-        "Document number",
+        _("Document number"),
         null=True,
         blank=True,
         editable=True,
@@ -1283,14 +1282,14 @@ class DocHead(JSONModel):
         max_length=64,
     )
     date_c = models.DateTimeField(
-        "Creation date",
+        _("Creation date"),
         null=False,
         blank=False,
         editable=False,
         default=timezone.now,
     )
     date = models.DateField(
-        "Date",
+        _("Date"),
         null=True,
         blank=True,
         editable=True,
@@ -1298,13 +1297,13 @@ class DocHead(JSONModel):
         db_index=True,
     )
     description = models.CharField(
-        "Description", null=True, blank=True, editable=True, max_length=128
+        _("Description"), null=True, blank=True, editable=True, max_length=128
     )
     comments = models.CharField(
-        "Comments", null=True, blank=True, editable=True, max_length=256
+        _("Comments"), null=True, blank=True, editable=True, max_length=256
     )
     status = models.CharField(
-        "Status",
+        _("Status"),
         null=True,
         blank=True,
         editable=False,
@@ -1313,10 +1312,10 @@ class DocHead(JSONModel):
         max_length=16,
     )
     operator = models.CharField(
-        "Operator", null=True, blank=True, editable=False, max_length=255
+        _("Operator"), null=True, blank=True, editable=False, max_length=255
     )
     param1 = models.CharField(
-        "Parameter 1",
+        _("Parameter 1"),
         null=True,
         blank=True,
         editable=True,
@@ -1324,7 +1323,7 @@ class DocHead(JSONModel):
         max_length=16,
     )
     param2 = models.CharField(
-        "Parameter 2",
+        _("Parameter 2"),
         null=True,
         blank=True,
         editable=True,
@@ -1332,7 +1331,7 @@ class DocHead(JSONModel):
         max_length=16,
     )
     param3 = models.CharField(
-        "Parameter 3",
+        _("Parameter 3"),
         null=True,
         blank=True,
         editable=True,
@@ -1340,7 +1339,7 @@ class DocHead(JSONModel):
         max_length=16,
     )
     corrected = models.BooleanField(
-        "Corrected",
+        _("Corrected"),
         null=False,
         blank=False,
         editable=False,
@@ -1352,7 +1351,7 @@ class DocHead(JSONModel):
         null=True,
         blank=True,
         editable=True,
-        verbose_name="Corrected dochead",
+        verbose_name=_("Corrected dochead"),
         db_index=True,
         related_name="correction",
     )
@@ -1405,8 +1404,6 @@ class DocHead(JSONModel):
                 self.status = "draft"
                 self.operator = request.user.username
 
-        return None
-
     @staticmethod
     def template_for_list(view, model, context, doc_type):
         if doc_type in ("html", "json") and "filter" in context:
@@ -1415,7 +1412,7 @@ class DocHead(JSONModel):
             ).first()
             if reg:
                 names = []
-                if "version" in context and context["version"]:
+                if context.get("version"):
                     v = context["version"]
                     if "__" in v:
                         app, version = v.split("__", 1)
@@ -1479,7 +1476,7 @@ class DocHead(JSONModel):
                     reg = obj.doc_type_parent.parent
 
                 names = []
-                if "version" in context and context["version"]:
+                if context.get("version"):
                     v = context["version"]
                     if "__" in v:
                         app, version = v.split("__", 1)
@@ -1645,7 +1642,7 @@ class DocHead(JSONModel):
                     if len(statuses) > 0:
                         statuses_to_cache += list(statuses)
                     reg = reg.get_parent()
-                setattr(parent_reg, "cached_statuses", statuses_to_cache)
+                parent_reg.cached_statuses = statuses_to_cache
             ret = []
             for status in statuses_to_cache:
                 data = run_code_from_db_field(
@@ -1790,7 +1787,7 @@ class DocHead(JSONModel):
             if "filter" in view.kwargs and not view.kwargs["filter"].startswith("_"):
                 reg_name = view.kwargs["filter"].replace("_", "/")
                 if doc_regs:
-                    if reg_name not in doc_regs:
+                    if not reg_name in doc_regs:
                         return queryset_or_obj.filter(pk=0)
                 reg = DocReg.objects.get(name=reg_name)
                 append_reg_filter(reg)
@@ -1949,11 +1946,9 @@ class DocHead(JSONModel):
                         errors = err.args
 
                     if not errors:
-                        if new_status:
-                            self.status = action_name
-                            self.save()
-                        elif (
-                            action_name
+                        if (
+                            new_status
+                            or action_name
                             and action_name[:1] != "_"
                             and action_name != self.status
                         ):
@@ -1962,10 +1957,7 @@ class DocHead(JSONModel):
 
                         if action != "accept":
                             DocItem.objects.filter(
-                                parent=self,
-                                level__gt=reg_status.order
-                                if reg_status.order >= 0
-                                else 0,
+                                parent=self, level__gt=max(reg_status.order, 0)
                             ).delete()
 
                         doc_status.date = timezone.now()
@@ -2094,7 +2086,7 @@ class DocItem(JSONModel):
         null=False,
         blank=False,
         editable=False,
-        verbose_name="Parent",
+        verbose_name=_("Parent"),
         db_index=True,
     )
     parent_item = ext_models.PtigHiddenForeignKey(
@@ -2103,7 +2095,7 @@ class DocItem(JSONModel):
         null=True,
         blank=True,
         editable=False,
-        verbose_name="Parent item",
+        verbose_name=_("Parent item"),
         db_index=True,
     )
     owner = ext_models.PtigForeignKey(
@@ -2112,12 +2104,12 @@ class DocItem(JSONModel):
         null=True,
         blank=True,
         editable=True,
-        verbose_name="Owner",
+        verbose_name=_("Owner"),
         db_index=True,
         related_name="owners",
     )
     order = models.IntegerField(
-        "Order",
+        _("Order"),
         null=False,
         blank=False,
         editable=False,
@@ -2129,11 +2121,11 @@ class DocItem(JSONModel):
         null=True,
         blank=True,
         editable=True,
-        verbose_name="Item",
+        verbose_name=_("Item"),
         db_index=True,
     )
     qty = models.DecimalField(
-        "Quantity",
+        _("Quantity"),
         null=True,
         blank=True,
         editable=True,
@@ -2141,17 +2133,17 @@ class DocItem(JSONModel):
         decimal_places=2,
     )
     description = models.CharField(
-        "Description", null=True, blank=True, editable=True, max_length=255
+        _("Description"), null=True, blank=True, editable=True, max_length=255
     )
     level = models.IntegerField(
-        "Level",
+        _("Level"),
         null=False,
         blank=False,
         editable=False,
         default=0,
     )
     active = models.BooleanField(
-        "Active item",
+        _("Active item"),
         null=False,
         blank=False,
         editable=True,
@@ -2159,7 +2151,7 @@ class DocItem(JSONModel):
         db_index=True,
     )
     param1 = models.CharField(
-        "Parameter 1",
+        _("Parameter 1"),
         null=True,
         blank=True,
         editable=False,
@@ -2167,7 +2159,7 @@ class DocItem(JSONModel):
         max_length=16,
     )
     param2 = models.CharField(
-        "Parameter 2",
+        _("Parameter 2"),
         null=True,
         blank=True,
         editable=False,
@@ -2175,7 +2167,7 @@ class DocItem(JSONModel):
         max_length=16,
     )
     param3 = models.CharField(
-        "Parameter 3",
+        _("Parameter 3"),
         null=True,
         blank=True,
         editable=False,
@@ -2183,7 +2175,7 @@ class DocItem(JSONModel):
         max_length=16,
     )
     corrected = models.BooleanField(
-        "Corrected",
+        _("Corrected"),
         null=False,
         blank=False,
         editable=False,
@@ -2199,7 +2191,7 @@ class DocItem(JSONModel):
                 dochead = DocHead.objects.get(pk=parent_pk)
                 reg = dochead.doc_type_parent.parent
                 names = []
-                if "version" in context and context["version"]:
+                if context.get("version"):
                     v = context["version"]
                     if "__" in v:
                         app, version = v.split("__", 1)
@@ -2275,7 +2267,7 @@ class DocItem(JSONModel):
             doc = dochead.doc_type_parent
             names = []
 
-            if "version" in context and context["version"]:
+            if context.get("version"):
                 v = context["version"]
                 if "__" in v:
                     app, version = v.split("__", 1)
@@ -2581,66 +2573,68 @@ class DocRegStatus(models.Model):
         null=False,
         blank=False,
         editable=True,
-        verbose_name="Parent",
+        verbose_name=_("Parent"),
         db_index=True,
     )
     order = models.IntegerField(
-        "Order",
+        _("Order"),
         null=False,
         blank=False,
         editable=True,
     )
     name = models.CharField(
-        "Name", null=False, blank=False, editable=True, max_length=16
+        _("Name"), null=False, blank=False, editable=True, max_length=16
     )
     description = models.CharField(
-        "Description", null=True, blank=True, editable=True, max_length=64
+        _("Description"), null=True, blank=True, editable=True, max_length=64
     )
-    icon = models.CharField("Icon", null=True, blank=True, editable=True, max_length=64)
+    icon = models.CharField(
+        _("Icon"), null=True, blank=True, editable=True, max_length=64
+    )
     accept_proc = models.TextField(
-        "Accept status procedure",
+        _("Accept status procedure"),
         null=True,
         blank=True,
         editable=False,
     )
     undo_proc = models.TextField(
-        "Undo status procedure",
+        _("Undo status procedure"),
         null=True,
         blank=True,
         editable=False,
     )
     can_set_proc = models.TextField(
-        "Check if status can be set",
+        _("Check if status can be set"),
         null=True,
         blank=True,
         editable=False,
     )
     can_undo_proc = models.TextField(
-        "Check if status can be removed",
+        _("Check if status can be removed"),
         null=True,
         blank=True,
         editable=False,
     )
     accept_form = models.TextField(
-        "Form for accept",
+        _("Form for accept"),
         null=True,
         blank=True,
         editable=False,
     )
     undo_form = models.TextField(
-        "Form for undo",
+        _("Form for undo"),
         null=True,
         blank=True,
         editable=False,
     )
     for_accept_template = models.TextField(
-        "Template for accept",
+        _("Template for accept"),
         null=True,
         blank=True,
         editable=False,
     )
     for_undo_template = models.TextField(
-        "Template for undo",
+        _("Template for undo"),
         null=True,
         blank=True,
         editable=False,
@@ -2778,24 +2772,24 @@ class DocHeadStatus(JSONModel):
         null=False,
         blank=False,
         editable=True,
-        verbose_name="Parent",
+        verbose_name=_("Parent"),
         db_index=True,
     )
     date = models.DateTimeField(
-        "Date",
+        _("Date"),
         null=False,
         blank=False,
         editable=True,
         db_index=True,
     )
     name = models.CharField(
-        "Name", null=False, blank=False, editable=True, max_length=16
+        _("Name"), null=False, blank=False, editable=True, max_length=16
     )
     description = models.CharField(
-        "Description", null=True, blank=True, editable=False, max_length=64
+        _("Description"), null=True, blank=True, editable=False, max_length=64
     )
     operator = models.CharField(
-        "Operator", null=True, blank=True, editable=True, max_length=255
+        _("Operator"), null=True, blank=True, editable=True, max_length=255
     )
 
     def __str__(self):
@@ -2827,11 +2821,11 @@ class Account(TreeModel):
         null=True,
         blank=True,
         editable=True,
-        verbose_name="Parent",
+        verbose_name=_("Parent"),
         db_index=True,
     )
     type1 = models.CharField(
-        "Type 1",
+        _("Type 1"),
         null=True,
         blank=True,
         editable=False,
@@ -2839,7 +2833,7 @@ class Account(TreeModel):
         max_length=1,
     )
     type2 = models.CharField(
-        "Type 2",
+        _("Type 2"),
         null=True,
         blank=True,
         editable=True,
@@ -2848,13 +2842,13 @@ class Account(TreeModel):
         max_length=1,
     )
     name = models.CharField(
-        "Name", null=False, blank=False, editable=True, db_index=True, max_length=32
+        _("Name"), null=False, blank=False, editable=True, db_index=True, max_length=32
     )
     description = models.CharField(
-        "Description", null=False, blank=False, editable=True, max_length=256
+        _("Description"), null=False, blank=False, editable=True, max_length=256
     )
     correctness_rule = models.CharField(
-        "Correctness rule", null=True, blank=True, editable=True, max_length=256
+        _("Correctness rule"), null=True, blank=True, editable=True, max_length=256
     )
     root_classifier1 = ext_models.PtigForeignKey(
         Element,
@@ -2862,7 +2856,7 @@ class Account(TreeModel):
         null=True,
         blank=True,
         editable=True,
-        verbose_name="Root classifier 1",
+        verbose_name=_("Root classifier 1"),
         related_name="baseaccount_rc1_set",
     )
     root_classifier2 = ext_models.PtigForeignKey(
@@ -2871,7 +2865,7 @@ class Account(TreeModel):
         null=True,
         blank=True,
         editable=True,
-        verbose_name="Root classifier 2",
+        verbose_name=_("Root classifier 2"),
         related_name="baseaccount_rc2_set",
     )
     root_classifier3 = ext_models.PtigForeignKey(
@@ -2880,11 +2874,11 @@ class Account(TreeModel):
         null=True,
         blank=True,
         editable=True,
-        verbose_name="Root classifier 3",
+        verbose_name=_("Root classifier 3"),
         related_name="baseaccount_rc3_set",
     )
     enabled = models.BooleanField(
-        "Enabled",
+        _("Enabled"),
         null=True,
         blank=False,
         editable=True,
@@ -2937,7 +2931,7 @@ class AccountState(models.Model):
         null=False,
         blank=False,
         editable=True,
-        verbose_name="Parent",
+        verbose_name=_("Parent"),
         db_index=True,
     )
     target = models.ForeignKey(
@@ -2946,7 +2940,7 @@ class AccountState(models.Model):
         null=True,
         blank=True,
         editable=True,
-        verbose_name="Target",
+        verbose_name=_("Target"),
         db_index=True,
         related_name="state_targets",
     )
@@ -2956,7 +2950,7 @@ class AccountState(models.Model):
         null=True,
         blank=True,
         editable=True,
-        verbose_name="Classifier 1 value",
+        verbose_name=_("Classifier 1 value"),
         db_index=True,
         related_name="account_c1_set",
     )
@@ -2966,7 +2960,7 @@ class AccountState(models.Model):
         null=True,
         blank=True,
         editable=True,
-        verbose_name="Classifier 2 value",
+        verbose_name=_("Classifier 2 value"),
         db_index=True,
         related_name="account_c2_set",
     )
@@ -2976,15 +2970,15 @@ class AccountState(models.Model):
         null=True,
         blank=True,
         editable=True,
-        verbose_name="Classifier 3 value",
+        verbose_name=_("Classifier 3 value"),
         db_index=True,
         related_name="account_c3_set",
     )
     period = models.CharField(
-        "Period", null=True, blank=True, editable=True, db_index=True, max_length=10
+        _("Period"), null=True, blank=True, editable=True, db_index=True, max_length=10
     )
     subcode = models.CharField(
-        "Subcode", null=True, blank=True, editable=True, db_index=True, max_length=16
+        _("Subcode"), null=True, blank=True, editable=True, db_index=True, max_length=16
     )
     element = models.ForeignKey(
         Element,
@@ -2992,14 +2986,19 @@ class AccountState(models.Model):
         null=False,
         blank=False,
         editable=True,
-        verbose_name="Element",
+        verbose_name=_("Element"),
         db_index=True,
     )
     debit = models.DecimalField(
-        "Debit", null=False, blank=False, editable=True, max_digits=16, decimal_places=2
+        _("Debit"),
+        null=False,
+        blank=False,
+        editable=True,
+        max_digits=16,
+        decimal_places=2,
     )
     credit = models.DecimalField(
-        "Credit",
+        _("Credit"),
         null=False,
         blank=False,
         editable=True,
@@ -3007,7 +3006,7 @@ class AccountState(models.Model):
         decimal_places=2,
     )
     zero_balance = models.BooleanField(
-        "Balance is zero",
+        _("Balance is zero"),
         null=True,
         blank=True,
         editable=True,
@@ -3015,14 +3014,14 @@ class AccountState(models.Model):
         db_index=True,
     )
     aggregate = models.BooleanField(
-        "Aggregate",
+        _("Aggregate"),
         null=True,
         blank=False,
         editable=True,
         default=False,
     )
     date_c = models.DateTimeField(
-        "Creation date",
+        _("Creation date"),
         null=False,
         blank=False,
         editable=True,
@@ -3383,28 +3382,28 @@ class AccountOperation(models.Model):
         null=False,
         blank=False,
         editable=True,
-        verbose_name="Parent",
+        verbose_name=_("Parent"),
         db_index=True,
     )
     date = models.DateField(
-        "Date",
+        _("Date"),
         null=False,
         blank=False,
         editable=True,
         default=datetime.date.today,
     )
     date_c = models.DateTimeField(
-        "Creation date",
+        _("Creation date"),
         null=False,
         blank=False,
         editable=False,
         default=timezone.now,
     )
     description = models.CharField(
-        "Description", null=True, blank=True, editable=True, max_length=255
+        _("Description"), null=True, blank=True, editable=True, max_length=255
     )
     payment = models.CharField(
-        "Name of payment",
+        _("Name of payment"),
         null=True,
         blank=True,
         editable=True,
@@ -3417,7 +3416,7 @@ class AccountOperation(models.Model):
         null=True,
         blank=True,
         editable=True,
-        verbose_name="Account state",
+        verbose_name=_("Account state"),
         db_index=True,
         related_name="accountoper_set",
         search_fields=[
@@ -3425,13 +3424,13 @@ class AccountOperation(models.Model):
         ],
     )
     sign = models.IntegerField(
-        "Sign - debit or credit",
+        _("Sign - debit or credit"),
         null=False,
         blank=False,
         editable=True,
     )
     qty = models.DecimalField(
-        "Quantity",
+        _("Quantity"),
         null=False,
         blank=False,
         editable=True,
@@ -3439,7 +3438,7 @@ class AccountOperation(models.Model):
         decimal_places=2,
     )
     enabled = models.BooleanField(
-        "Enabled",
+        _("Enabled"),
         null=True,
         blank=True,
         editable=False,
@@ -3510,7 +3509,7 @@ class BaseObject(models.Model):
         abstract = True
 
     app = models.CharField(
-        "Application",
+        _("Application"),
         null=False,
         blank=False,
         editable=True,
@@ -3518,73 +3517,73 @@ class BaseObject(models.Model):
         max_length=16,
     )
     name = models.CharField(
-        "Name", null=False, blank=False, editable=True, db_index=True, max_length=64
+        _("Name"), null=False, blank=False, editable=True, db_index=True, max_length=64
     )
     description = models.CharField(
-        "Description", null=False, blank=False, editable=True, max_length=64
+        _("Description"), null=False, blank=False, editable=True, max_length=64
     )
     declaration = models.TextField(
-        "Declaration",
+        _("Declaration"),
         null=True,
         blank=True,
         editable=False,
     )
     template_src = models.TextField(
-        "Template source",
+        _("Template source"),
         null=True,
         blank=True,
         editable=False,
     )
     template = models.TextField(
-        "Template",
+        _("Template"),
         null=True,
         blank=True,
         editable=False,
     )
     to_html_rec = models.TextField(
-        "Convert fields to html",
+        _("Convert fields to html"),
         null=True,
         blank=True,
         editable=False,
     )
     save_fun = models.TextField(
-        "Save function",
+        _("Save function"),
         null=True,
         blank=True,
         editable=False,
     )
     load_fun = models.TextField(
-        "Load function",
+        _("Load function"),
         null=True,
         blank=True,
         editable=False,
     )
     to_str_fun = models.TextField(
-        "Object to str function",
+        _("Object to str function"),
         null=True,
         blank=True,
         editable=False,
     )
     action_template = models.TextField(
-        "Action template",
+        _("Action template"),
         null=True,
         blank=True,
         editable=False,
     )
     info_template = models.TextField(
-        "Info template",
+        _("Info template"),
         null=True,
         blank=True,
         editable=False,
     )
     on_delete_fun = models.TextField(
-        "Fnction called when deleting an object",
+        _("Fnction called when deleting an object"),
         null=True,
         blank=True,
         editable=False,
     )
     action_fun = models.TextField(
-        "Additional actions",
+        _("Additional actions"),
         null=True,
         blank=True,
         editable=False,

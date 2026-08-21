@@ -19,7 +19,7 @@ class Comment(AssociatedJSONModel):
         ]
 
     comment = models.TextField(
-        "Comment",
+        _("Comment"),
         null=True,
         blank=True,
         editable=True,
@@ -30,7 +30,7 @@ class Comment(AssociatedJSONModel):
         null=True,
         blank=True,
         editable=False,
-        verbose_name="Sender",
+        verbose_name=_("Sender"),
         related_name="comment_sender_set",
     )
     recipient = models.ForeignKey(
@@ -39,14 +39,14 @@ class Comment(AssociatedJSONModel):
         null=True,
         blank=True,
         editable=True,
-        verbose_name="Recipient",
+        verbose_name=_("Recipient"),
         related_name="comment_recipient_set",
     )
     recipients = models.CharField(
-        "Recipients", null=True, blank=True, editable=True, max_length=256
+        _("Recipients"), null=True, blank=True, editable=True, max_length=256
     )
     time = models.DateTimeField(
-        "Time", null=True, blank=True, editable=False, auto_now_add=True
+        _("Time"), null=True, blank=True, editable=False, auto_now_add=True
     )
 
     @classmethod

@@ -1,14 +1,11 @@
-from django.core.management.base import BaseCommand, CommandError
-
+import datetime
 import os
 
-import datetime
-
-from django.conf import settings
-
+import duckdb
 import numpy as np
 import pandas as pl
-import duckdb
+from django.conf import settings
+from django.core.management.base import BaseCommand
 
 
 class Command(BaseCommand):
@@ -22,7 +19,7 @@ class Command(BaseCommand):
 
         df = pl.DataFrame(
             {
-                "date": [start_time + datetime.timedelta(j) for j in range(0, n)],
+                "date": [start_time + datetime.timedelta(j) for j in range(n)],
                 "y1": np.random.rand(n),
                 "y2": np.random.rand(n),
                 "y3": 1.0 * np.random.rand(n),
@@ -35,7 +32,7 @@ class Command(BaseCommand):
 
         df = pl.DataFrame(
             {
-                "year": [1900 + j for j in range(0, 150)],
+                "year": [1900 + j for j in range(150)],
                 "y1": 100 * np.random.rand(150),
                 "y2": 100 * np.random.rand(150),
             }

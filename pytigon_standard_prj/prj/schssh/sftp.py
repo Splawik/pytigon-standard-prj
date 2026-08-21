@@ -1,10 +1,10 @@
+import argparse
+import getpass
 import os
 import sys
-import getpass
-import argparse
-import paramiko
-
 from contextlib import chdir
+
+import paramiko
 
 # --- Global UI Text Variables ---
 PROMPT_PASSWORD = "Enter SSH password (characters will be hidden): "

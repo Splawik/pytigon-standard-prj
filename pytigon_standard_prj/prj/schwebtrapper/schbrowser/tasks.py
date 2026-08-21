@@ -1,11 +1,10 @@
-from queue import Empty
-
-
-from pytigon_lib.schhttptools import httpclient
-from pytigon_lib.schhtml.parser import Parser
 import re
 import urllib.parse
+from queue import Empty
+
 import httpx
+from pytigon_lib.schhtml.parser import Parser
+from pytigon_lib.schhttptools import httpclient
 
 
 def download_task(cproxy=None, **kwargs):
@@ -64,9 +63,11 @@ def scan_html(cproxy=None, **kwargs):
                                 end = True
                             else:
                                 end = False
-                            matchObj = re.match(pos, dattrs["href"], re.M | re.I)
+                            matchObj = re.match(
+                                pos, dattrs["href"], re.MULTILINE | re.IGNORECASE
+                            )
                             if matchObj:
-                                if dattrs["href"] not in self.history_list:
+                                if not dattrs["href"] in self.history_list:
                                     if end:
                                         self.href_list.append("@" + dattrs["href"])
                                         self.history_list.append(dattrs["href"])
@@ -75,10 +76,12 @@ def scan_html(cproxy=None, **kwargs):
                                         self.history_list.append(dattrs["href"])
                                 return
                     for pos in download_mask.split(";"):
-                        matchObj = re.match(pos, dattrs["href"], re.M | re.I)
+                        matchObj = re.match(
+                            pos, dattrs["href"], re.MULTILINE | re.IGNORECASE
+                        )
                         if matchObj:
                             href = dattrs["href"].split("?")[0]
-                            if href not in self.download_list:
+                            if not href in self.download_list:
                                 self.download_list.append(href)
                                 process_url(href)
 

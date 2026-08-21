@@ -8,19 +8,19 @@ if "PYTIGON_ROOT_PATH" in os.environ:
 else:
     _rp = os.path.abspath(os.path.join(_lp, "..", "..", ".."))
 
-if _lp not in sys.path:
+if not _lp in sys.path:
     sys.path.insert(0, _lp)
-if _rp not in sys.path:
+if not _rp in sys.path:
     sys.path.insert(0, _rp)
 
-from pytigon_lib import init_paths  # noqa: E402
+from pytigon_lib import init_paths
 
 init_paths()
 
 os.environ.setdefault("DJANGO_SETTINGS_MODULE", "settings_app")
 
-import django  # noqa: E402
-from channels.routing import get_default_application  # noqa: E402
+import django
+from channels.routing import get_default_application
 
 django.setup()
 

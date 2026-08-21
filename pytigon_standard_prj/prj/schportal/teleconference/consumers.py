@@ -11,7 +11,7 @@ class teleconference(AsyncJsonWebsocketConsumer):
         if "room" in conf:
             self.base_room_group_name = conf["room"]
 
-        if "host" in conf and conf["host"]:
+        if conf.get("host"):
             self.host = True
             self.room_group_name = self.base_room_group_name + "_host"
             self.room_other_group_name = self.base_room_group_name

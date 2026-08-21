@@ -1,18 +1,12 @@
-from django.http import HttpResponse
-from django.template import Template
-from django.template import RequestContext
+import json
 
+from django.http import Http404, HttpResponse, JsonResponse
+from django.template import RequestContext, Template
+from pytigon_lib.schdjangoext.django_ihtml import ihtml_to_html
+from pytigon_lib.schdjangoext.fastform import form_from_str
+from pytigon_lib.schdjangoext.import_from_db import ModuleStruct, run_code_from_db_field
 
 from . import models
-
-
-import json
-from django.http import Http404
-from django.http import JsonResponse
-from pytigon_lib.schdjangoext.fastform import form_from_str
-from pytigon_lib.schdjangoext.django_ihtml import ihtml_to_html
-from pytigon_lib.schdjangoext.import_from_db import run_code_from_db_field, ModuleStruct
-
 
 models.refresh_data("begin")
 
@@ -27,7 +21,7 @@ def project_view(request, prj_name):
     models.refresh_data("before")
 
     session_key = "bi_" + prj_name
-    if session_key not in request.session:
+    if not session_key in request.session:
         request.session[session_key] = {}
 
     if prj.form:
@@ -92,7 +86,7 @@ def page_view(request, page_id):
     models.refresh_data("before")
 
     session_key = "bi_" + page.parent.name
-    if session_key not in request.session:
+    if not session_key in request.session:
         request.session[session_key] = {}
 
     if page.form:
@@ -158,7 +152,7 @@ def chart_view(request, chart_id):
     models.refresh_data("before")
 
     session_key = "bi_" + chart.parent.parent.name
-    if session_key not in request.session:
+    if not session_key in request.session:
         request.session[session_key] = {}
 
     if chart.form:

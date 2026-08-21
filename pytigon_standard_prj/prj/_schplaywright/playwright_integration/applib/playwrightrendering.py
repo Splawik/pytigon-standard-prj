@@ -1,7 +1,8 @@
-from playwright.sync_api import sync_playwright
+import io
+
 import pytigon_lib.schhtml.htmlviewer
 from playwright.sync_api import sync_playwright
-import io
+
 
 class PlayWrightRendering(pytigon_lib.schhtml.htmlviewer.BaseRenderingLib):
     def render(
@@ -12,7 +13,7 @@ class PlayWrightRendering(pytigon_lib.schhtml.htmlviewer.BaseRenderingLib):
         height=int(297 * 72 / 25.4),
         stream_type="pdf",
         base_url=None,
-        info=None
+        info=None,
     ):
         with sync_playwright() as p:
             browser_type = p.chromium
@@ -36,5 +37,6 @@ class PlayWrightRendering(pytigon_lib.schhtml.htmlviewer.BaseRenderingLib):
         if stream_type == "pdf":
             return True
         return False
+
 
 pytigon_lib.schhtml.htmlviewer.set_rendering_lib(PlayWrightRendering)

@@ -1,17 +1,15 @@
-from django.db import models
-from django.utils.translation import gettext_lazy as _
-
-from pytigon_lib.schdjangoext.fields import *
-import pytigon_lib.schdjangoext.fields as ext_models
-from pytigon_lib.schdjangoext.models import *
-
-
-from pytigon_lib.schdjangoext.import_from_db import run_code_from_db_field, ModuleStruct
-from django.conf import settings
 import datetime
+import os.path as os_path
+
 import pyarrow
 import pyarrow.parquet
-import os.path as os_path
+import pytigon_lib.schdjangoext.fields as ext_models
+from django.conf import settings
+from django.db import models
+from django.utils.translation import gettext_lazy as _
+from pytigon_lib.schdjangoext.fields import *
+from pytigon_lib.schdjangoext.import_from_db import ModuleStruct, run_code_from_db_field
+from pytigon_lib.schdjangoext.models import *
 
 PROJECTS_DATA = {}
 PROJECTS_DATA_VERSION = {}
@@ -66,9 +64,9 @@ CHART_TEMPLATE = """
 
 
 menu_icon_size_choice = [
-    ("0", "small"),
-    ("1", "medium"),
-    ("2", "large"),
+    ("0", _("small")),
+    ("1", _("medium")),
+    ("2", _("large")),
 ]
 
 
@@ -82,59 +80,59 @@ class Project(JSONModel):
         ordering = ["id"]
 
     base_prj_name = models.CharField(
-        "Base project name", null=True, blank=True, editable=True, max_length=64
+        _("Base project name"), null=True, blank=True, editable=True, max_length=64
     )
     name = models.CharField(
-        "Name", null=False, blank=False, editable=True, max_length=64
+        _("Name"), null=False, blank=False, editable=True, max_length=64
     )
     description = models.CharField(
-        "Description", null=True, blank=True, editable=True, max_length=128
+        _("Description"), null=True, blank=True, editable=True, max_length=128
     )
     parquet_files = models.CharField(
-        "Parquet files", null=True, blank=True, editable=True, max_length=1024
+        _("Parquet files"), null=True, blank=True, editable=True, max_length=1024
     )
     refresh_data = models.TextField(
-        "Refresh data",
+        _("Refresh data"),
         null=True,
         blank=True,
         editable=False,
     )
     form = models.TextField(
-        "Form",
+        _("Form"),
         null=True,
         blank=True,
         editable=False,
     )
     view = models.TextField(
-        "View",
+        _("View"),
         null=True,
         blank=True,
         editable=False,
     )
     template = models.TextField(
-        "Template",
+        _("Template"),
         null=True,
         blank=True,
         editable=False,
     )
     rights_group = models.CharField(
-        "Rights group", null=True, blank=True, editable=True, max_length=64
+        _("Rights group"), null=True, blank=True, editable=True, max_length=64
     )
     menu = models.CharField(
-        "Manu path", null=True, blank=True, editable=True, max_length=64
+        _("Manu path"), null=True, blank=True, editable=True, max_length=64
     )
     menu_position = models.IntegerField(
-        "Menu position",
+        _("Menu position"),
         null=True,
         blank=True,
         editable=True,
         default=0,
     )
     menu_icon = models.CharField(
-        "Menu icon", null=True, blank=True, editable=True, max_length=256
+        _("Menu icon"), null=True, blank=True, editable=True, max_length=256
     )
     menu_icon_size = models.CharField(
-        "Menu icon size",
+        _("Menu icon size"),
         null=False,
         blank=False,
         editable=True,
@@ -146,10 +144,10 @@ class Project(JSONModel):
     def load_data(self):
         data_path = os_path.join(settings.DATA_PATH, settings.PRJ_NAME)
 
-        if self.name not in PROJECTS_DATA:
+        if not self.name in PROJECTS_DATA:
             PROJECTS_DATA[self.name] = {}
         pd = PROJECTS_DATA[self.name]
-        if self.name not in PROJECTS_DATA_VERSION:
+        if not self.name in PROJECTS_DATA_VERSION:
             PROJECTS_DATA_VERSION[self.name] = None
         data_time = PROJECTS_DATA_VERSION[self.name]
 
@@ -210,28 +208,28 @@ class Page(models.Model):
         null=False,
         blank=False,
         editable=True,
-        verbose_name="Parent",
+        verbose_name=_("Parent"),
     )
     name = models.CharField(
-        "Name", null=False, blank=False, editable=True, max_length=64
+        _("Name"), null=False, blank=False, editable=True, max_length=64
     )
     title = models.CharField(
-        "Title", null=True, blank=True, editable=True, max_length=64
+        _("Title"), null=True, blank=True, editable=True, max_length=64
     )
     form = models.TextField(
-        "Form",
+        _("Form"),
         null=True,
         blank=True,
         editable=False,
     )
     view = models.TextField(
-        "View",
+        _("View"),
         null=True,
         blank=True,
         editable=False,
     )
     template = models.TextField(
-        "Template",
+        _("Template"),
         null=True,
         blank=True,
         editable=False,
@@ -265,28 +263,28 @@ class Chart(models.Model):
         null=False,
         blank=False,
         editable=True,
-        verbose_name="Parent",
+        verbose_name=_("Parent"),
     )
     name = models.CharField(
-        "Name", null=False, blank=False, editable=True, max_length=64
+        _("Name"), null=False, blank=False, editable=True, max_length=64
     )
     title = models.CharField(
-        "Title", null=True, blank=True, editable=True, max_length=64
+        _("Title"), null=True, blank=True, editable=True, max_length=64
     )
     form = models.TextField(
-        "Form",
+        _("Form"),
         null=True,
         blank=True,
         editable=False,
     )
     view = models.TextField(
-        "View",
+        _("View"),
         null=True,
         blank=True,
         editable=False,
     )
     template = models.TextField(
-        "Template",
+        _("Template"),
         null=True,
         blank=True,
         editable=False,

@@ -1,6 +1,6 @@
+import json
 import os
 import sys
-import json
 
 PRJ_TITLE = "Pytigon"
 PRJ_NAME = "_schall"
@@ -13,18 +13,17 @@ if "PYTIGON_ROOT_PATH" in os.environ:
 else:
     _rp = os.path.abspath(os.path.join(_lp, "..", ".."))
 
-if _lp not in sys.path:
+if not _lp in sys.path:
     sys.path.insert(0, _lp)
-if _rp not in sys.path:
+if not _rp in sys.path:
     sys.path.insert(0, _rp)
 
 from pytigon_lib import init_paths
 
 init_paths(PRJ_NAME, _lp)
 
-from pytigon_lib.schdjangoext.django_init import get_app_config
-
 from pytigon.schserw.settings import *
+from pytigon_lib.schdjangoext.django_init import get_app_config
 
 from apps import APPS, APPS_EXT
 
@@ -36,7 +35,7 @@ except ImportError:
 LOCAL_ROOT_PATH = os.path.abspath(os.path.join(_lp, ".."))
 ROOT_PATH = _rp
 URL_ROOT_PREFIX = ""
-if LOCAL_ROOT_PATH not in sys.path:
+if not LOCAL_ROOT_PATH in sys.path:
     sys.path.append(LOCAL_ROOT_PATH)
 
 if ENV("PUBLISH_IN_SUBFOLDER"):
@@ -58,18 +57,18 @@ UPLOAD_PATH = os.path.join(MEDIA_ROOT, "upload")
 
 
 from pytigon_lib.schtools.install_init import init
-
 from pytigon_lib.schtools.main_paths import get_main_paths
+
 paths = get_main_paths()
 app_pack_folders = []
-for base_apps_path in (paths['PRJ_PATH'], paths['PRJ_PATH_ALT']):
+for base_apps_path in (paths["PRJ_PATH"], paths["PRJ_PATH_ALT"]):
     if os.path.exists(base_apps_path):
         if not base_apps_path in sys.path:
             sys.path.append(base_apps_path)
         for ff in os.listdir(base_apps_path):
-            p = os.path.join(base_apps_path,ff)
+            p = os.path.join(base_apps_path, ff)
             if os.path.isdir(p):
-                if not ff.startswith('_'):
+                if not ff.startswith("_"):
                     if not ff in app_pack_folders:
                         app_pack_folders.append(ff)
                         if not p in sys.path:
@@ -78,40 +77,40 @@ for base_apps_path in (paths['PRJ_PATH'], paths['PRJ_PATH_ALT']):
 for app_pack in app_pack_folders:
     base_apps_path2 = os.path.join(base_apps_path, app_pack)
     try:
-        x = __import__(app_pack+".apps")
-        if hasattr(x.apps, 'PUBLIC') and x.apps.PUBLIC:
+        x = __import__(app_pack + ".apps")
+        if hasattr(x.apps, "PUBLIC") and x.apps.PUBLIC:
             PRJS.append(app_pack)
             apps = x.apps.APPS
             for pos in apps:
-                if '.' in pos:
+                if "." in pos:
                     name = pos
                 else:
-                    name = app_pack + '.' + pos
+                    name = app_pack + "." + pos
                 if not name in APPS:
                     APPS.append(name)
     except:
-        print("Error importing module: ", app_pack+".apps")
+        print("Error importing module: ", app_pack + ".apps")
 
-#URL_ROOT_FOLDER=''
-#STATIC_URL = '/static/'
-#MEDIA_URL = '/site_media/'
+# URL_ROOT_FOLDER=''
+# STATIC_URL = '/static/'
+# MEDIA_URL = '/site_media/'
 
-INSTALLED_APPS.append('easy_thumbnails')
-INSTALLED_APPS.append('filer')
-INSTALLED_APPS.append('explorer')
+INSTALLED_APPS.append("easy_thumbnails")
+INSTALLED_APPS.append("filer")
+INSTALLED_APPS.append("explorer")
 
 THUMBNAIL_PROCESSORS = (
-    'easy_thumbnails.processors.colorspace',
-    'easy_thumbnails.processors.autocrop',
+    "easy_thumbnails.processors.colorspace",
+    "easy_thumbnails.processors.autocrop",
     #'easy_thumbnails.processors.scale_and_crop',
-    'filer.thumbnail_processors.scale_and_crop_with_subject_location',
-    'easy_thumbnails.processors.filters',
+    "filer.thumbnail_processors.scale_and_crop_with_subject_location",
+    "easy_thumbnails.processors.filters",
 )
 
 FILER_DEBUG = True
 
-EXPLORER_CONNECTIONS = { 'Default': 'default' } 
-EXPLORER_DEFAULT_CONNECTION = 'default'
+EXPLORER_CONNECTIONS = {"Default": "default"}
+EXPLORER_DEFAULT_CONNECTION = "default"
 
 
 init(PRJ_NAME, ROOT_PATH, DATA_PATH, PRJ_PATH, STATIC_ROOT, [MEDIA_ROOT, UPLOAD_PATH])
@@ -208,7 +207,7 @@ try:
 except ImportError:
     pass
 
-GEN_TIME = "2026-08-02 16:48:19"
+GEN_TIME = "2026-08-21 17:31:39"
 
 
 for key, value in os.environ.items():

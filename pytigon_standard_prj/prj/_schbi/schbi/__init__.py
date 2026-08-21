@@ -18,6 +18,7 @@ UserParam = {}
 
 from django.utils.translation import gettext_lazy as _
 
+
 def AdditionalUrls(prj_name, lang):
     from .models import Project
 
@@ -38,7 +39,7 @@ def AdditionalUrls(prj_name, lang):
                 icon = object.menu_icon
             else:
                 icon = "fa://arrow-circle-right.png"
-                        
+
             if object.menu_position:
                 lp = "%02d" % object.menu_position
             else:

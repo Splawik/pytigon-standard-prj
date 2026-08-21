@@ -1,12 +1,10 @@
-from django.db import models
-from django.utils.translation import gettext_lazy as _
-
-from pytigon_lib.schdjangoext.fields import *
 import pytigon_lib.schdjangoext.fields as ext_models
-from pytigon_lib.schdjangoext.models import *
-
 import schelements.models
 import schstruct.models
+from django.db import models
+from django.utils.translation import gettext_lazy as _
+from pytigon_lib.schdjangoext.fields import *
+from pytigon_lib.schdjangoext.models import *
 
 
 class LabelType(models.Model):
@@ -19,10 +17,10 @@ class LabelType(models.Model):
         ordering = ["id"]
 
     name = models.CharField(
-        "Name", null=False, blank=False, editable=True, max_length=256
+        _("Name"), null=False, blank=False, editable=True, max_length=256
     )
     title = models.CharField(
-        "Title", null=True, blank=True, editable=True, max_length=256
+        _("Title"), null=True, blank=True, editable=True, max_length=256
     )
 
 
@@ -44,7 +42,7 @@ class ElementLabel(models.Model):
         null=False,
         blank=False,
         editable=False,
-        verbose_name="Parent",
+        verbose_name=_("Parent"),
         db_index=True,
     )
     type = ext_models.PtigForeignKey(
@@ -53,7 +51,7 @@ class ElementLabel(models.Model):
         null=False,
         blank=False,
         editable=False,
-        verbose_name="Type",
+        verbose_name=_("Type"),
         db_index=True,
     )
 
@@ -102,7 +100,7 @@ class CommonGroupLabel(models.Model):
         null=False,
         blank=False,
         editable=False,
-        verbose_name="Group",
+        verbose_name=_("Group"),
         db_index=True,
     )
     type = ext_models.PtigForeignKey(
@@ -111,7 +109,7 @@ class CommonGroupLabel(models.Model):
         null=False,
         blank=False,
         editable=False,
-        verbose_name="Type",
+        verbose_name=_("Type"),
         db_index=True,
     )
 
@@ -159,7 +157,7 @@ class Label(AssociatedModel):
         null=False,
         blank=False,
         editable=False,
-        verbose_name="Type",
+        verbose_name=_("Type"),
         db_index=True,
     )
 

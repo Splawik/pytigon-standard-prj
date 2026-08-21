@@ -8,13 +8,13 @@ from pytigon_lib.schdjangoext.models import *
 from tables_demo.models import *
 
 GenreChoices = [
-    ("r", "Rock"),
-    ("p", "Pop"),
-    ("j", "Jazz"),
-    ("h", "Heavy Metal"),
-    ("e", "Elekctonic"),
-    ("c", "Classical"),
-    ("o", "Other"),
+    ("r", _("Rock")),
+    ("p", _("Pop")),
+    ("j", _("Jazz")),
+    ("h", _("Heavy Metal")),
+    ("e", _("Elekctonic")),
+    ("c", _("Classical")),
+    ("o", _("Other")),
 ]
 
 
@@ -37,19 +37,19 @@ class Album(models.Model):
         ordering = ["id"]
 
     release_date = models.DateField(
-        "Release date",
+        _("Release date"),
         null=True,
         blank=True,
         editable=True,
     )
     artist = models.CharField(
-        "Artist", null=True, blank=True, editable=True, max_length=64
+        _("Artist"), null=True, blank=True, editable=True, max_length=64
     )
     description = models.CharField(
-        "Description", null=False, blank=False, editable=True, max_length=256
+        _("Description"), null=False, blank=False, editable=True, max_length=256
     )
     genre = models.CharField(
-        "Genre",
+        _("Genre"),
         null=False,
         blank=False,
         editable=True,
@@ -154,10 +154,10 @@ class Track(models.Model):
         null=False,
         blank=False,
         editable=True,
-        verbose_name="Parent",
+        verbose_name=_("Parent"),
     )
     name = models.CharField(
-        "Name", null=False, blank=False, editable=True, max_length=64
+        _("Name"), null=False, blank=False, editable=True, max_length=64
     )
     param = ext_models.PtigForeignKey(
         tables_demo.models.Example4Parameter,
@@ -165,7 +165,7 @@ class Track(models.Model):
         null=True,
         blank=True,
         editable=True,
-        verbose_name="Param",
+        verbose_name=_("Param"),
         search_fields=[
             "key__icontains",
         ],
@@ -174,7 +174,7 @@ class Track(models.Model):
     params = ext_models.PtigManyToManyField(
         tables_demo.models.Example4Parameter,
         editable=True,
-        verbose_name="Parameters",
+        verbose_name=_("Parameters"),
         search_fields=[
             "key__icontains",
         ],

@@ -19,20 +19,20 @@ class Log(AssociatedModel):
         ]
 
     date = models.DateTimeField(
-        "Date",
+        _("Date"),
         null=True,
         blank=True,
         editable=False,
         default=timezone.now,
     )
     description = models.CharField(
-        "Description", null=True, blank=True, editable=False, max_length=256
+        _("Description"), null=True, blank=True, editable=False, max_length=256
     )
     operator = models.CharField(
-        "Operator", null=True, blank=True, editable=True, max_length=64
+        _("Operator"), null=True, blank=True, editable=True, max_length=64
     )
     operator_id = models.IntegerField(
-        "Operator id",
+        _("Operator id"),
         null=True,
         blank=True,
         editable=True,

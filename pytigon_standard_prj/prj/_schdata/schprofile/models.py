@@ -1,20 +1,16 @@
-from django.db import models
-from django.utils.translation import gettext_lazy as _
-from django.contrib import admin
-
-from pytigon_lib.schdjangoext.fields import *
 import pytigon_lib.schdjangoext.fields as ext_models
-from pytigon_lib.schdjangoext.models import *
-
 import schelements.models
-
-
+from django.contrib import admin
 from django.contrib.auth import get_user_model
+from django.contrib.auth.admin import UserAdmin as BaseUserAdmin
+from django.db import models
 from django.db.models.signals import post_save
 from django.dispatch import receiver
-from django.contrib.auth.admin import UserAdmin as BaseUserAdmin
-from pytigon_lib.schtools.tools import get_request
+from django.utils.translation import gettext_lazy as _
+from pytigon_lib.schdjangoext.fields import *
+from pytigon_lib.schdjangoext.models import *
 from pytigon_lib.schdjangoext.tools import from_migrations
+from pytigon_lib.schtools.tools import get_request
 
 
 def limit_owner():
@@ -50,7 +46,7 @@ class Profile(models.Model):
         null=True,
         blank=True,
         editable=True,
-        verbose_name="Owner",
+        verbose_name=_("Owner"),
         related_name="profile_owners",
         limit_choices_to=LIMIT_OWNER,
     )
@@ -60,31 +56,35 @@ class Profile(models.Model):
         null=True,
         blank=True,
         editable=True,
-        verbose_name="Config",
+        verbose_name=_("Config"),
         related_name="profile_configs",
         limit_choices_to=LIMIT_CONFIG,
     )
     user_type = models.CharField(
-        "User type", null=True, blank=True, editable=True, max_length=32
+        _("User type"), null=True, blank=True, editable=True, max_length=32
     )
     doc_regs = models.CharField(
-        "Allowed document registers",
+        _("Allowed document registers"),
         null=True,
         blank=True,
         editable=True,
         max_length=256,
     )
     doc_types = models.CharField(
-        "Allowed document types", null=True, blank=True, editable=True, max_length=256
+        _("Allowed document types"),
+        null=True,
+        blank=True,
+        editable=True,
+        max_length=256,
     )
     accounts = models.CharField(
-        "Allowed accounts", null=True, blank=True, editable=True, max_length=256
+        _("Allowed accounts"), null=True, blank=True, editable=True, max_length=256
     )
     aliases = models.CharField(
-        "Aliases", null=True, blank=True, editable=True, max_length=256
+        _("Aliases"), null=True, blank=True, editable=True, max_length=256
     )
     variants = models.TextField(
-        "Variants",
+        _("Variants"),
         null=True,
         blank=True,
         editable=True,
@@ -196,7 +196,7 @@ def init_user_profiles():
             def get_inline_instances(self, request, obj=None):
                 if not obj:
                     return list()
-                return super(UserAdmin, self).get_inline_instances(request, obj)
+                return super().get_inline_instances(request, obj)
 
         admin.site.unregister(get_user_model())
         admin.site.register(get_user_model(), UserAdmin)

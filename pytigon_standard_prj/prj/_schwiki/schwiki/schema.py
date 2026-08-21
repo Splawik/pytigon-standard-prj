@@ -1,13 +1,15 @@
-from . import models
 from pytigon_lib.schdjangoext.graphql import add_graphql_to_class
+
+from . import models
+
 
 def extend_query(query_class):
     for model_name in dir(models):
         model = getattr(models, model_name)
         if hasattr(model, "_meta") and hasattr(model, "filter_fields"):
-            add_graphql_to_class(model, getattr(model, "filter_fields"), query_class)
+            add_graphql_to_class(model, model.filter_fields, query_class)
     return query_class
+
 
 def extend_mutation(mutation_class):
     return mutation_class
-    

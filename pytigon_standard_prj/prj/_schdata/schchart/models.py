@@ -1,13 +1,10 @@
 from django.db import models
 from django.utils.translation import gettext_lazy as _
-
 from pytigon_lib.schdjangoext.fields import *
 from pytigon_lib.schdjangoext.models import *
 
-
 # from schlib.schdjangoext.django_ihtml import ihtml_to_html
 # from django.template import Context, Template
-
 from schelements.models import *
 
 GET_CONFIG = """
@@ -79,37 +76,37 @@ class Plot(models.Model):
         ordering = ["id"]
 
     name = models.CharField(
-        "Name", null=False, blank=False, editable=True, max_length=64
+        _("Name"), null=False, blank=False, editable=True, max_length=64
     )
     group = models.CharField(
-        "Group", null=False, blank=False, editable=True, max_length=64
+        _("Group"), null=False, blank=False, editable=True, max_length=64
     )
     get_config = models.TextField(
-        "Get config",
+        _("Get config"),
         null=True,
         blank=True,
         editable=False,
     )
     get_data = models.TextField(
-        "Get data",
+        _("Get data"),
         null=True,
         blank=True,
         editable=False,
     )
     get_layout = models.TextField(
-        "Get layout",
+        _("Get layout"),
         null=True,
         blank=True,
         editable=False,
     )
     on_event = models.TextField(
-        "On event",
+        _("On event"),
         null=True,
         blank=True,
         editable=False,
     )
     permission = models.CharField(
-        "Permission", null=True, blank=True, editable=True, max_length=64
+        _("Permission"), null=True, blank=True, editable=True, max_length=64
     )
 
     def get_get_config_if_empty(
