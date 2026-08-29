@@ -61,6 +61,8 @@ async def test_messages(request, **argv):
     for level, text in message_batches:
         messages.add_message(request, level, text)
         request._messages.update(response)
+        if hasattr(request, "session"):
+            await request.session.asave()
         await asyncio.sleep(5)
 
     return response

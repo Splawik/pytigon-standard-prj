@@ -10,7 +10,7 @@ Urls = (
     ("test_task/", _("Task1"), None, """png://actions/media-seek-forward.png"""),
     ("test_task2/", _("Task2"), None, """png://actions/media-skip-forward.png"""),
     (
-        "test_messages",
+        "test_messages/async",
         _("Test messages"),
         None,
         """png://categories/applications-other.png""",
