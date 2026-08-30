@@ -1,7 +1,6 @@
 import sys
 
 from django.core.management.base import BaseCommand
-
 from schbuilder.models import SChProject
 from schbuilder.views import build_prj
 

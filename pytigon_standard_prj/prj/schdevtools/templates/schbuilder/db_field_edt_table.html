@@ -34,6 +34,8 @@
                 key = self._panel.GetItemText(item)
                 if key in self.actions:
                     self.insert_txt(self.actions[key])
+                else:
+                    self.insert_txt(key)
 
         def insert_txt(self, txt):
             pos = self.EDITOR.GetCurrentPos()
@@ -55,6 +57,41 @@
                 <tr>
                         <td width="350">
                                 <ctrl-tree name="_panel" width="350" height="calc(100% - top - 30)">
+                                        <li>
+                                        {{object}}
+                                                <ul>
+                                                        <li>
+                                                        object fields
+                                                                <ul>
+                                                                        {% for pos in object.schfield_set.all %}
+                                                                                <li>
+                                                                                {{pos}}
+                                                                                        <ul>
+                                                                                                <li>{{pos}}</li>
+                                                                                                <li>object.{{pos}}</li>
+                                                                                                {% if pos.rel_to %}
+                                                                                                        <li>
+                                                                                                        object related fields
+                                                                                                                <ul>
+                                                                                                                        {% for field2 in pos.get_related_fields %}
+                                                                                                                                <li>
+                                                                                                                                {{field2}}
+                                                                                                                                        <ul>
+                                                                                                                                                <li>{{field2}}</li>
+                                                                                                                                                <li>object.{{pos}}.{{field2}}</li>
+                                                                                                                                        </ul>
+                                                                                                                                </li>
+                                                                                                                        {% endfor %}
+                                                                                                                </ul>
+                                                                                                        </li>
+                                                                                                {% endif %}
+                                                                                        </ul>
+                                                                                </li>
+                                                                        {% endfor %}
+                                                                </ul>
+                                                        </li>
+                                                </ul>
+                                        </li>
                                         <li>
                                         functions for the JSONModel
                                                 <ul>
@@ -102,6 +139,7 @@
                                                         <li>save_from_request</li>
                                                         <li>get_derived_object</li>
                                                         <li>filter</li>
+                                                        <li>search</li>
                                                         <li>sort</li>
                                                         <li>redirect_href</li>
                                                 </ul>

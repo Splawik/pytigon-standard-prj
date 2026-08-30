@@ -1332,8 +1332,19 @@ class SChField(models.Model):
                     return rec[1].replace("'", "").replace('"', "").strip()
         return self.parent.name.lower() + "_set"
 
+    def get_related_fields(self):
+        if self.rel_to:
+            table = SChTable.objects.filter(name=self.rel_to).first()
+            if table:
+                ret = []
+                for field in table.schfield_set.all():
+                    ret.append(field)
+                return ret
+        return None
+
     @classmethod
     def table_action(cls, list_view, request, data):
+        print(data, type(data))
         return standard_table_action(cls, list_view, request, data, ["copy", "paste"])
 
 

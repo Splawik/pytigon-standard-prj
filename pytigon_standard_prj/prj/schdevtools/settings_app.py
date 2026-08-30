@@ -22,11 +22,10 @@ from pytigon_lib import init_paths
 
 init_paths(PRJ_NAME, _lp)
 
+from apps import APPS, APPS_EXT
 from pytigon.schserw.settings import *
 from pytigon_lib.schdjangoext.django_init import get_app_config
 from pytigon_lib.schtools.platform_info import platform_name
-
-from apps import APPS, APPS_EXT
 
 try:
     from global_db_settings import setup_databases
@@ -269,7 +268,7 @@ try:
 except ImportError:
     pass
 
-GEN_TIME = "2026-08-21 17:31:39"
+GEN_TIME = "2026-08-29 15:33:29"
 
 
 for key, value in os.environ.items():

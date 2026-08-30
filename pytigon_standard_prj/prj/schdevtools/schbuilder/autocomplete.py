@@ -367,7 +367,11 @@ def table_action(cls, list_view, request, data):
 """,
     "row_action": """def row_action(model, request, args, kwargs):
 """,
-    "filter_by_permissions": """def filter_by_permissions(queryset_or_obj, request):
+    "filter_by_permissions": """@staticmethod
+def filter_by_permissions(view, model, queryset_or_obj, request):
+""",
+    "search": """@staticmethod
+def search(queryset, search):
 """,
     "get_form_class": """    def get_form_class(self, view, request, create):
     base_form = view.get_form_class()
