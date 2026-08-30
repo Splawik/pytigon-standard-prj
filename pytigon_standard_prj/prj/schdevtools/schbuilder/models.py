@@ -1344,7 +1344,6 @@ class SChField(models.Model):
 
     @classmethod
     def table_action(cls, list_view, request, data):
-        print(data, type(data))
         return standard_table_action(cls, list_view, request, data, ["copy", "paste"])
 
 
