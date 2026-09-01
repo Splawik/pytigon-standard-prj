@@ -1,4 +1,3 @@
-{# -*- coding: utf-8 -*- #}
 % extends "forms/form.html"
 
 % load exfiltry
@@ -11,8 +10,11 @@
             option value=AL...Alabama
             option value=WY...Wyoming
         br
+        ptig-select2 width=300px,,,href={{base_path}}schwiki/table/Page/-/form/get/,,,target=_popup,,,multiple=
+            graphql
+                { schwiki_Pageall(name_Istartswith: "$$$") { edges { node { id, text:name }}}
+                }
         ptig-select2 width=300px,,,href={{base_path}}schwiki/table/PageObjectsConf/-/form/get/,,,target=_popup,,,multiple=
             graphql
-                { schwiki_Pageobjectsconfall(name_Istartswith: "$$$") { edges { node { id, text:name }}}
+                { users(username_Istartswith: "$$$") { edges { node { id, text:username }}}
                 }
-     

@@ -75,7 +75,7 @@ _template = """
 """
 
 
-def clean_and_format_code(base_path: str, lint: bolean = False) -> str:
+def clean_and_format_code(base_path: str, lint: bool = False) -> str:
     """Removes unused imports, sorts imports, and formats Python code using ruff module."""
     # Get the path to the currently running Python interpreter.
     # This ensures the script uses the correct virtual environment (venv).

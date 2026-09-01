@@ -1,4 +1,3 @@
-{# -*- coding: utf-8 -*- #}
 {% extends "forms/form.html" %}
 {% load exfiltry %}
 {% load exsyntax %}
@@ -9,9 +8,15 @@
                         <option value="WY">Wyoming</option>
                 </ptig-select2>
                 <br />
+                <ptig-select2 width="300px" href="{{base_path}}schwiki/table/Page/-/form/get/" target="_popup" multiple="">
+                        <graphql>
+                                { schwiki_Pageall(name_Istartswith: "$$$") { edges { node { id, text:name }}}
+                                }
+                        </graphql>
+                </ptig-select2>
                 <ptig-select2 width="300px" href="{{base_path}}schwiki/table/PageObjectsConf/-/form/get/" target="_popup" multiple="">
                         <graphql>
-                                { schwiki_Pageobjectsconfall(name_Istartswith: "$$$") { edges { node { id, text:name }}}
+                                { users(username_Istartswith: "$$$") { edges { node { id, text:username }}}
                                 }
                         </graphql>
                 </ptig-select2>

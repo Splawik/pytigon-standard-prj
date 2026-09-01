@@ -118,6 +118,10 @@ class Page(JSONModel):
         default=True,
     )
 
+    filter_fields = {
+        "name": ["exact", "icontains", "istartswith"],
+    }
+
     def save_from_request(self, request, view_type, param):
         if "direct_save" in request.POST:
             self.operator = request.user.username

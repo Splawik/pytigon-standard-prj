@@ -38,7 +38,7 @@ try {
 
             process_results = (function flx_process_results (data) {
                 var pos, stub3_seq, stub4_itr, tmp;
-                tmp = new JSONPath(({path: "$..node", json: data}));
+                tmp = new jsonpath_plus.JSONPath(({path: "$..node", json: data}));
                 stub3_seq = tmp;
                 if ((typeof stub3_seq === "object") && (!Array.isArray(stub3_seq))) { stub3_seq = Object.keys(stub3_seq);}
                 for (stub4_itr = 0; stub4_itr < stub3_seq.length; stub4_itr += 1) {

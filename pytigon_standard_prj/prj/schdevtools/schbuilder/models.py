@@ -1103,6 +1103,10 @@ class SChTable(models.Model):
     def __str__(self):
         return self.name
 
+    @classmethod
+    def table_action(cls, list_view, request, data):
+        return standard_table_action(cls, list_view, request, data, ["copy", "paste"])
+
 
 admin_register(SChTable)
 
