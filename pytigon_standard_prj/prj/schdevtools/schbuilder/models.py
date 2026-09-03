@@ -650,6 +650,12 @@ class SChProject(JSONModel):
 
         return form_class
 
+    @classmethod
+    def table_action(cls, list_view, request, data):
+        return standard_table_action(
+            cls, list_view, request, data, ["copy", "paste"], subtree=True
+        )
+
 
 admin_register(SChProject)
 
@@ -947,6 +953,12 @@ class SChApp(JSONModel):
     def __str__(self):
         return self.name
 
+    @classmethod
+    def table_action(cls, list_view, request, data):
+        return standard_table_action(
+            cls, list_view, request, data, ["copy", "paste"], subtree=True
+        )
+
 
 admin_register(SChApp)
 
@@ -978,6 +990,12 @@ class SChChoice(models.Model):
     def __str__(self):
         return self.name
 
+    @classmethod
+    def table_action(cls, list_view, request, data):
+        return standard_table_action(
+            cls, list_view, request, data, ["copy", "paste"], subtree=True
+        )
+
 
 admin_register(SChChoice)
 
@@ -1008,6 +1026,12 @@ class SChChoiceItem(models.Model):
 
     def __str__(self):
         return self.name
+
+    @classmethod
+    def table_action(cls, list_view, request, data):
+        return standard_table_action(
+            cls, list_view, request, data, ["copy", "paste"], subtree=False
+        )
 
 
 admin_register(SChChoiceItem)
@@ -1105,7 +1129,9 @@ class SChTable(models.Model):
 
     @classmethod
     def table_action(cls, list_view, request, data):
-        return standard_table_action(cls, list_view, request, data, ["copy", "paste"])
+        return standard_table_action(
+            cls, list_view, request, data, ["copy", "paste"], subtree=True
+        )
 
 
 admin_register(SChTable)
@@ -1348,7 +1374,9 @@ class SChField(models.Model):
 
     @classmethod
     def table_action(cls, list_view, request, data):
-        return standard_table_action(cls, list_view, request, data, ["copy", "paste"])
+        return standard_table_action(
+            cls, list_view, request, data, ["copy", "paste"], subtree=False
+        )
 
 
 admin_register(SChField)
@@ -1548,6 +1576,12 @@ class SChView(models.Model):
                 return x[1]
         return ""
 
+    @classmethod
+    def table_action(cls, list_view, request, data):
+        return standard_table_action(
+            cls, list_view, request, data, ["copy", "paste"], subtree=False
+        )
+
 
 admin_register(SChView)
 
@@ -1598,6 +1632,12 @@ class SChStatic(models.Model):
 
     def __lt__(self, other):
         return self.name < other.name
+
+    @classmethod
+    def table_action(cls, list_view, request, data):
+        return standard_table_action(
+            cls, list_view, request, data, ["copy", "paste"], subtree=False
+        )
 
 
 admin_register(SChStatic)
@@ -1863,6 +1903,12 @@ class SChTemplate(models.Model):
     def __str__(self):
         return self.name
 
+    @classmethod
+    def table_action(cls, list_view, request, data):
+        return standard_table_action(
+            cls, list_view, request, data, ["copy", "paste"], subtree=False
+        )
+
 
 admin_register(SChTemplate)
 
@@ -1963,6 +2009,12 @@ class SChAppMenu(models.Model):
     def __str__(self):
         return self.name
 
+    @classmethod
+    def table_action(cls, list_view, request, data):
+        return standard_table_action(
+            cls, list_view, request, data, ["copy", "paste"], subtree=False
+        )
+
 
 admin_register(SChAppMenu)
 
@@ -2030,6 +2082,12 @@ class SChForm(models.Model):
         ):
             return "schbuilder/db_field_edt_form.html"
         return None
+
+    @classmethod
+    def table_action(cls, list_view, request, data):
+        return standard_table_action(
+            cls, list_view, request, data, ["copy", "paste"], subtree=True
+        )
 
 
 admin_register(SChForm)
@@ -2139,6 +2197,12 @@ class SChFormField(models.Model):
                 ret[key] = value
         return ret
 
+    @classmethod
+    def table_action(cls, list_view, request, data):
+        return standard_table_action(
+            cls, list_view, request, data, ["copy", "paste"], subtree=False
+        )
+
 
 admin_register(SChFormField)
 
@@ -2196,6 +2260,12 @@ class SChTask(models.Model):
     def get_name(self):
         return self.name
 
+    @classmethod
+    def table_action(cls, list_view, request, data):
+        return standard_table_action(
+            cls, list_view, request, data, ["copy", "paste"], subtree=False
+        )
+
 
 admin_register(SChTask)
 
@@ -2248,6 +2318,12 @@ class SChFile(models.Model):
             self.content = render_to_string("schbuilder/wzr/graphql_api.html", {})
         super().save(*argi, **argv)
 
+    @classmethod
+    def table_action(cls, list_view, request, data):
+        return standard_table_action(
+            cls, list_view, request, data, ["copy", "paste"], subtree=False
+        )
+
 
 admin_register(SChFile)
 
@@ -2272,6 +2348,12 @@ class SChLocale(models.Model):
     name = models.CharField(
         _("Name"), null=False, blank=False, editable=True, max_length=16
     )
+
+    @classmethod
+    def table_action(cls, list_view, request, data):
+        return standard_table_action(
+            cls, list_view, request, data, ["copy", "paste"], subtree=True
+        )
 
 
 admin_register(SChLocale)
@@ -2303,6 +2385,12 @@ class SChTranslate(models.Model):
     status = models.CharField(
         _("Status"), null=True, blank=True, editable=False, max_length=16
     )
+
+    @classmethod
+    def table_action(cls, list_view, request, data):
+        return standard_table_action(
+            cls, list_view, request, data, ["copy", "paste"], subtree=False
+        )
 
 
 admin_register(SChTranslate)
@@ -2360,6 +2448,12 @@ class SChChannelConsumer(models.Model):
             return defaults
         else:
             return None
+
+    @classmethod
+    def table_action(cls, list_view, request, data):
+        return standard_table_action(
+            cls, list_view, request, data, ["copy", "paste"], subtree=False
+        )
 
 
 admin_register(SChChannelConsumer)
