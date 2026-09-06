@@ -29,7 +29,7 @@
         {% new_row "New item" %}
 {% endblock %}
 {% block list_row_header %}
-        <th>Name</th>
+        <th>Key</th>
         <th>
         Value
         </th>
@@ -54,6 +54,13 @@
         {% endif %}
 {% endblock %}
 {% block table_header_edit %}
-    <h2>Table field list</h2>
+    <h2>
+    Choices field list
+    </h2>
+{% endblock %}
+{% block row_edit %}
+        {% form %}
+                'name', 'value'
+        {% endform %}
 {% endblock %}
 

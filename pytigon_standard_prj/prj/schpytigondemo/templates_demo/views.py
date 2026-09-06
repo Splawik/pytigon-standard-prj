@@ -1,3 +1,6 @@
+import time
+
+from django.utils import timezone
 from pytigon_lib.schviews.viewtools import dict_to_template
 
 
@@ -39,3 +42,24 @@ def odf_report(request, **argv):
         "sheet_names": ["abc", "def"],
         "sheet_name": "abc",
     }
+
+
+@dict_to_template("templates_demo/v_example.html")
+def example(request, param):
+
+    description = "Hello world!"
+    if param == "example1":
+        description = "1. Hello world!"
+    elif param == "example2":
+        description = "2. Hello world!"
+    elif param == "example3":
+        description = "3. Hello world!"
+        time.sleep(1)
+    elif param == "example4":
+        description = "4. Hello world!"
+        time.sleep(1)
+    else:
+        time.sleep(3)
+    now = timezone.now()
+    dt_str = now.strftime("%Y-%m-%d %H:%M:%S")
+    return {"description": description, "now": dt_str, "example": param}

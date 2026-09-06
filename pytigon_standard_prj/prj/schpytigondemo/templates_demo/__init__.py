@@ -20,6 +20,19 @@ Urls = (
         """png://mimetypes/x-office-spreadsheet.png""",
     ),
     ("odf/", _("odf template"), None, """png://mimetypes/x-office-spreadsheet.png"""),
-    ("min/", _("Minimal page"), None, """png://actions/media-playback-stop.png"""),
+    (
+        "target/",
+        _("Using the target"),
+        None,
+        """png://actions/media-playback-stop.png""",
+    ),
+    ("region/", _("Using the region"), None, """png://places/start-here.png"""),
+    ("min/", _("Minimal page example"), None, """png://actions/window-new.png"""),
+    (
+        "details/",
+        _("Details window"),
+        None,
+        """png://apps/preferences-system-windows.png""",
+    ),
 )
 UserParam = {}

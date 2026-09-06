@@ -1,0 +1,27 @@
+% extends "forms/form.html"
+
+% load exfiltry
+% load exsyntax
+
+%% all
+    % with table_type='datatable' table_subtype='table_with_details' table_details_height="50vh":
+        {{ block.super }}
+
+%% scroll
+
+%% list_page
+    div class=d-flex flex-column flex-grow-1 table-frame-inner
+        div class=tabsort_panel d-flex flex-column flex-grow-1
+            label for=sel1,,,class=form-label...Select option
+            select class=form-select change-details,,,name=sel,,,id=sel1
+                option selected disabled...Open menu
+                option value=example1...example1
+                option value=example2...example2
+                option value=example3...example3
+                option value=example4...example4
+
+%% list_page_footer
+    % row_details:
+        *Examples:templates_demo/example/[[sel]]/
+        *Examples2:templates_demo/example/[[sel]]/
+        *Examples3:templates_demo/example/[[sel]]/

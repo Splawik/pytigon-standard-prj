@@ -1,0 +1,17 @@
+% extends "forms/user_tab.html"
+
+% load exfiltry
+% load exsyntax
+
+
+%% all
+    %with show_title_bar=1 title='Example'
+        {{ block.super }}
+
+
+%% content
+    % if example == 'example4':
+        div class=move-element modal-lg v-autosize,,,data-position=^.plug/.modal-dialog:class
+
+    h1...{{description}}
+    h3...{{now}}

@@ -1,0 +1,43 @@
+div class=ajax-region
+    div class=ajax-frame,,,data-region=region1
+    div class=ajax-frame,,,data-region=region2,,,data-link=^div.ajax-region/table tr:nth-child(2) td:nth-child(3)
+    div class=table-responsive
+        table class=table table-striped table-hover align-middle
+            thead class=table-dark
+                tr
+                    th scope=col...#
+                    th scope=col...First Name
+                    th scope=col...Last Name
+                    th scope=col...Description
+            tbody
+                tr
+                    th scope=row...1
+                    td...John
+                    td...Doe
+                    td...Administrator
+                tr
+                    th scope=row...2
+                    td...Jane
+                    td...Smith
+                    td...Moderator
+                tr
+                    th scope=row...3
+                    td...Peter
+                    td...Brown
+                    td
+                        div class=ajax-frame,,,data-region=region3
+                            .User
+
+    h1...TEST
+    a href={{base_path}}templates_demo/example/example1/,,,class=btn btn-secondary,,,target=refresh_frame,,,data-region=region1
+        .request result to frame (region1)
+    br
+    a href={{base_path}}templates_demo/example/example1/,,,class=btn btn-secondary,,,target=refresh_frame,,,data-region=region2
+        .request result to region2
+    br
+    a href={{base_path}}templates_demo/example/example1/,,,class=btn btn-secondary,,,target=refresh_frame,,,data-region=region3
+        .request result to region3
+    br
+    a href={{base_path}}templates_demo/example/example1/,,,class=btn btn-secondary,,,target=refresh_frame,,,data-frame=^div.ajax-region/table tr:nth-child(2) td:nth-child(2)
+        .request result to region2
+    br

@@ -29,7 +29,7 @@
 
 
 %% list_row_header
-    th..._(Name)
+    th..._(Key)
     th..._(Value)
 
 
@@ -48,4 +48,8 @@
     
 
 %% table_header_edit
-  h2..._(Table field list)
+  h2..._(Choices field list)
+
+%% row_edit
+    % form:
+        'name', 'value'

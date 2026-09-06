@@ -1021,7 +1021,7 @@ class SChChoiceItem(models.Model):
         _("Key name"), null=False, blank=False, editable=True, max_length=255
     )
     value = models.CharField(
-        _("Verbose name"), null=False, blank=False, editable=True, max_length=255
+        _("Value"), null=False, blank=False, editable=True, max_length=255
     )
 
     def __str__(self):
@@ -1665,9 +1665,10 @@ class SChTemplate(models.Model):
     )
     direct_to_template = models.BooleanField(
         _("Direct to template"),
-        null=True,
-        blank=True,
+        null=False,
+        blank=False,
         editable=True,
+        default=False,
     )
     url = models.CharField(
         _("Url"), null=True, blank=True, editable=True, max_length=64
@@ -1695,8 +1696,8 @@ class SChTemplate(models.Model):
     )
     asynchronous = models.BooleanField(
         _("Async"),
-        null=True,
-        blank=True,
+        null=False,
+        blank=False,
         editable=True,
         default=False,
     )

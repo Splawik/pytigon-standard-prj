@@ -122,7 +122,7 @@
             "attributes": {
                 "type": "I",
                 "name": "portal",
-                "content": ".logo \n    img \n        margin-top: -6px\n        position: absolute\n        right: 5px\n\n    span \n        top: 11px\n        position: absolute\n        font-size: 80%\n        left: -10px !important\n        \n    span.logo-lg\n        font-size: 120%\n",
+                "content": ".logo \n\n    img \n        position: absolute\n        left: 0px\n        width: 2rem\n        left: 0.3rem\n        top: 0.3rem\n\n    span \n        top: 11px\n        position: relative\n        font-size: 80%\n        \n    span.logo-lg\n        font-size: 120%\n",
                 "doc": null
             }
         },
