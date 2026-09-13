@@ -433,7 +433,7 @@
                         "direct_to_template": true,
                         "url": "select2",
                         "url_parm": null,
-                        "template_code": "{# -*- coding: utf-8 -*- #}\n% extends \"forms/form.html\"\n\n% load exfiltry\n% load exsyntax\n\n\n%% content\n    form\n        ptig-select2 width=300px\n            option value=AL...Alabama\n            option value=WY...Wyoming\n        br\n        ptig-select2 width=300px,,,href={{base_path}}schwiki/table/PageObjectsConf/-/form/get/,,,target=_popup,,,multiple=\n            graphql\n                { schwiki_Pageobjectsconfall(name_Istartswith: \"$$$\") { edges { node { id, text:name }}}\n                }\n     ",
+                        "template_code": "% extends \"forms/form.html\"\n\n% load exfiltry\n% load exsyntax\n\n\n%% content\n    form\n        ptig-select2 width=300px\n            option value=AL...Alabama\n            option value=WY...Wyoming\n        br\n        ptig-select2 width=300px,,,href={{base_path}}schwiki/table/Page/-/form/get/,,,target=_popup,,,multiple=\n            graphql\n                { schwiki_Pageall(name_Istartswith: \"$$$\") { edges { node { id, text:name }}}\n                }\n        ptig-select2 width=300px,,,href={{base_path}}schwiki/table/PageObjectsConf/-/form/get/,,,target=_popup,,,multiple=\n            graphql\n                { users(username_Istartswith: \"$$$\") { edges { node { id, text:username }}}\n                }\n",
                         "tags_mount": null,
                         "asynchronous": false
                     }
@@ -1381,7 +1381,7 @@
                     "model": "SChTemplate",
                     "attributes": {
                         "name": "Example1Computer",
-                        "direct_to_template": null,
+                        "direct_to_template": false,
                         "url": null,
                         "url_parm": null,
                         "template_code": "% extends \"forms/form.html\"\n\n% load exfiltry\n% load exsyntax\n\n%% all\n    % with table_type='datatable' table_subtype='table_with_details' table_details_height=\"33vh\":\n        {{ block.super }}\n\n%% scroll\n\n%% list_content_actions\n    % new_row \"New computer\"\n\n\n%% id_extra\n    % row_actions:\n        .field_list/example2peripheral_set,Peripherals\n\n    \n%% list_row_header\n    th..._(Serial number)\n    th..._(Description)\n    th..._(IP)\n    th..._(Active)\n    \n\n%% list_row\n    td...{{ object.sn }}\n    td...{{ object.description }}\n    td...{{ object.ip }}\n    td...{{ object.active }}\n    \n\n%% list_row_actions\n    % row_actions:\n        .edit\n        .delete\n    % row_related_list \"tables_demo/Example3Tag\" title=\"Tags\" filter=\"tables__computer__{id}\" icon_name=\"png://emblems/emblem-symbolic-link.png\"\n\n\n%% list_page_footer\n    % row_details:\n        *Tags:tables_demo/table/Example1Computer/[[table_row_pk]]/example2peripheral_set/-/form/sublist/?x1=example2peripheral_set\n\n\n%% row_edit\n    % form:\n        .sn,description,ip,active\n",
@@ -1393,7 +1393,7 @@
                     "model": "SChTemplate",
                     "attributes": {
                         "name": "Example1User",
-                        "direct_to_template": null,
+                        "direct_to_template": false,
                         "url": null,
                         "url_parm": null,
                         "template_code": "% extends \"forms/form.html\"\n\n% load exfiltry\n% load exsyntax\n\n%% all\n    % with table_type='datatable':\n        {{ block.super }}\n\n%% scroll\n\n%% list_content_actions\n    % new_row \"New user\"\n\n%% list_row_header\n    th..._(User name)\n    th..._(Email)\n\n%% id_extra\n    % row_related_list \"schattachments/Attachment\" title=\"Attachments\" icon_name=\"fa fa-lg fa-paperclip\" tag_class=\"+class='btn-info'\" version=\"tables_demo__\"\n    {{ block.super }}\n\n    \n%% list_row\n    td...{{ object.username }}\n    td...{{ object.email }}\n    \n\n%% list_row_actions\n    % row_actions:\n        ?:edit\n        .tables_demo.delete_example1user?:delete\n\n%% row_edit\n    % form:\n        \"username\",\"email\"\n",
@@ -1405,7 +1405,7 @@
                     "model": "SChTemplate",
                     "attributes": {
                         "name": "Example2Peripheral",
-                        "direct_to_template": null,
+                        "direct_to_template": false,
                         "url": null,
                         "url_parm": null,
                         "template_code": "% extends \"forms/form.html\"\n\n% load exfiltry\n% load exsyntax\n\n%% all\n    % with table_type='datatable':\n        {{ block.super }}\n\n%% scroll\n\n%% list_content_actions\n    % new_row \"New peripheral\"\n\n%% list_row_header\n    th..._(Description)\n    \n\n%% list_row\n    td...{{ object.description }}\n    \n\n%% list_row_actions\n    % row_actions:\n        .edit\n        .delete\n\n%% row_edit\n    % form:\n        .parent:!,description\n",
@@ -1417,7 +1417,7 @@
                     "model": "SChTemplate",
                     "attributes": {
                         "name": "Example3Tag",
-                        "direct_to_template": null,
+                        "direct_to_template": false,
                         "url": null,
                         "url_parm": null,
                         "template_code": "% extends \"forms/form.html\"\n\n% load exfiltry\n% load exsyntax\n\n\n%% all\n    % with table_type='datatable':\n        {{ block.super }}\n\n\n%% scroll\n\n\n%% list_content_actions    \n    % new_row _(\"New tag\") action=\"new_row/{{filter}}\"\n\n\n%% list_row_header\n    th..._(Tag)\n    th..._(Description)\n    th..._(Application)\n    th..._(Table)\n\n\n%% list_row\n    td...{{ object.get_tag_display }}\n    td...{{ object.description }}\n    td...{{ object.app }}\n    td...{{ object.table }}\n    \n\n%% list_row_actions\n    % row_actions:\n        .edit\n        .delete\n\n\n%% row_edit\n    % form:\n        .tag,description\n",
@@ -1429,7 +1429,7 @@
                     "model": "SChTemplate",
                     "attributes": {
                         "name": "Example4Parameter",
-                        "direct_to_template": null,
+                        "direct_to_template": false,
                         "url": null,
                         "url_parm": null,
                         "template_code": "% extends \"forms/form.html\"\n\n% load exfiltry\n% load exsyntax\n\n%% all\n    % with table_type='datatable':\n        {{ block.super }}\n\n%% scroll\n\n%% list_content_actions\n    % new_row \"New parameter\"\n\n%% list_row_header\n    th..._(Key)\n    \n%% list_row\n    td...{{ object.key }}\n    \n%% list_row_actions\n    % row_actions:\n        .edit\n        .delete\n\n%% row_edit\n    % form:\n",
@@ -1441,7 +1441,7 @@
                     "model": "SChTemplate",
                     "attributes": {
                         "name": "Example5ParamGroup",
-                        "direct_to_template": null,
+                        "direct_to_template": false,
                         "url": null,
                         "url_parm": null,
                         "template_code": "% extends \"forms/tree.html\"\n\n% load exfiltry\n% load exsyntax\n\n%% all\n    % with table_type='simple':\n        {{ block.super }}\n\n\n%% scroll\n\n\n%% list_content_actions_new_row\n    % new_row _(\"New group\")\n\n%% list_row_header\n    th..._(Main parameter)\n    th..._(Parameters)\n    \n\n%% list_row\n    td...{{ object.main_parameter.key }}\n    td\n        % for parameter in object.parameters.all:\n            ({{ parameter.key}})\n\n    \n%% list_row_actions\n    % row_actions:\n        .edit\n        .delete\n\n\n%% row_edit\n    % form:\n        .parent:!,main_parameter,second_parameter,parameters\n",
@@ -1489,7 +1489,7 @@
                     "model": "SChTemplate",
                     "attributes": {
                         "name": "Example7ComputerFromExample1",
-                        "direct_to_template": null,
+                        "direct_to_template": false,
                         "url": null,
                         "url_parm": null,
                         "template_code": "% extends \"forms/form.html\"\n\n% load exfiltry\n% load exsyntax\n\n%% all\n    % with table_type='datatable':\n        {{ block.super }}\n\n%% scroll\n\n%% list_content_actions\n    % new_row \"New computer\"\n    \n%% list_row_header\n    th..._(Serial number)\n    th..._(Description)\n    th..._(IP)\n    th..._(Active)\n    \n    \n%% list_row\n    td...{{ object.sn }}\n    td...{{ object.description }}\n    td...{{ object.ip }}\n    td...{{ object.active }}\n    \n\n%% list_row_actions\n    % row_actions:\n        .edit\n        .delete\n\n%% row_edit\n    % form:\n        .sn,description,ip,active\n",
@@ -1501,7 +1501,7 @@
                     "model": "SChTemplate",
                     "attributes": {
                         "name": "Example6ComputerFromExample1",
-                        "direct_to_template": null,
+                        "direct_to_template": false,
                         "url": null,
                         "url_parm": null,
                         "template_code": "% extends \"forms/form.html\"\n\n% load exfiltry\n% load exsyntax\n\n%% all\n    % with table_type='datatable':\n        {{ block.super }}\n\n%% scroll\n\n%% list_content_actions\n    % new_row \"New computer\"\n    \n%% list_row_header\n    th..._(Serial number)\n    th..._(Description)\n    th..._(IP)\n    th..._(Active)\n    \n\n%% list_row\n    td...{{ object.sn }}\n    td...{{ object.description }}\n    td...{{ object.ip }}\n    td...{{ object.active }}\n    \n\n%% list_row_actions\n    % row_actions:\n        .edit\n        .delete\n\n%% row_edit\n    % form:\n        .sn,description,ip,active\n",
@@ -1513,7 +1513,7 @@
                     "model": "SChTemplate",
                     "attributes": {
                         "name": "attachment",
-                        "direct_to_template": null,
+                        "direct_to_template": false,
                         "url": null,
                         "url_parm": null,
                         "template_code": "% extends \"schattachments/attachment.html\"\n\n% load exfiltry\n% load exsyntax\n\n%% related_workflow\n    % row_related_list \"schworkflow/WorkflowItem\" title=\"Workflow items\"  icon_name=\"fa fa-lg fa-tasks\" tag_class=\"+class='btn-info'\" version=\"{{version}}\"\n",
@@ -1525,7 +1525,7 @@
                     "model": "SChTemplate",
                     "attributes": {
                         "name": "workflowitem",
-                        "direct_to_template": null,
+                        "direct_to_template": false,
                         "url": null,
                         "url_parm": null,
                         "template_code": "% extends \"schworkflow/workflowitem.html\"\n\n% load exfiltry\n% load exsyntax\n\n%% list_content_actions\n    % list_action \"regen\" \"Regenerate workflow2\"\n",
@@ -1537,7 +1537,7 @@
                     "model": "SChTemplate",
                     "attributes": {
                         "name": "workflowitemmyacceptations",
-                        "direct_to_template": null,
+                        "direct_to_template": false,
                         "url": null,
                         "url_parm": null,
                         "template_code": "% extends \"schworkflow/workflowitem.html\"\n\n% load exfiltry\n% load exsyntax\n\n%% list_content_actions\n    % list_action \"regen\" \"Regenerate workflow3\"\n",
@@ -1549,7 +1549,7 @@
                     "model": "SChTemplate",
                     "attributes": {
                         "name": "Example6ComputerFromExample1scrolled",
-                        "direct_to_template": null,
+                        "direct_to_template": false,
                         "url": null,
                         "url_parm": null,
                         "template_code": "% extends \"forms/form.html\"\n\n% load exfiltry\n% load exsyntax\n\n%% all\n    % with table_type='scrolled':\n        {{ block.super }}\n\n%% scroll\n\n%% list_content_actions\n    % new_row \"New computer\"\n\n\n%% list_row_header\n    th..._(Serial number)\n    th..._(Description)\n    th..._(IP)\n    th..._(Active)\n    \n\n%% list_row\n    td...{{ object.sn }}\n    td...{{ object.description }}\n    td...{{ object.ip }}\n    td...{{ object.active }}\n    \n\n%% list_row_actions\n    % row_actions:\n        .edit\n        .delete\n\n%% row_edit\n    % form:\n        .sn,description,ip,active\n",
@@ -1982,7 +1982,7 @@
                     "model": "SChTemplate",
                     "attributes": {
                         "name": "Album2",
-                        "direct_to_template": null,
+                        "direct_to_template": false,
                         "url": null,
                         "url_parm": null,
                         "template_code": "% extends \"forms/form.html\"\n\n% load exfiltry\n% load exsyntax\n\n%% all\n    % with table_type='scrolled':\n        {{ block.super }}\n\n%% scroll\n\n%% list_content_actions\n    % new_row \"New album\"\n    % list_action \"import\" \"Import albums\"\n\n%% list_row_header_start\n    th data-field=cid,,,data-sortable=true\n        % id_num 'Id' sorting=True\n\n%% list_row_header\n    th\n        % sorted_column name='release_date' description='Release date'\n    th\n        % sorted_column name='artist' description='Artist'\n    th\n        % sorted_column name='description' description='Description'\n    th\n        % sorted_column name='genre' description='Genre'\n    \n%% list_row\n    td...{{ object.release_date|isoformat }}\n    td...{{ object.artist }}\n    td...{{ object.description }}\n    td...{{ object.get_genre_display }}\n    \n%% list_row_actions\n    % row_actions:\n        .edit\n        .delete\n\n%% row_edit\n    % form:\n        .release_date,artist,description\n    % if add_param and add_param != '-':\n        % form:\n            .genre:!\n    % else:\n        % form:\n            .genre\n",
@@ -1994,7 +1994,7 @@
                     "model": "SChTemplate",
                     "attributes": {
                         "name": "AlbumJazz",
-                        "direct_to_template": null,
+                        "direct_to_template": false,
                         "url": null,
                         "url_parm": null,
                         "template_code": "% extends \"tables_adv_demo/album.html\"\n\n% load exfiltry\n% load exsyntax\n\n%% list_row_header\n    th..._(Release date)\n    th..._(Artist)\n    th..._(Description)\n    \n%% list_row\n    td...{{ object.release_date|isoformat }}\n    td...{{ object.artist }}\n    td...{{ object.description }}\n",
@@ -2006,7 +2006,7 @@
                     "model": "SChTemplate",
                     "attributes": {
                         "name": "AlbumProxy",
-                        "direct_to_template": null,
+                        "direct_to_template": false,
                         "url": null,
                         "url_parm": null,
                         "template_code": "% extends \"forms/form.html\"\n\n% load exfiltry\n% load exsyntax\n\n%% all\n    % with table_type='datatable':\n        {{ block.super }}\n\n%% scroll\n\n%% list_content_actions\n    % new_row \"New album\"\n\n%% list_row_header\n    th..._(release_date)\n    th..._(artist)\n    th..._(description)\n    th..._(genre)\n        \n%% list_row\n    td...{{ object.release_date|isoformat }}\n    td...{{ object.artist }}\n    % td_editable 'description' 'text'\n    td...{{ object.get_genre_display }}\n    \n%% list_row_actions\n    % row_actions:\n        .edit\n        .delete\n\n%% row_edit\n    % form:\n        .release_date,artist,description\n    % if add_param and add_param != '-':\n        % form:\n            .genre:!\n    % else:\n        % form:\n            .genre\n",
@@ -2018,7 +2018,7 @@
                     "model": "SChTemplate",
                     "attributes": {
                         "name": "Track",
-                        "direct_to_template": null,
+                        "direct_to_template": false,
                         "url": null,
                         "url_parm": null,
                         "template_code": "% extends \"forms/form.html\"\n\n% load exfiltry\n% load exsyntax\n\n%% all\n    % with table_type='datatable':\n        {{ block.super }}\n\n%% scroll\n\n%% list_content_actions\n    % new_row \"new track\"\n\n%% list_row_header\n    th..._(Parent)\n    th..._(Name)\n    th..._(Param)\n    \n\n%% list_row\n    td...{{ object.parent }}\n    td...{{ object.name }}\n    td...{{ object.param }}\n    \n\n%% list_row_actions\n    % row_actions:\n        .edit\n        .delete\n\n%% row_edit\n    % form:\n        .parent,name,param,params\n",
@@ -2030,7 +2030,7 @@
                     "model": "SChTemplate",
                     "attributes": {
                         "name": "Album",
-                        "direct_to_template": null,
+                        "direct_to_template": false,
                         "url": null,
                         "url_parm": null,
                         "template_code": "% extends \"forms/form.html\"\n\n% load exfiltry\n% load exsyntax\n\n%% all\n    % with table_type='datatable':\n        {{ block.super }}\n\n%% scroll\n\n%% list_content_actions\n    % new_row \"New album\"\n\n%% list_row_header\n    th..._(Release date)\n    th..._(Artist)\n    th..._(Description)\n    th..._(Genre)\n    \n\n%% id_extra\n    {{ block.super }}\n    % row_actions:\n        .field_list/track_set,Tracks\n\n\n%% list_row\n    td...{{ object.release_date }}\n    td...{{ object.artist }}\n    td...{{ object.description }}\n    td...{{ object.genre }}\n    \n\n%% list_row_actions\n    % row_actions:\n        .edit\n        .delete\n\n%% row_edit\n    % form:\n        .release_date,artist,description,genre\n",
@@ -2042,7 +2042,7 @@
                     "model": "SChTemplate",
                     "attributes": {
                         "name": "UserGroup",
-                        "direct_to_template": null,
+                        "direct_to_template": false,
                         "url": null,
                         "url_parm": null,
                         "template_code": "% extends \"forms/form.html\"\n\n% load exfiltry\n% load exsyntax\n\n%% all\n    % with table_type='datatable':\n        {{ block.super }}\n\n%% scroll\n\n%% list_content_actions\n    % new_row \"<<new_row_title>>\"\n    % list_action \"<<action>>\" \"<<action_description>>\"\n\n%% list_row_header\n    \n\n%% list_row\n    \n\n%% list_row_actions\n    % row_actions:\n        .edit\n        .delete\n        .<<action_name>>,<<description>>\n\n%% row_edit\n    % form:\n        .\n",
@@ -2301,7 +2301,7 @@
                     "model": "SChTemplate",
                     "attributes": {
                         "name": "v_template_example",
-                        "direct_to_template": null,
+                        "direct_to_template": false,
                         "url": null,
                         "url_parm": null,
                         "template_code": "% extends \"forms/form.html\"\n\n% load exfiltry\n% load exsyntax\n\n\n%% all\n    %with show_title_bar=1 title='template example'\n        {{ block.super }}\n\n\n%% content\n    h1...{{name}}\n    h2...{{description}}\n    ",
@@ -2325,7 +2325,7 @@
                     "model": "SChTemplate",
                     "attributes": {
                         "name": "v_pdf_example_pdf",
-                        "direct_to_template": null,
+                        "direct_to_template": false,
                         "url": null,
                         "url_parm": null,
                         "template_code": "{# -*- coding: utf-8 -*- #}\n% extends \"base_pdf.html\"\n\n% load exfiltry\n% load exsyntax\n% load expr\n\n%% content \n    p align=center...TEST\n    p \n        {{name}}: {{description}}\n",
@@ -2337,7 +2337,7 @@
                     "model": "SChTemplate",
                     "attributes": {
                         "name": "v_hdoc_example_hdoc",
-                        "direct_to_template": null,
+                        "direct_to_template": false,
                         "url": null,
                         "url_parm": null,
                         "template_code": "{{name}}: {{description}}\n",
@@ -2349,7 +2349,7 @@
                     "model": "SChTemplate",
                     "attributes": {
                         "name": "v_plotly_example",
-                        "direct_to_template": null,
+                        "direct_to_template": false,
                         "url": null,
                         "url_parm": null,
                         "template_code": "% extends \"forms/user_tab.html\"\n\n% load exfiltry\n% load exsyntax\n\n\n%% all\n    %with show_title_bar=1 title='Plotly example'\n        {{ block.super }}\n\n\n%% content\n    div \n        ptig-plotly\n            {{plotly_content|safe}}\n",
@@ -2361,7 +2361,7 @@
                     "model": "SChTemplate",
                     "attributes": {
                         "name": "v_matplotlib_example",
-                        "direct_to_template": null,
+                        "direct_to_template": false,
                         "url": null,
                         "url_parm": null,
                         "template_code": "% extends \"forms/user_tab.html\"\n\n% load exfiltry\n% load exsyntax\n\n%% all\n    %with show_title_bar=1 title='Matplotlib example'\n        {{ block.super }}\n\n%% content\n    div width=25%\n        {{ img1_svg|safe }}\n    div width=25%\n        {{ img2_svg|safe }}\n",
@@ -2373,7 +2373,7 @@
                     "model": "SChTemplate",
                     "attributes": {
                         "name": "v_plotly_export_example",
-                        "direct_to_template": null,
+                        "direct_to_template": false,
                         "url": null,
                         "url_parm": null,
                         "template_code": "% extends \"forms/user_tab.html\"\n\n% load exfiltry\n% load exsyntax\n\n%% all\n    %with show_title_bar=1 title='Matplotlib example'\n        {{ block.super }}\n\n%% content\n    div width=25%\n        {{ img1_svg|safe }}\n    div width=25%\n        {{ img2_svg|safe }}\n",
@@ -2676,7 +2676,7 @@
                     "model": "SChTemplate",
                     "attributes": {
                         "name": "Formform_test",
-                        "direct_to_template": null,
+                        "direct_to_template": false,
                         "url": null,
                         "url_parm": null,
                         "template_code": "% extends \"forms/user_tab.html\"\n\n% load exfiltry\n% load exsyntax\n\n%% all\n    %with form_width=800 form_height=600 show_title_bar=1 title='Form'\n        {{ block.super }}\n\n%% list_page_header\n    % if standard_web_browser != 6 or form.errors or errors:\n        h3...TEST FORM\n\n\n%% list_row_header\n    th...Col 1\n    th...Col 2\n    th...Col 3\n    th...Col 4\n    th...Col 5\n    th...Col 6\n    th...Col 7\n    th...Col 8\n\n%% list_full_row\n    tr\n        td... {{object.0}}\n        td... {{object.1}}\n        td... {{object.2}}\n        td... {{object.3}}\n        td... {{object.4}}\n        td align=right... {{object.5|floatnullformat}}\n        td... {{object.6}}\n        td align=right... {{object.7|floatnullformat}}\n        td... {{object.8}}\n",
@@ -2688,7 +2688,7 @@
                     "model": "SChTemplate",
                     "attributes": {
                         "name": "Formform_test2",
-                        "direct_to_template": null,
+                        "direct_to_template": false,
                         "url": null,
                         "url_parm": null,
                         "template_code": "% extends \"forms/user_tab.html\"\n\n% load exfiltry\n% load exsyntax\n\n%% all\n    %with form_width=800 form_height=600 show_title_bar=1 title='Form'\n        {{ block.super }}\n\n%% list_page_header\n    % if standard_web_browser != 6 or form.errors or errors:\n        h3...TEST FORM\n\n%% list_row_header\n    th...Col 1\n    th...Col 2\n    th...Col 3\n    th...Col 4\n    th...Col 5\n    th...Col 6\n    th...Col 7\n    th...Col 8\n\n%% list_full_row\n    tr\n        td... {{object.0}}\n        td... {{object.1}}\n        td... {{object.2}}\n        td... {{object.3}}\n        td... {{object.4}}\n        td align=right... {{object.5|floatnullformat}}\n        td... {{object.6}}\n        td align=right... {{object.7|floatnullformat}}\n        td... {{object.8}}\n",
@@ -2700,7 +2700,7 @@
                     "model": "SChTemplate",
                     "attributes": {
                         "name": "Select2Example",
-                        "direct_to_template": null,
+                        "direct_to_template": false,
                         "url": null,
                         "url_parm": null,
                         "template_code": "% extends \"forms/form.html\"\n\n% load exfiltry\n% load exsyntax\n\n%% all\n    % with table_type='datatable':\n        {{ block.super }}\n\n%% scroll\n\n%% list_content_actions\n    % new_row \"new item\"\n\n%% list_row_header\n    th...name\n\n%% list_row\n    th...{{object.name}}\n\n%% list_row_actions\n    % row_actions:\n        .edit\n        .delete\n\n%% row_edit\n    % form:\n        .\n",
@@ -2712,7 +2712,7 @@
                     "model": "SChTemplate",
                     "attributes": {
                         "name": "Formform_test3",
-                        "direct_to_template": null,
+                        "direct_to_template": false,
                         "url": null,
                         "url_parm": null,
                         "template_code": "% extends \"forms/user_tab.html\"\n\n% load exfiltry\n% load exsyntax\n\n%% all\n    %with form_width=800 form_height=600 show_title_bar=1 title='Form'\n        {{ block.super }}\n\n%% list_page_header\n    % if standard_web_browser != 6 or form.errors or errors:\n        h3...TEST FORM\n\n%% list_row_header\n    th...Col 1\n    th...Col 2\n    th...Col 3\n    th...Col 4\n    th...Col 5\n    th...Col 6\n    th...Col 7\n    th...Col 8\n\n%% list_full_row\n    tr\n        td... {{object.0}}\n        td... {{object.1}}\n        td... {{object.2}}\n        td... {{object.3}}\n        td... {{object.4}}\n        td align=right... {{object.5|floatnullformat}}\n        td... {{object.6}}\n        td align=right... {{object.7|floatnullformat}}\n        td... {{object.8}}\n",
@@ -2724,7 +2724,7 @@
                     "model": "SChTemplate",
                     "attributes": {
                         "name": "Formform_test4",
-                        "direct_to_template": null,
+                        "direct_to_template": false,
                         "url": null,
                         "url_parm": null,
                         "template_code": "% extends \"forms/form.html\"\n \n% load exsyntax\n\n%% content\n    form method=post,,,action={{base_path}}forms_demo/form/form_test4/?only_content=1,,,class=ajax-link form-inline\n        % csrf_token\n        % inline_form:\n            .test\n            ((\n                % comboselect \"x1\" label=\"X1\" data_rel_name=\"x2\" src=\"\":\n                    option disabled,,,selected,,,value \n                    option value=a1...A1\n                    option value=a2...A2\n                    option value=a3...A3\n            ))\n            ((\n                % comboselect \"x2\" label=\"X2\" data_rel_name=\"x3\" src=\"/forms_demo/list2?q=[[x1]]\":\n                    option disabled,,,selected,,,value \n            ))\n            ((\n                div class=form-group group_choicefield form-floating\n                    select class=select_combo form-select,,,name=x3,,,src=/forms_demo/list3?q=[[x2]]\n                        option disabled,,,selected,,,value \n                    label class=form-label control-label float-left\n                        .X3           \n            ))\n            ((\n                % comboselect form.test2 data_rel_name=\"x3\":\n                    option disabled,,,selected,,,value \n                    option value=s1...S1\n                    option value=s2...S2\n                    option value=s3...S3\n            ))\n        div class=row\n            div class=col\n            div class=col div_content_center\n                button type=submit,,,class=btn btn-primary btn-lg ...OK\n            div class=col\n",
@@ -2736,7 +2736,7 @@
                     "model": "SChTemplate",
                     "attributes": {
                         "name": "v_list2",
-                        "direct_to_template": null,
+                        "direct_to_template": false,
                         "url": null,
                         "url_parm": null,
                         "template_code": "option disabled,,,selected,,,value\n% if prev_value == 'a1':\n    option value=aa1...L2_A1\n    option value=aa2...L2_A2\n    option value=aa3...L2_A3\n% if prev_value == 'a2':\n    option value=bb1...L2_B1\n    option value=bb2...L2_B2\n    option value=bb3...L2_B3\n% if prev_value == 'a3':\n    option value=cc1...L2_C1\n    option value=cc2...L2_C2\n    option value=cc3...L2_C3\n",
@@ -2748,7 +2748,7 @@
                     "model": "SChTemplate",
                     "attributes": {
                         "name": "v_list3",
-                        "direct_to_template": null,
+                        "direct_to_template": false,
                         "url": null,
                         "url_parm": null,
                         "template_code": "option disabled,,,selected,,,value\noption value=d1...L3_A1 {{prev_value}}\noption value=d2...L3_A2\noption value=d3...L3_A3\n",
@@ -3333,7 +3333,7 @@
                 "perms": false,
                 "index": null,
                 "model_code": "",
-                "view_code": null,
+                "view_code": "import time\nfrom django.utils import timezone",
                 "urls_code": "",
                 "tasks_code": "",
                 "consumer_code": "",
@@ -3375,6 +3375,21 @@
                     }
                 },
                 {
+                    "model": "SChView",
+                    "attributes": {
+                        "name": "example",
+                        "view_type": "u",
+                        "param": "param",
+                        "url": "example/(?P<param>[^/]*)/$",
+                        "view_code": "description = \"Hello world!\"\nif param == 'example1':\n    description=\"1. Hello world!\"\nelif param == 'example2':\n    description=\"2. Hello world!\"\nelif param == 'example3':\n    description=\"3. Hello world!\"\n    time.sleep(1)\nelif param == 'example4':\n    description=\"4. Hello world!\"\n    time.sleep(1)\nelse:\n    time.sleep(3)\nnow = timezone.now()\ndt_str = now.strftime(\"%Y-%m-%d %H:%M:%S\")\nreturn { \"description\": description, \"now\": dt_str, \"example\": param }",
+                        "url_params": "{}",
+                        "ret_type": "T",
+                        "asynchronous": false,
+                        "extra_code": null,
+                        "doc": null
+                    }
+                },
+                {
                     "model": "SChTemplate",
                     "attributes": {
                         "name": "example_template",
@@ -3390,7 +3405,7 @@
                     "model": "SChTemplate",
                     "attributes": {
                         "name": "markdown_example",
-                        "direct_to_template": null,
+                        "direct_to_template": false,
                         "url": null,
                         "url_parm": null,
                         "template_code": ".\n@@@\n<div class=\"wiki_container\">\n###>\n    Heading\n    =======\n\n    Sub-heading\n    -----------\n\n    # Alternative heading #\n\n    Paragraphs are separated \n    by a blank line.\n\n    Two spaces at the end of a line  \n    produce a line break.\n\n    Text attributes _italic_, **bold**, `monospace`.\n\n    Horizontal rule:\n\n    ---\n\n    Bullet lists nested within numbered list:\n\n      1. fruits\n         * apple\n         * banana\n      2. vegetables\n         - carrot\n         - broccoli\n         \n    A [link](http://example.com).\n\n    ![Image](Icon-pictures.png \"icon\")\n\n    > Markdown uses email-style characters for blockquoting.\n    >\n    > Multiple paragraphs need to be prepended individually.\n\n    Most inline <abbr title=\"Hypertext Markup Language\">HTML</abbr> is supported.\n\n\n    ## Markdown extensions\n\n    ### Abbreviations\n\n    The HTML specification\n    is maintained by the W3C.\n\n    *[HTML]: Hyper Text Markup Language\n    *[W3C]:  World Wide Web Consortium\n\n\n    ### Attribute Lists\n\n    This is a paragraph.\n    {: #an_id .a_class }\n\n\n    ### Definition Lists\n\n    Apple\n    :   Pomaceous fruit of plants of the genus Malus in\n        the family Rosaceae.\n\n    Orange\n    :   The fruit of an evergreen tree of the genus Citrus.\n\n\n    ### Fenced Code Blocks\n\n    ``` html\n    <p>HTML Document</p>\n    ```\n\n    ``` python\n    def test(x):\n        return x\n    ```\n\n    ### Tables\n\n    First Header  | Second Header\n    ------------- | -------------\n    Content Cell  | Content Cell\n    Content Cell  | Content Cell\n\n</div>",
@@ -3425,11 +3440,59 @@
                 {
                     "model": "SChTemplate",
                     "attributes": {
+                        "name": "target",
+                        "direct_to_template": true,
+                        "url": "target/",
+                        "url_parm": null,
+                        "template_code": "a href={{base_path}}templates_demo/example/example3/,,,class=btn btn-secondary,,,target=_blank,,,title=Hello!\n    .Open example in new window\nbr\na href={{base_path}}templates_demo/example/example3/,,,class=btn btn-secondary ladda-button,,,target=_parent,,,title=Hello!\n    .Open example in new tab, ladda-button\nbr\na href={{base_path}}templates_demo/example/example3/,,,class=btn btn-secondary,,,target=popup_info,,,title=Hello!\n    .Open example in popup info\nbr\na href={{base_path}}templates_demo/example/example3/?after_close=refresh,,,class=btn btn-secondary ladda-button,,,target=popup_info,,,title=Hello!\n    .Open example in popup info, after_close=refresh, ladda-button\nbr\na href={{base_path}}templates_demo/example/example3/,,,class=btn btn-secondary,,,target=popup_edit,,,title=Hello!\n    .Open example in popup edit\nbr\na href={{base_path}}templates_demo/example/example4/,,,class=btn btn-secondary,,,target=popup_edit,,,title=Hello!\n    .Open example in popup edit (lage window)\nbr\ndiv\n    a href={{base_path}}templates_demo/example/example3/,,,class=btn btn-secondary,,,target=inline_info,,,title=Hello!,,,data-inline-position=^div:after\n        .Open example in inline info\nbr\ndiv\n    a href={{base_path}}templates_demo/example/example3/,,,class=btn btn-secondary,,,target=inline_edit,,,title=Hello!,,,data-inline-position=^div:after\n        .Open example in inline edit\nbr\na href={{base_path}}templates_demo/example/example3/,,,class=btn btn-secondary,,,target=refresh_page,,,title=Hello!\n    .Replace page\nbr\na href={{base_path}}templates_demo/example/example3/,,,class=btn btn-secondary,,,target=refresh_frame,,,title=Hello!\n    .Replace frame\nbr\n\na href={{base_path}}templates_demo/example/example3/,,,class=btn btn-secondary,,,target=message,,,title=Hello!\n    .Message\na href={{base_path}}templates_demo/example/example3/,,,class=btn btn-secondary,,,target=message,,,title=Hello!,,,data-icon=error,,,data-title=Error,,,data-text=This is error,,,data-footer=footer,,,data-timer=3000\n    .Message with option (icon: [warning, error, success, info, question], timer: miliseconds)\nbr\na href={{base_path}}templates_demo/example/example3/,,,class=btn btn-secondary,,,target=null,,,title=Hello!\n    .Null\nbr\ndiv href={{base_path}}templates_demo/example/example1/,,,class=auto-frame ajax-frame ajax-link ajax-region\n",
+                        "tags_mount": null,
+                        "asynchronous": false
+                    }
+                },
+                {
+                    "model": "SChTemplate",
+                    "attributes": {
+                        "name": "v_example",
+                        "direct_to_template": false,
+                        "url": null,
+                        "url_parm": null,
+                        "template_code": "% extends \"forms/user_tab.html\"\n\n% load exfiltry\n% load exsyntax\n\n\n%% all\n    %with show_title_bar=1 title='Example'\n        {{ block.super }}\n\n\n%% content\n    % if example == 'example4':\n        div class=move-element modal-lg v-autosize,,,data-position=^.plug/.modal-dialog:class\n\n    h1...{{description}}\n    h3...{{now}}\n",
+                        "tags_mount": null,
+                        "asynchronous": false
+                    }
+                },
+                {
+                    "model": "SChTemplate",
+                    "attributes": {
+                        "name": "region",
+                        "direct_to_template": true,
+                        "url": "region/",
+                        "url_parm": null,
+                        "template_code": "div class=ajax-region\n    div class=ajax-frame,,,data-region=region1\n    div class=ajax-frame,,,data-region=region2,,,data-link=^div.ajax-region/table tr:nth-child(2) td:nth-child(3)\n    div class=table-responsive\n        table class=table table-striped table-hover align-middle\n            thead class=table-dark\n                tr\n                    th scope=col...#\n                    th scope=col...First Name\n                    th scope=col...Last Name\n                    th scope=col...Description\n            tbody\n                tr\n                    th scope=row...1\n                    td...John\n                    td...Doe\n                    td...Administrator\n                tr\n                    th scope=row...2\n                    td...Jane\n                    td...Smith\n                    td...Moderator\n                tr\n                    th scope=row...3\n                    td...Peter\n                    td...Brown\n                    td\n                        div class=ajax-frame,,,data-region=region3\n                            .User\n\n    h1...TEST\n    a href={{base_path}}templates_demo/example/example1/,,,class=btn btn-secondary,,,target=refresh_frame,,,data-region=region1\n        .request result to frame (region1)\n    br\n    a href={{base_path}}templates_demo/example/example1/,,,class=btn btn-secondary,,,target=refresh_frame,,,data-region=region2\n        .request result to region2\n    br\n    a href={{base_path}}templates_demo/example/example1/,,,class=btn btn-secondary,,,target=refresh_frame,,,data-region=region3\n        .request result to region3\n    br\n    a href={{base_path}}templates_demo/example/example1/,,,class=btn btn-secondary,,,target=refresh_frame,,,data-frame=^div.ajax-region/table tr:nth-child(2) td:nth-child(2)\n        .request result to region2\n    br",
+                        "tags_mount": null,
+                        "asynchronous": false
+                    }
+                },
+                {
+                    "model": "SChTemplate",
+                    "attributes": {
                         "name": "min",
                         "direct_to_template": true,
                         "url": "min/",
                         "url_parm": null,
-                        "template_code": "a href={{base_path}}templates_demo/min_template/,,,target=_blank\n    .Open test page in new window\n",
+                        "template_code": "a href={{base_path}}templates_demo/min_template/,,,target=_blank\n    .Open minimal test page in new window\n",
+                        "tags_mount": null,
+                        "asynchronous": false
+                    }
+                },
+                {
+                    "model": "SChTemplate",
+                    "attributes": {
+                        "name": "details_window",
+                        "direct_to_template": true,
+                        "url": "details/",
+                        "url_parm": null,
+                        "template_code": "% extends \"forms/form.html\"\n\n% load exfiltry\n% load exsyntax\n\n%% all\n    % with table_type='datatable' table_subtype='table_with_details' table_details_height=\"50vh\":\n        {{ block.super }}\n\n%% scroll\n\n%% list_page\n    div class=d-flex flex-column flex-grow-1 table-frame-inner\n        div class=tabsort_panel d-flex flex-column flex-grow-1\n            label for=sel1,,,class=form-label...Select option\n            select class=form-select change-details,,,name=sel,,,id=sel1\n                option selected disabled...Open menu\n                option value=example1...example1\n                option value=example2...example2\n                option value=example3...example3\n                option value=example4...example4\n\n%% list_page_footer\n    % row_details:\n        *Examples:templates_demo/example/[[sel]]/\n        *Examples2:templates_demo/example/[[sel]]/\n        *Examples3:templates_demo/example/[[sel]]/\n",
                         "tags_mount": null,
                         "asynchronous": false
                     }
@@ -3473,11 +3536,47 @@
                 {
                     "model": "SChAppMenu",
                     "attributes": {
-                        "name": "Minimal page",
-                        "url": "min/",
+                        "name": "Using the target",
+                        "url": "target/",
                         "url_type": "-",
                         "perms": null,
                         "icon": "png://actions/media-playback-stop.png",
+                        "icon_size": "1",
+                        "icon_code": null
+                    }
+                },
+                {
+                    "model": "SChAppMenu",
+                    "attributes": {
+                        "name": "Using the region",
+                        "url": "region/",
+                        "url_type": "-",
+                        "perms": null,
+                        "icon": "png://places/start-here.png",
+                        "icon_size": "1",
+                        "icon_code": null
+                    }
+                },
+                {
+                    "model": "SChAppMenu",
+                    "attributes": {
+                        "name": "Minimal page example",
+                        "url": "min/",
+                        "url_type": "-",
+                        "perms": null,
+                        "icon": "png://actions/window-new.png",
+                        "icon_size": "1",
+                        "icon_code": null
+                    }
+                },
+                {
+                    "model": "SChAppMenu",
+                    "attributes": {
+                        "name": "Details window",
+                        "url": "details/",
+                        "url_type": "-",
+                        "perms": null,
+                        "icon": "png://apps/preferences-system-windows.png",
                         "icon_size": "1",
                         "icon_code": null
                     }
@@ -3555,7 +3654,7 @@
                     "model": "SChTemplate",
                     "attributes": {
                         "name": "v_test_task",
-                        "direct_to_template": null,
+                        "direct_to_template": false,
                         "url": null,
                         "url_parm": null,
                         "template_code": "{# -*- coding: utf-8 -*- #}\n% extends \"forms/user_tab.html\"\n\n% load exfiltry\n% load exsyntax\n\n\n%% all\n    %with show_title_bar=1 title='task_test'\n        {{ block.super }}\n\n%% content\n    ptig-task websocket_href=/schtasks/show_task_events/channel/,,,task_id={{id}}\n        div class=data",
@@ -3567,7 +3666,7 @@
                     "model": "SChTemplate",
                     "attributes": {
                         "name": "v_test_task2",
-                        "direct_to_template": null,
+                        "direct_to_template": false,
                         "url": null,
                         "url_parm": null,
                         "template_code": "{# -*- coding: utf-8 -*- #}\n% extends \"forms/user_tab.html\"\n\n% load exfiltry\n% load exsyntax\n\n\n%% all\n    %with show_title_bar=1 title='task_test'\n        {{ block.super }}\n\n%% content\n    h1...Task was started\n",
@@ -3579,7 +3678,7 @@
                     "model": "SChTemplate",
                     "attributes": {
                         "name": "v_test_messages",
-                        "direct_to_template": null,
+                        "direct_to_template": false,
                         "url": null,
                         "url_parm": null,
                         "template_code": "% extends \"forms/user_tab.html\"\n\n% load exfiltry\n% load exsyntax\n\n\n%% all\n    %with show_title_bar=1 title='test'\n        {{ block.super }}\n\n\n",
@@ -3718,7 +3817,7 @@
                     "model": "SChTemplate",
                     "attributes": {
                         "name": "v_clock",
-                        "direct_to_template": null,
+                        "direct_to_template": false,
                         "url": null,
                         "url_parm": null,
                         "template_code": "% extends \"forms/user_tab.html\"\n\n% load exfiltry\n% load exsyntax\n\n\n%% all\n    % with show_title_bar=1 title='clock-channel-example'\n        {{ block.super }}\n\n%% content\n    ptig-clock-channel websocket_href={{base_path}}channels_demo/clock/channel/\n    .See channel events in developer tools in console. You should run web server with asgi support!",
@@ -3730,7 +3829,7 @@
                     "model": "SChTemplate",
                     "attributes": {
                         "name": "v_openai",
-                        "direct_to_template": null,
+                        "direct_to_template": false,
                         "url": null,
                         "url_parm": null,
                         "template_code": "% extends \"forms/user_tab.html\"\n\n% load exfiltry\n% load exsyntax\n\n\n%% all\n    % with show_title_bar=1 title='OpenAi chat example'\n        {{ block.super }}\n\n%% content\n    ptig-ai websocket_href={{base_path}}schai/ai/channel/\n",
@@ -3742,7 +3841,7 @@
                     "model": "SChTemplate",
                     "attributes": {
                         "name": "v_ollama_ai",
-                        "direct_to_template": null,
+                        "direct_to_template": false,
                         "url": null,
                         "url_parm": null,
                         "template_code": "% extends \"forms/user_tab.html\"\n\n% load exfiltry\n% load exsyntax\n\n\n%% all\n    % with show_title_bar=1 title='Ai chat example'\n        {{ block.super }}\n\n%% content\n    ptig-ai websocket_href={{base_path}}schai/ollamaai/channel/\n",
@@ -3954,7 +4053,7 @@
                     "model": "SChTemplate",
                     "attributes": {
                         "name": "v_test_interfaces",
-                        "direct_to_template": null,
+                        "direct_to_template": false,
                         "url": null,
                         "url_parm": null,
                         "template_code": "% extends \"forms/user_tab.html\"\n\n% load exfiltry\n% load exsyntax\n\n\n%% all\n    %with show_title_bar=1 title='Interfaces'\n        {{ block.super }}\n\n\n%% user_header\n    th...Title\n    th...result\n\n\n%% user_row\n    tr\n        td... {{object.0}}\n        td align=right... {{object.1}}\n\n",

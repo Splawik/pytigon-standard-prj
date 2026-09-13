@@ -968,7 +968,7 @@
                     "model": "SChTemplate",
                     "attributes": {
                         "name": "Device",
-                        "direct_to_template": null,
+                        "direct_to_template": false,
                         "url": null,
                         "url_parm": null,
                         "template_code": "% extends \"forms/form.html\"\n\n% load exfiltry\n% load exsyntax\n\n%% all\n    % with form_width=800 form_height=600 table_type='datatable'\n        {{ block.super }}\n\n%% list_content_actions\n\n%% list_row_header\n        th...Description\n        \n%% list_row\n        td...{{object.description}}\n\n%% row_edit\n    % form:\n        .parent:!, type:!, device_type:!\n    % form:\n        .code, name, description\n    % form:\n        .serial_number, purchase_date, guarantee_date, manufacturer, model, operators, status\n",
@@ -992,7 +992,7 @@
                     "model": "SChTemplate",
                     "attributes": {
                         "name": "Printer",
-                        "direct_to_template": null,
+                        "direct_to_template": false,
                         "url": null,
                         "url_parm": null,
                         "template_code": "% extends \"schhardware/device.html\"\n\n% load exfiltry\n% load exsyntax\n\n%% list_content_actions\n        % new_row \"New printer\"\n\n%% row_edit\n    {{ block.super }}\n    % form:\n        .printer_type\n",
@@ -1004,7 +1004,7 @@
                     "model": "SChTemplate",
                     "attributes": {
                         "name": "Monitor",
-                        "direct_to_template": null,
+                        "direct_to_template": false,
                         "url": null,
                         "url_parm": null,
                         "template_code": "% extends \"schhardware/device.html\"\n\n% load exfiltry\n% load exsyntax\n\n%% list_content_actions\n        % new_row \"New monitor\"\n\n%% row_edit\n    {{ block.super }}\n    % form:\n        .size, monitor_type\n",
@@ -1016,7 +1016,7 @@
                     "model": "SChTemplate",
                     "attributes": {
                         "name": "Phone",
-                        "direct_to_template": null,
+                        "direct_to_template": false,
                         "url": null,
                         "url_parm": null,
                         "template_code": "% extends \"schhardware/device.html\"\n\n% load exfiltry\n% load exsyntax\n\n%% list_content_actions\n        % new_row \"New phone\"\n\n%% row_edit\n    {{ block.super }}\n    % form:\n        .phone_type, operator, phone_number\n",
@@ -1028,7 +1028,7 @@
                     "model": "SChTemplate",
                     "attributes": {
                         "name": "OtherDevice",
-                        "direct_to_template": null,
+                        "direct_to_template": false,
                         "url": null,
                         "url_parm": null,
                         "template_code": "% extends \"schhardware/device.html\"\n\n% load exfiltry\n% load exsyntax\n\n%% list_content_actions\n        % new_row \"New device\"\n\n%% row_edit\n    {{ block.super }}\n    % form:\n        .other_type\n",
@@ -1040,7 +1040,7 @@
                     "model": "SChTemplate",
                     "attributes": {
                         "name": "Form_FilterFormComputer",
-                        "direct_to_template": null,
+                        "direct_to_template": false,
                         "url": null,
                         "url_parm": null,
                         "template_code": "{# -*- coding: utf-8 -*- #}\n% extends \"forms/form.html\"\n\n% load exfiltry\n% load exsyntax\n\n%% pythoncode\n    script language=python\n        def signal_from_child(self, child, signal):\n            if signal=='set_bitmap_list':\n                bitmaps = {\n                    \"<<name1>>\": \"<<image_path1>>\",\n                    \"<<name2>>\": \"<<image_path2>>\",\n                }\n                child.set_bitmaps(bitmaps)\n\n        def filter_url(self, target, href):\n            return href\n\n%% all\n    %with form_width=<<dx>> form_height=<<dy>>\n        {{ block.super }}\n\n%% scroll\n\n%% form\n    %if form\n         table class=form\n            tr\n                td...title\n                td...{{ form.[[field]] }}\n            tr\n                td\n                td\n                    input type=submit,,,value=Refresh\n         br\n    %if tabela\n        h2...OK\n\n\n%% form_header\n    p\n        % new_row \"<<new_row_title>>\"\n        % action_table \"<<action>>\" \"<<action_title>>\"\n\n%% table_header\n  tr\n    td...ID\n    td...<<col_name>>\n    td...Action\n\n%% table_content\n    tr\n        td:::a href={{object.id}}/info?width=<<info_dy>>&height=<<info_dx>>,,,title=<<info_title>>,,,class=thickbox...{{object.id}}\n        td...{{object.<<object_name>>}}\n        td\n            % list_field \"<<child_name>>_set\" \"<<child_id>>\" \"<<child_title>>\"\n\n            % edit_field \"<<field_name>>\" \"<<field_id>>\" \"<<field_title>>\"\n\n            % action_row \"<<name1>>\" \"<<action_title_1>>\"\n            % action_row \"<<name2>>\" \"<<action_title_2>>\"\n\n            % edit_row \"update\"\n            % delete_row \"delete\"\n\n%% table_footer\n  tr\n    td...-\n    td...-\n    td:::\n        % new_row \"<<new_row_title>>\"\n\n%% table_row_edit\n    {{form}}\n",
@@ -2230,7 +2230,7 @@
                     "model": "SChTemplate",
                     "attributes": {
                         "name": "Feature",
-                        "direct_to_template": null,
+                        "direct_to_template": false,
                         "url": null,
                         "url_parm": null,
                         "template_code": "% extends \"forms/form.html\"\n\n% load exfiltry\n% load exsyntax\n\n%% all\n    % with table_type='datatable':\n        {{ block.super }}\n\n%% scroll\n\n%% list_content_actions\n\n%% list_row_header\n    th..._(Data)\n\n%% list_row\n    td...{{object.jsondata}}\n\n%% list_row_actions\n    % row_actions:\n        .delete\n\n%% row_edit\n    % form:\n",
@@ -2242,7 +2242,7 @@
                     "model": "SChTemplate",
                     "attributes": {
                         "name": "Location",
-                        "direct_to_template": null,
+                        "direct_to_template": false,
                         "url": null,
                         "url_parm": null,
                         "template_code": "% extends \"forms/form.html\"\n\n% load exfiltry\n% load exsyntax\n\n%% all\n    % with table_type='datatable':\n        {{ block.super }}\n\n%% scroll\n\n%% list_content_actions\n    % new_row \"New location\"\n\n%% list_row_header\n    th..._(Name)\n    \n\n%% list_row\n    td...{{ object.name }}\n    \n%% list_row_actions\n    % row_actions:\n        .edit\n        .delete\n\n%% row_edit\n    % form:\n",
@@ -2254,7 +2254,7 @@
                     "model": "SChTemplate",
                     "attributes": {
                         "name": "MeasurementPoint",
-                        "direct_to_template": null,
+                        "direct_to_template": false,
                         "url": null,
                         "url_parm": null,
                         "template_code": "% extends \"forms/form.html\"\n\n% load exfiltry\n% load exsyntax\n\n%% all\n    % with table_type='datatable' table_subtype='table_with_details' table_details_height=\"33vh\":\n        {{ block.super }}\n\n%% scroll\n\n%% list_content_actions\n    % new_row \"New measurement point\"\n\n%% list_row_header\n    th..._(Company)\n    th..._(Facility)\n    th..._(Name)\n    th..._(Status)\n    \n%% list_row\n    td...{{ object.company }}\n    td...{{ object.facility }}\n    td...{{ object.name }}\n    td\n        _MP state:  <i>{{ object.measurementpointstate.jsondata }}</i><br />\n        _MP control queue status: <i>{{ object.mpointcontrolqueuestatus.jsondata }}</i><br />\n        _MP input queue status: <i>{{ object.mpointinputqueuestatus.jsondata }}</i><br />\n        _MP output queue status: <i>{{ object.mpointoutputqueuestatus.jsondata }}</i> \n\n%% list_row_actions\n    % row_actions:\n        .edit\n        .delete\n        .field_edit/input_proc,Edit input procedure\n        .field_edit/control_proc,Edit control procedure\n        .field_edit/com_proc,Edit communication procedure\n        .field_edit/state_proc,Edit state procedure\n\n% comment:\n    %% list_page_sidebar    \n        % v_row_details:\n            *Input queue:otkernel/table/MeasurementPoint/[[table_row_pk]]/mpointinputqueue_set/-/form/sublist/?x1=mpointinputqueue_set\n            .Output queue:otkernel/table/MeasurementPoint/[[table_row_pk]]/mpointoutputqueue_set/-/form/sublist/?x1=mpointoutputqueue_set\n\n%% list_page_footer\n    % row_details:\n        *Input queue:otkernel/table/MeasurementPoint/[[table_row_pk]]/mpointinputqueue_set/-/form/sublist/?x1=mpointinputqueue_set\n        .Output queue:otkernel/table/MeasurementPoint/[[table_row_pk]]/mpointoutputqueue_set/-/form/sublist/?x1=mpointoutputqueue_set\n        .Control queue:otkernel/table/MeasurementPoint/[[table_row_pk]]/mpointcontrolqueue_set/-/form/sublist/?x1=mpointcontrolqueue_set\n        .Logs:otkernel/table/MeasurementPoint/[[table_row_pk]]/log_set/-/form/sublist/?x1=log_set\n        .Extended logs:otkernel/table/MeasurementPoint/[[table_row_pk]]/extendedlog_set/-/form/sublist/?x1=extendedlog_set\n\n                \n%% row_edit\n    % form:\n        .company,facility,name\n",
@@ -2266,7 +2266,7 @@
                     "model": "SChTemplate",
                     "attributes": {
                         "name": "MeasurementPointState",
-                        "direct_to_template": null,
+                        "direct_to_template": false,
                         "url": null,
                         "url_parm": null,
                         "template_code": "% extends \"forms/form.html\"\n\n% load exfiltry\n% load exsyntax\n\n%% all\n    % with table_type='datatable':\n        {{ block.super }}\n\n%% scroll\n\n%% list_content_actions\n\n%% list_row_header\n    th...Measurement point\n    th..._(Data)\n    \n%% list_row\n    td...{{ object.parent.name }}\n    td...{{ object.jsondata }}\n\n%% list_row_actions\n    % row_actions:\n        .edit\n        .delete\n\n%% row_edit\n    % form:\n        .parent\n",
@@ -2278,7 +2278,7 @@
                     "model": "SChTemplate",
                     "attributes": {
                         "name": "Product",
-                        "direct_to_template": null,
+                        "direct_to_template": false,
                         "url": null,
                         "url_parm": null,
                         "template_code": "% extends \"forms/form.html\"\n\n% load exfiltry\n% load exsyntax\n\n%% all\n    % with table_type='datatable':\n        {{ block.super }}\n\n%% scroll\n\n%% list_content_actions\n    % new_row \"new product\"\n\n%% list_row_header\n    th..._(External id)\n    th..._(Name)\n    th..._(Conversion factor)\n    th..._(Active)\n    \n\n%% list_row\n    td...{{ object.external_id }}\n    td...{{ object.name }}\n    td...{{ object.conversion_factor }}\n    td...{{ object.active }}\n    \n\n%% list_row_actions\n    % row_actions:\n        .edit\n        .delete\n        .field_list/inventory_set,Inventory\n\n%% row_edit\n    % form:\n        .external_id,name,conversion_factor,active\n",
@@ -2290,7 +2290,7 @@
                     "model": "SChTemplate",
                     "attributes": {
                         "name": "Inventory",
-                        "direct_to_template": null,
+                        "direct_to_template": false,
                         "url": null,
                         "url_parm": null,
                         "template_code": "% extends \"forms/form.html\"\n\n% load exfiltry\n% load exsyntax\n\n%% all\n    % with table_type='datatable':\n        {{ block.super }}\n\n%% scroll\n\n%% list_content_actions\n\n%% list_row_header\n    th..._(Product)\n    th..._(Location)\n    th..._(Quantity)\n    th..._(Hardware id)\n    th..._(Feature)\n    th..._(Last operation)\n    \n\n%% list_row\n    td...{{ object.product }}\n    td...{{ object.location }}\n    td...{{ object.qty }}\n    td...{{ object.hid }}\n    td...{{ object.feature }}\n    td...{{ object.last_operation }}\n    \n\n%% list_row_actions\n    % row_actions:\n        .delete\n\n%% row_edit\n    % form:\n        .product,location,qty,hid,feature,last_operation\n",
@@ -2302,7 +2302,7 @@
                     "model": "SChTemplate",
                     "attributes": {
                         "name": "Operation",
-                        "direct_to_template": null,
+                        "direct_to_template": false,
                         "url": null,
                         "url_parm": null,
                         "template_code": "% extends \"forms/form.html\"\n\n% load exfiltry\n% load exsyntax\n\n%% all\n    % with table_type='datatable':\n        {{ block.super }}\n\n%% scroll\n\n%% list_content_actions\n    % new_row \"New operation\"\n\n%% list_row_header\n    th..._(Previous operation)\n    th..._(Time)\n    th...data\n    \n%% list_row\n    td...{{ object.previous_operation }}\n    td...{{ object.time }}\n    td...{{ object.jsondata }}\n    \n%% list_row_actions\n    % row_actions:\n        .field_list/inventory_set,Inventory\n\n%% row_edit\n    % form:\n        .previous_operation\n",
@@ -2314,7 +2314,7 @@
                     "model": "SChTemplate",
                     "attributes": {
                         "name": "Log",
-                        "direct_to_template": null,
+                        "direct_to_template": false,
                         "url": null,
                         "url_parm": null,
                         "template_code": "% extends \"forms/form.html\"\n\n% load exfiltry\n% load exsyntax\n\n\n%% all\n    % with table_type='datatable':\n        {{ block.super }}\n\n%% scroll\n\n\n%% list_content_actions\n\n\n%% list_row_header_end\n    th data-field=caction,,,data-visible=false\n        ._(Action)\n\n\n%% list_row_header\n    % if vtype != \"sublist\":\n        th..._(Measurement point)\n    th..._(Time)\n    th..._(Attribute)\n    th..._(Quantity)\n    \n\n%% list_row\n    % if vtype != \"sublist\":\n        td...{{ object.mp.id }}: {{ object.mp.name }}\n    td...{{ object.time|isoformat }}\n    td...{{ object.attr }}\n    td...{{ object.qty }}\n    \n\n%% list_row_actions\n    % row_actions:\n        .delete\n\n\n%% row_edit\n    % form:\n        .mp,time,attr,qty\n",
@@ -2326,7 +2326,7 @@
                     "model": "SChTemplate",
                     "attributes": {
                         "name": "MPointInputQueue",
-                        "direct_to_template": null,
+                        "direct_to_template": false,
                         "url": null,
                         "url_parm": null,
                         "template_code": "% extends \"forms/form.html\"\n\n% load exfiltry\n% load exsyntax\n\n%% all\n    % with table_type='datatable':\n        {{ block.super }}\n\n%% scroll\n\n%% list_row_header_end\n    th data-field=caction,,,data-visible=false\n        ._(Action)\n\n%% list_row_header\n    % if vtype != \"sublist\":\n        th..._(Measurement point)\n    th...data\n    \n\n%% list_row\n    % if vtype != \"sublist\":\n        td...{{ object.mp }}\n    td...{{ object.jsondata }}\n    \n%% list_row_actions\n    \n\n%% row_edit\n    % form:\n        .mp\n",
@@ -2338,7 +2338,7 @@
                     "model": "SChTemplate",
                     "attributes": {
                         "name": "MPointInputQueueStatus",
-                        "direct_to_template": null,
+                        "direct_to_template": false,
                         "url": null,
                         "url_parm": null,
                         "template_code": "% extends \"forms/form.html\"\n\n% load exfiltry\n% load exsyntax\n\n%% all\n    % with table_type='datatable':\n        {{ block.super }}\n\n%% scroll\n\n%% list_content_actions\n\n%% list_row_header\n    th..._(Measurement point)\n    th...data\n    \n%% list_row\n    td...{{ object.mp }}\n    td...{{ object.jsondata }}\n    \n\n%% list_row_actions\n    % row_actions:\n        .delete\n\n%% row_edit\n    % form:\n        .mp\n",
@@ -2350,7 +2350,7 @@
                     "model": "SChTemplate",
                     "attributes": {
                         "name": "MPointOutputQueue",
-                        "direct_to_template": null,
+                        "direct_to_template": false,
                         "url": null,
                         "url_parm": null,
                         "template_code": "% extends \"forms/form.html\"\n\n% load exfiltry\n% load exsyntax\n\n\n%% all\n    % with table_type='datatable':\n        {{ block.super }}\n\n\n%% scroll\n\n\n%% list_content_actions\n\n\n%% list_row_header_end\n    th data-field=caction,,,data-visible=false\n        ._(Action)\n\n%% list_row_header\n    % if vtype != \"sublist\":\n        th..._(Measurement point)\n    th..._(Data)\n    \n\n%% list_row\n    % if vtype != \"sublist\":\n        td...{{ object.mp }}\n    td...{{ object.jsondata }}\n    \n\n%% list_row_actions\n\n\n%% row_edit\n    % form:\n        .mp\n",
@@ -2362,7 +2362,7 @@
                     "model": "SChTemplate",
                     "attributes": {
                         "name": "MPointOutputQueueStatus",
-                        "direct_to_template": null,
+                        "direct_to_template": false,
                         "url": null,
                         "url_parm": null,
                         "template_code": "% extends \"forms/form.html\"\n\n% load exfiltry\n% load exsyntax\n\n%% all\n    % with table_type='datatable':\n        {{ block.super }}\n\n%% scroll\n\n%% list_content_actions\n\n%% list_row_header\n    th..._(Measurement point)\n    th..._(Data)\n    \n%% list_row\n    td...{{ object.mp }}\n    td...{{ object.jsondata }}\n    \n\n%% list_row_actions\n    % row_actions:\n        .delete\n\n%% row_edit\n    % form:\n        .mp\n",
@@ -2374,7 +2374,7 @@
                     "model": "SChTemplate",
                     "attributes": {
                         "name": "MPointControlQueue",
-                        "direct_to_template": null,
+                        "direct_to_template": false,
                         "url": null,
                         "url_parm": null,
                         "template_code": "% extends \"forms/form.html\"\n\n% load exfiltry\n% load exsyntax\n\n\n%% all\n    % with table_type='datatable':\n        {{ block.super }}\n\n\n%% scroll\n\n\n%% list_content_actions\n\n\n%% list_row_header_end\n    th data-field=caction,,,data-visible=false\n        ._(Action)\n\n\n%% list_row_header\n    % if vtype != \"sublist\":\n        th..._(Measurement point)\n    th..._(Description)\n    th...data\n    \n\n%% list_row\n    % if vtype != \"sublist\":\n        td...{{ object.mp }}\n    td...{{ object.description }}\n    td...{{ object.jsondata }}\n    \n\n%% list_row_actions\n    % row_actions:\n        .delete\n\n\n%% row_edit\n    % form:\n        .mp,description\n",
@@ -2386,7 +2386,7 @@
                     "model": "SChTemplate",
                     "attributes": {
                         "name": "RawMaterial",
-                        "direct_to_template": null,
+                        "direct_to_template": false,
                         "url": null,
                         "url_parm": null,
                         "template_code": "% extends \"forms/form.html\"\n\n% load exfiltry\n% load exsyntax\n\n%% all\n    % with table_type='datatable':\n        {{ block.super }}\n\n%% scroll\n\n%% list_content_actions\n    % new_row \"New raw material\"\n\n%% list_row_header\n    th..._(External id)\n    th..._(Name)\n    th..._(Active)\n    \n%% list_row\n    td...{{ object.external_id }}\n    td...{{ object.name }}\n    td...{{ object.active }}\n    \n\n%% list_row_actions\n    % row_actions:\n        .edit\n        .delete\n\n%% row_edit\n    % form:\n        .external_id,name,active\n",
@@ -2398,7 +2398,7 @@
                     "model": "SChTemplate",
                     "attributes": {
                         "name": "ExtendedLog",
-                        "direct_to_template": null,
+                        "direct_to_template": false,
                         "url": null,
                         "url_parm": null,
                         "template_code": "% extends \"forms/form.html\"\n\n% load exfiltry\n% load exsyntax\n\n\n%% all\n    % with table_type='datatable':\n        {{ block.super }}\n\n\n%% scroll\n\n\n%% list_content_actions\n\n\n%% list_row_header_end\n    th data-field=caction,,,data-visible=false\n        ._(Action)\n\n\n%% list_row_header\n    % if vtype != \"sublist\":\n        th..._(Measurement point)\n    th..._(Time)\n    th..._(Attribute)\n    \n\n%% list_row\n    % if vtype != \"sublist\":\n        td...{{ object.mp.id }}: {{ object.mp.name }}\n    td...{{ object.time }}\n    td...{{ object.attr }}\n    \n\n%% list_row_actions\n    % row_actions:\n        .edit\n        .delete\n\n\n%% row_edit\n    % form:\n        .mp,attr\n",
@@ -2821,7 +2821,7 @@
                     "model": "SChTemplate",
                     "attributes": {
                         "name": "shopgoodshopping",
-                        "direct_to_template": null,
+                        "direct_to_template": false,
                         "url": null,
                         "url_parm": null,
                         "template_code": "% extends \"forms/form.html\"\n\n% load exfiltry\n% load exsyntax\n\n\n%% all\n    % with table_type='scrolled':\n        {{ block.super }}\n\n\n%% scroll\n\n\n%% list_table_start\n\n\n%% list_table_end\n\n\n%% list_tbody_start\n    <div class=\"container\"><div class=\"row\">\n\n%% list_tbody_end\n    </div></div>\n\n    \n%% list_full_row_header\n\n    \n%% list_full_row\n    div class=col-12 col-md-6 col-lg-3\n        div class=card\n          img src=.,,,class=card-img-top,,,alt=...\n          div class=card-body\n            h5 class=card-title...{{object.name}}\n            p class=card-text...{{object.description}}\n            a title=Add to cart,,,href={{basepath}}schshop/form/PurchasingItemForm/?only_content&pk={{object.id}},,,class=btn btn-primary,,,type=button,,,target=popup_edit\n                {{object.code}}\n\n%% list_content_actions\n\n\n%% list_row_header\n    th..._(Code)\n    th..._(Name)\n    th..._(Description)\n\n    \n%% list_row\n    td...{{ object.code }}\n    td...{{ object.name }}\n    td...{{ object.description }}\n\n    \n%% list_row_actions\n    % row_actions:\n        .edit\n        .delete\n\n%% row_edit\n    % form: \n        .parent:!,type:!,code,name,description\n    % form:\n        .tax_rate,name_2,code_2,code_3,stock\n\n\n%% form_info\n    div class=form_info\n        .Product info\n",
@@ -2833,7 +2833,7 @@
                     "model": "SChTemplate",
                     "attributes": {
                         "name": "Payment",
-                        "direct_to_template": null,
+                        "direct_to_template": false,
                         "url": null,
                         "url_parm": null,
                         "template_code": "% extends \"forms/form.html\"\n\n% load exfiltry\n% load exsyntax\n\n%% all\n    % with table_type='datatable':\n        {{ block.super }}\n\n%% scroll\n\n%% list_content_actions\n    % list_action \"action\" \"action_description\"\n\n%% list_row_header\n    th..._(Variant)\n    th..._(Status)\n    th..._(Created)\n    th..._(Modified)\n    th..._(Transaction id)\n    th..._(Currency)\n    th..._(Total)\n    th..._(Captured amount)\n    th..._(Description)\n    th..._(Message)\n    th..._(Billing first name)\n    th..._(Billing last name)\n    th..._(Billing email)\n    \n\n%% list_row\n    td...{{ object.variant }}\n    td...{{ object.status }}\n    td...{{ object.created|isoformat }}\n    td...{{ object.modified|isoformat }}\n    td...{{ object.transaction_id }}\n    td...{{ object.currency }}\n    td...{{ object.total }}\n    td...{{ object.captured_amount }}\n    td...{{ object.description }}\n    td...{{ object.message }}\n    td...{{ object.billing_first_name }}\n    td...{{ object.billing_last_name }}\n    td...{{ object.billing_email }}\n\n%% list_row_actions\n    % row_actions:\n        .edit\n        .delete\n\n%% row_edit\n    % form:\n        .parent\n",
@@ -2845,7 +2845,7 @@
                     "model": "SChTemplate",
                     "attributes": {
                         "name": "ShoppingCart",
-                        "direct_to_template": null,
+                        "direct_to_template": false,
                         "url": null,
                         "url_parm": null,
                         "template_code": "% extends \"forms/form.html\"\n\n% load exfiltry\n% load exsyntax\n\n%% all\n    % with table_type='datatable':\n        {{ block.super }}\n\n%% scroll\n\n\n%% list_content_actions\n    % new_row \"shopping item\"\n\n\n%% list_row_header\n    th..._(Product)\n    th..._(Quantity)\n    \n\n%% list_row\n    td...{{ object.product }}\n    td...{{ object.qty }}\n    \n\n%% list_row_actions\n    % row_actions:\n        .edit\n        .delete\n\n%% list_page_footer\n    h3...Order summary\n    div class=row \n        div class=col-6\n            .Total net amount\n        div class=col-6\n            .8 888 USD\n        div class=col-6\n            .Taxes\n        div class=col-6\n            .1 111 USD\n        div class=col-6\n            <strong>To pay</strong>\n        div class=col-6\n            .9 999 USD\n    \n    div class=row\n        div class=col-6\n        div class=col-2\n            a href={{basepath}}schshop/create_order,,,class=btn btn-primary,,,role=button,,,target=_self...Order products\n        div class=col-4\n\n\n%% row_edit\n    % form:\n        .product,qty\n",
@@ -2857,7 +2857,7 @@
                     "model": "SChTemplate",
                     "attributes": {
                         "name": "v_product_details",
-                        "direct_to_template": null,
+                        "direct_to_template": false,
                         "url": null,
                         "url_parm": null,
                         "template_code": "% extends \"forms/user_tab.html\"\n\n% load exfiltry\n% load exsyntax\n\n\n%% all\n    %with show_title_bar=1 title='<<form_title>>'\n        {{ block.super }}\n\n\n%% user_header\n    th...X1\n    th...Y1\n\n\n%% user_row\n    tr\n        td... {{object.0}}\n        td align=right... {{object.1}}\n        td align=right... {{object.2|to_int}}\n\n",
@@ -2869,7 +2869,7 @@
                     "model": "SChTemplate",
                     "attributes": {
                         "name": "FormPurchasingItemForm",
-                        "direct_to_template": null,
+                        "direct_to_template": false,
                         "url": null,
                         "url_parm": null,
                         "template_code": "% extends \"forms/form.html\"\n\n% load exfiltry\n% load exsyntax\n\n\n%% all\n    % with show_form=True show_title_bar=1 title='Product'\n        {{ block.super }}\n\n%% row_edit\n    % form:\n",
@@ -2881,7 +2881,7 @@
                     "model": "SChTemplate",
                     "attributes": {
                         "name": "ProxyPayment",
-                        "direct_to_template": null,
+                        "direct_to_template": false,
                         "url": null,
                         "url_parm": null,
                         "template_code": "% extends \"forms/form.html\"\n\n% load exfiltry\n% load exsyntax\n\n%% all\n    % with table_type='datatable':\n        {{ block.super }}\n\n%% scroll\n\n%% list_content_actions\n    % new_row \"<<new_row_title>>\"\n    % list_action \"<<action>>\" \"<<action_description>>\"\n\n%% list_row_header\n    \n\n%% list_row\n    \n\n%% list_row_actions\n    % row_actions:\n        .edit\n        .delete\n        .<<action_name>>,<<description>>\n\n%% row_edit\n    % form:\n        .\n",
@@ -2893,7 +2893,7 @@
                     "model": "SChTemplate",
                     "attributes": {
                         "name": "payment_form",
-                        "direct_to_template": null,
+                        "direct_to_template": false,
                         "url": null,
                         "url_parm": null,
                         "template_code": "% extends \"account/base.html\"\n\n% load exfiltry\n% load exsyntax\n% load django_bootstrap5\n\n%% body\n    form action={{request.path}}{{ form.action }},,,method={{ form.method }}\n        % csrf_token\n        % bootstrap_form form\n        % bootstrap_button button_type=\"submit\" content=\"Proceed\"\n",
@@ -2905,7 +2905,7 @@
                     "model": "SChTemplate",
                     "attributes": {
                         "name": "v_payment_info",
-                        "direct_to_template": null,
+                        "direct_to_template": false,
                         "url": null,
                         "url_parm": null,
                         "template_code": "% extends \"forms/form.html\"\n\n% load exfiltry\n% load exsyntax\n\n%% body\n    % if status == 'success':\n        h1...Payment completed successfully\n        {{ payment}}\n        script language=javascript\n            .setTimeout(\"window.close()\",3000) \n    % else:\n        h1...Payment failed\n        {{ payment }}\n        script language=javascript\n            .setTimeout(\"window.close()\",10000) \n",
@@ -2917,7 +2917,7 @@
                     "model": "SChTemplate",
                     "attributes": {
                         "name": "ShopGood",
-                        "direct_to_template": null,
+                        "direct_to_template": false,
                         "url": null,
                         "url_parm": null,
                         "template_code": "% extends \"forms/form.html\"\n\n% load exfiltry\n% load exsyntax\n\n%% all\n    % with table_type='datatable' table_subtype='table_with_details' table_details_height=\"33vh\":\n        {{ block.super }}\n\n%% scroll\n\n%% list_content_actions\n    % new_row \"Product\"\n\n%% id_extra\n    % row_actions:\n        .field_list/units_of_measure_for_product,Units of measure,icon_name=fa fa-lg fa-truck,url=/schmasterdata/table/schelements.Element/{id}/unitofmeasure4product_set/-/form/sublist/?x1=unitofmeasure4product_set\n    {{ block.super }}\n\n\n%% list_row_header\n    th..._(Code)\n    th..._(Name)\n    th..._(Description)\n    th..._(Quantity)\n    th..._(Retail price)\n    th..._(Price)\n    \n%% list_row\n    td...{{ object.code }}\n    td...{{ object.name }}\n    td...{{ object.description }}\n    td...{{ object.quantity }}\n    td...{{ object.retail_price }}\n    td...{{ object.price|none_to_empty }}\n    \n%% list_row_actions\n    % row_actions:\n        .edit\n        .delete\n\n%% row_edit\n    % form: \n        .parent:!,type:!,code,name,description\n    % form:\n        .tax_rate,name_2,code_2,code_3,stock\n\n%% list_page_footer\n    % row_details:\n        *Units of measure:schmasterdata/table/schelements.Element/[[table_row_pk]]/unitofmeasure4product_set2/-/form__/sublist/?x1=unitofmeasure4product\n\n",
@@ -4765,7 +4765,7 @@
                     "model": "SChTemplate",
                     "attributes": {
                         "name": "StandardCompany",
-                        "direct_to_template": null,
+                        "direct_to_template": false,
                         "url": null,
                         "url_parm": null,
                         "template_code": "% extends \"forms/form.html\"\n\n% load exfiltry\n% load exsyntax\n\n%% all\n    % with table_type='datatable':\n        {{ block.super }}\n\n%% scroll\n\n%% list_row_header\n    th..._(Name)\n    th..._(Description)\n    \n\n%% list_row\n    td...{{ object.name }}\n    td...{{ object.description }}\n    \n%% list_row_actions\n    % row_actions:\n        .edit\n        .delete\n\n%% list_content_actions\n    % new_row \"New customer\"\n\n%% row_edit\n    % form: \n        .parent:!,type:!,code,name,description\n",
@@ -4777,7 +4777,7 @@
                     "model": "SChTemplate",
                     "attributes": {
                         "name": "StandardCustomer",
-                        "direct_to_template": null,
+                        "direct_to_template": false,
                         "url": null,
                         "url_parm": null,
                         "template_code": "% extends \"forms/form.html\"\n\n% load exfiltry\n% load exsyntax\n\n%% all\n    % with table_type='datatable':\n        {{ block.super }}\n\n%% scroll\n\n%% list_content_actions\n    % new_row \"New customer\"\n\n\n%% list_row_header\n    th..._(Code)\n    th..._(Name)\n    th..._(Description)\n    th..._(Sale block)\n    \n%% list_row\n    td...{{ object.code }}\n    td...{{ object.name }}\n    td...{{ object.description }}\n    td...{{ object.blockade }}\n    \n%% list_row_actions\n    % row_actions:\n        .edit\n        .delete\n\n%% row_edit\n    % form: \n        .parent:!,type:!,code,name,description\n    % form: \n        .id_number2,id_number3,country,zip_code,post,city,street,house_number,apartment_number,limit,payment_type,payment_days,blockade\n",
@@ -4789,7 +4789,7 @@
                     "model": "SChTemplate",
                     "attributes": {
                         "name": "StandardSupplier",
-                        "direct_to_template": null,
+                        "direct_to_template": false,
                         "url": null,
                         "url_parm": null,
                         "template_code": "% extends \"forms/form.html\"\n\n% load exfiltry\n% load exsyntax\n\n%% all\n    % with table_type='datatable':\n        {{ block.super }}\n\n%% scroll\n\n%% list_content_actions\n    % new_row \"New supplier\"\n\n%% list_row_header\n    th..._(ID number 2)\n    th..._(ID number 3)\n    th..._(Country)\n    th..._(Zip code)\n    th..._(Post)\n    th..._(City)\n    th..._(Street)\n    th..._(House number)\n    th..._(Apartment number)\n    th..._(Payment type)\n    th..._(Payment days)\n    \n\n%% list_row\n    td...{{ object.id_number2 }}\n    td...{{ object.id_number3 }}\n    td...{{ object.country }}\n    td...{{ object.zip_code }}\n    td...{{ object.post }}\n    td...{{ object.city }}\n    td...{{ object.street }}\n    td...{{ object.house_number }}\n    td...{{ object.apartment_number }}\n    td...{{ object.payment_type }}\n    td...{{ object.payment_days }}\n    \n\n%% list_row_actions\n    % row_actions:\n        .edit\n        .delete\n\n%% row_edit\n    % form: \n        .parent:!,type:!,code,name,description\n    % form:\n        .id_number2,id_number3,country,zip_code,post,city,street,house_number,apartment_number,payment_type,payment_days\n",
@@ -4801,7 +4801,7 @@
                     "model": "SChTemplate",
                     "attributes": {
                         "name": "StandardProduct",
-                        "direct_to_template": null,
+                        "direct_to_template": false,
                         "url": null,
                         "url_parm": null,
                         "template_code": "% extends \"forms/form.html\"\n\n% load exfiltry\n% load exsyntax\n\n%% all\n    % with table_type='datatable' table_subtype='table_with_details' table_details_height=\"33vh\":\n        {{ block.super }}\n\n%% scroll\n\n%% list_content_actions\n    % new_row \"Product\"\n\n%% id_extra\n    % row_actions:\n        .field_list/units_of_measure_for_product,Units of measure,icon_name=fa fa-lg fa-truck,url=/schmasterdata/table/schelements.Element/{id}/unitofmeasure4product_set/-/form/sublist/?x1=unitofmeasure4product_set\n    {{ block.super }}\n\n\n%% list_row_header\n    th..._(Code)\n    th..._(Name)\n    th..._(Description)\n    \n%% list_row\n    td...{{ object.code }}\n    td...{{ object.name }}\n    td...{{ object.description }}\n    \n%% list_row_actions\n    % row_actions:\n        .edit\n        .delete\n\n%% row_edit\n    % form: \n        .parent:!,type:!,code,name,description\n    % form:\n        .tax_rate,name_2,code_2,code_3,stock\n\n%% list_page_footer\n    % row_details:\n        *Units of measure:schmasterdata/table/schelements.Element/[[table_row_pk]]/unitofmeasure4product_set2/-/form__/sublist/?x1=unitofmeasure4product\n\n",
@@ -4813,7 +4813,7 @@
                     "model": "SChTemplate",
                     "attributes": {
                         "name": "StandardMerchandise",
-                        "direct_to_template": null,
+                        "direct_to_template": false,
                         "url": null,
                         "url_parm": null,
                         "template_code": "% extends \"forms/form.html\"\n\n% load exfiltry\n% load exsyntax\n\n%% all\n    % with table_type='datatable':\n        {{ block.super }}\n\n%% scroll\n\n%% list_content_actions\n    % new_row \"New merchandise\"\n\n%% list_row_header\n    th..._(Tax rate)\n    th..._(Name 2)\n    th..._(Code 2)\n    th..._(Code 3)\n    th..._(Stock)\n    \n\n%% list_row\n    td...{{ object.tax_rate }}\n    td...{{ object.name_2 }}\n    td...{{ object.code_2 }}\n    td...{{ object.code_3 }}\n    td...{{ object.stock }}\n    \n\n%% list_row_actions\n    % row_actions:\n        .edit\n        .delete\n\n%% row_edit\n    % form: \n        .parent:!,type:!,code,name,description\n    % form:\n        .tax_rate,name_2,code_2,code_3,stock\n",
@@ -4825,7 +4825,7 @@
                     "model": "SChTemplate",
                     "attributes": {
                         "name": "StandardUnitOfMeasure",
-                        "direct_to_template": null,
+                        "direct_to_template": false,
                         "url": null,
                         "url_parm": null,
                         "template_code": "% extends \"forms/form.html\"\n\n% load exfiltry\n% load exsyntax\n\n%% all\n    % with table_type='datatable':\n        {{ block.super }}\n\n%% scroll\n\n%% list_content_actions\n    % new_row \"New unit of measure\"\n\n%% list_row_header\n    th..._(Precision)\n    \n\n%% list_row\n    td...{{ object.precision }}\n    \n\n%% list_row_actions\n    % row_actions:\n        .edit\n        .delete\n\n%% row_edit\n    % form: \n        .parent:!,type:!,code,name,description\n    % form:\n        .precision\n",
@@ -4837,7 +4837,7 @@
                     "model": "SChTemplate",
                     "attributes": {
                         "name": "StandardEmployee",
-                        "direct_to_template": null,
+                        "direct_to_template": false,
                         "url": null,
                         "url_parm": null,
                         "template_code": "% extends \"forms/form.html\"\n\n% load exfiltry\n% load exsyntax\n\n%% all\n    % with table_type='datatable':\n        {{ block.super }}\n\n%% scroll\n\n%% list_content_actions\n    % new_row \"New employee\"\n\n%% list_row_header\n    th..._(First name)\n    th..._(Surname)\n    th..._(Workplace)\n    th..._(Email)\n    th..._(Phone number)\n    th..._(Address)\n    th..._(Other contact)\n    \n\n%% list_row\n    td...{{ object.first_name }}\n    td...{{ object.surname }}\n    td...{{ object.workplace }}\n    td...{{ object.email }}\n    td...{{ object.phone_number }}\n    td...{{ object.address }}\n    td...{{ object.other_contact }}\n    \n\n%% list_row_actions\n    % row_actions:\n        .edit\n        .delete\n\n%% row_edit\n    % form: \n        .parent:!,type:!,code,name,description\n    % form:\n        .first_name,surname,workplace,email,phone_number,address,other_contact\n",
@@ -4849,7 +4849,7 @@
                     "model": "SChTemplate",
                     "attributes": {
                         "name": "StandardPerson",
-                        "direct_to_template": null,
+                        "direct_to_template": false,
                         "url": null,
                         "url_parm": null,
                         "template_code": "% extends \"forms/form.html\"\n\n% load exfiltry\n% load exsyntax\n\n%% all\n    % with table_type='datatable':\n        {{ block.super }}\n\n%% scroll\n\n%% list_content_actions\n    % new_row \"New person\"\n\n%% list_row_header\n    th..._(First name)\n    th..._(Surname)\n    th..._(Email)\n    th..._(Phone number)\n    th..._(Address)\n    th..._(Other contact)\n    \n\n%% list_row\n    td...{{ object.first_name }}\n    td...{{ object.surname }}\n    td...{{ object.email }}\n    td...{{ object.phone_number }}\n    td...{{ object.address }}\n    td...{{ object.other_contact }}\n    \n\n%% list_row_actions\n    % row_actions:\n        .edit\n        .delete\n\n%% row_edit\n    % form: \n        .parent:!,type:!,code,name,description\n    % form:\n        .first_name,surname,email,phone_number,address,other_contact\n",
@@ -4861,7 +4861,7 @@
                     "model": "SChTemplate",
                     "attributes": {
                         "name": "StandardLocation",
-                        "direct_to_template": null,
+                        "direct_to_template": false,
                         "url": null,
                         "url_parm": null,
                         "template_code": "% extends \"forms/form.html\"\n\n% load exfiltry\n% load exsyntax\n\n%% all\n    % with table_type='datatable':\n        {{ block.super }}\n\n%% scroll\n\n%% list_content_actions\n    % new_row \"New location\"\n\n%% list_row_header\n    th..._(Address)\n    \n\n%% list_row\n    td...{{ object.address }}\n    \n\n%% list_row_actions\n    % row_actions:\n        .edit\n        .delete\n\n%% row_edit\n    % form: \n        .parent:!,type:!,code,name,description\n    % form:\n        .address\n",
@@ -4873,7 +4873,7 @@
                     "model": "SChTemplate",
                     "attributes": {
                         "name": "UnitOfMeasure4Product",
-                        "direct_to_template": null,
+                        "direct_to_template": false,
                         "url": null,
                         "url_parm": null,
                         "template_code": "% extends \"forms/form.html\"\n\n% load exfiltry\n% load exsyntax\n\n%% all\n    % with table_type='datatable':\n        {{ block.super }}\n\n%% scroll\n\n%% list_content_actions\n    % new_row \"New unit of measure\"\n\n%% list_row_header\n    th..._(Parent)\n    th..._(Unit of measure)\n    th..._(Description)\n    th..._(converter to the main unit)\n    th..._(Unit type)\n    \n\n%% list_row\n    td...{{ object.parent }}\n    td...{{ object.unit_of_measure }}\n    td...{{ object.description }}\n    td...{{ object.converter }}\n    td...{{ object.unit_type }}\n    \n\n%% list_row_actions\n    % row_actions:\n        .edit\n        .delete\n\n%% row_edit\n    % form:\n        .parent,unit_of_measure,description,converter,unit_type\n",
@@ -4885,7 +4885,7 @@
                     "model": "SChTemplate",
                     "attributes": {
                         "name": "Bank4Contractor",
-                        "direct_to_template": null,
+                        "direct_to_template": false,
                         "url": null,
                         "url_parm": null,
                         "template_code": "% extends \"forms/form.html\"\n\n% load exfiltry\n% load exsyntax\n\n%% all\n    % with table_type='datatable':\n        {{ block.super }}\n\n%% scroll\n\n%% list_content_actions\n    % new_row \"New bank\"\n\n%% list_row_header\n    th..._(Parent)\n    th..._(Name)\n    th..._(Account number)\n    th..._(Status)\n    \n\n%% list_row\n    td...{{ object.parent }}\n    td...{{ object.name }}\n    td...{{ object.account_number }}\n    td...{{ object.status }}\n    \n\n%% list_row_actions\n    % row_actions:\n        .edit\n        .delete\n\n%% row_edit\n    % form:\n        .parent,name,account_number,status\n",
@@ -4897,7 +4897,7 @@
                     "model": "SChTemplate",
                     "attributes": {
                         "name": "Company",
-                        "direct_to_template": null,
+                        "direct_to_template": false,
                         "url": null,
                         "url_parm": null,
                         "template_code": "% extends \"schmasterdata/standardcompany.html\"\n",
@@ -4909,7 +4909,7 @@
                     "model": "SChTemplate",
                     "attributes": {
                         "name": "Customer",
-                        "direct_to_template": null,
+                        "direct_to_template": false,
                         "url": null,
                         "url_parm": null,
                         "template_code": "% extends \"schmasterdata/standardcustomer.html\"\n",
@@ -4921,7 +4921,7 @@
                     "model": "SChTemplate",
                     "attributes": {
                         "name": "Supplier",
-                        "direct_to_template": null,
+                        "direct_to_template": false,
                         "url": null,
                         "url_parm": null,
                         "template_code": "% extends \"schmasterdata/standardsupplier.html\"\n",
@@ -4933,7 +4933,7 @@
                     "model": "SChTemplate",
                     "attributes": {
                         "name": "Product",
-                        "direct_to_template": null,
+                        "direct_to_template": false,
                         "url": null,
                         "url_parm": null,
                         "template_code": "% extends \"schmasterdata/standardproduct.html\"\n",
@@ -4945,7 +4945,7 @@
                     "model": "SChTemplate",
                     "attributes": {
                         "name": "Merchandise",
-                        "direct_to_template": null,
+                        "direct_to_template": false,
                         "url": null,
                         "url_parm": null,
                         "template_code": "% extends \"schmasterdata/standardmerchandise.html\"\n",
@@ -4957,7 +4957,7 @@
                     "model": "SChTemplate",
                     "attributes": {
                         "name": "UnitOfMeasure",
-                        "direct_to_template": null,
+                        "direct_to_template": false,
                         "url": null,
                         "url_parm": null,
                         "template_code": "% extends \"schmasterdata/standardunitofmeasure.html\"\n",
@@ -4969,7 +4969,7 @@
                     "model": "SChTemplate",
                     "attributes": {
                         "name": "Employee",
-                        "direct_to_template": null,
+                        "direct_to_template": false,
                         "url": null,
                         "url_parm": null,
                         "template_code": "% extends \"schmasterdata/standardemployee.html\"\n",
@@ -4981,7 +4981,7 @@
                     "model": "SChTemplate",
                     "attributes": {
                         "name": "Person",
-                        "direct_to_template": null,
+                        "direct_to_template": false,
                         "url": null,
                         "url_parm": null,
                         "template_code": "% extends \"schmasterdata/standardperson.html\"\n",
@@ -4993,7 +4993,7 @@
                     "model": "SChTemplate",
                     "attributes": {
                         "name": "Location",
-                        "direct_to_template": null,
+                        "direct_to_template": false,
                         "url": null,
                         "url_parm": null,
                         "template_code": "% extends \"schmasterdata/standardlocation.html\"\n",
@@ -5306,7 +5306,7 @@
                     "model": "SChTemplate",
                     "attributes": {
                         "name": "PriceList",
-                        "direct_to_template": null,
+                        "direct_to_template": false,
                         "url": null,
                         "url_parm": null,
                         "template_code": "% extends \"forms/form.html\"\n\n% load exfiltry\n% load exsyntax\n\n%% all\n    % with table_type='datatable':\n        {{ block.super }}\n\n%% scroll\n\n%% list_content_actions\n    % new_row \"<<new_row_title>>\"\n    % list_action \"<<action>>\" \"<<action_description>>\"\n\n%% list_row_header\n    th..._(Sold item)\n    th..._(Consumer)\n    th..._(Retail price)\n    th..._(price)\n    th..._(Discount in words)\n    \n\n%% list_row\n    td...{{ object.sold_item }}\n    td...{{ object.consumer }}\n    td...{{ object.retail_price }}\n    td...{{ object.price }}\n    td...{{ object.discount_in_words }}\n    \n\n%% list_row_actions\n    % row_actions:\n        .edit\n        .delete\n        .<<action_name>>,<<description>>\n\n%% row_edit\n    % form:\n        .sold_item,consumer,retail_price,price,discount_in_words\n",
@@ -5318,7 +5318,7 @@
                     "model": "SChTemplate",
                     "attributes": {
                         "name": "RetailPrice",
-                        "direct_to_template": null,
+                        "direct_to_template": false,
                         "url": null,
                         "url_parm": null,
                         "template_code": "% extends \"forms/form.html\"\n\n% load exfiltry\n% load exsyntax\n\n%% all\n    % with table_type='datatable':\n        {{ block.super }}\n\n%% scroll\n\n%% list_content_actions\n    % new_row \"New retail price\"\n    % list_action \"calculate_retail_prices\" \"Calculate retail prices\"\n\n%% list_row_header\n    th..._(Sold item)\n    th..._(Retail price)\n    \n\n%% list_row\n    td...{{ object.sold_item }}\n    td...{{ object.retail_price }}\n    \n\n%% list_row_actions\n    % row_actions:\n        .edit\n        .delete\n\n%% row_edit\n    % form:\n        .sold_item,retail_price\n",
@@ -5330,7 +5330,7 @@
                     "model": "SChTemplate",
                     "attributes": {
                         "name": "Price",
-                        "direct_to_template": null,
+                        "direct_to_template": false,
                         "url": null,
                         "url_parm": null,
                         "template_code": "% extends \"forms/form.html\"\n\n% load exfiltry\n% load exsyntax\n\n%% all\n    % with table_type='datatable':\n        {{ block.super }}\n\n%% scroll\n\n%% list_content_actions\n    % new_row \"New price\"\n    % list_action \"calculate_prices\" \"Calculate prices\"\n\n%% list_row_header\n    th..._(Sold item)\n    th..._(Consumer)\n    th..._(Retail price)\n    th..._(price)\n    th..._(Discount in words)\n    \n\n%% list_row\n    td...{{ object.sold_item }}\n    td...{{ object.consumer }}\n    td...{{ object.retail_price }}\n    td...{{ object.price }}\n    td...{{ object.discount_in_words }}\n    \n\n%% list_row_actions\n    % row_actions:\n        .edit\n        .delete\n\n%% row_edit\n    % form:\n        .sold_item,consumer,price,discount_in_words\n",
@@ -6288,7 +6288,7 @@
                     "model": "SChTemplate",
                     "attributes": {
                         "name": "OrdersDocItem",
-                        "direct_to_template": null,
+                        "direct_to_template": false,
                         "url": null,
                         "url_parm": null,
                         "template_code": "% extends \"forms/form.html\"\n\n% load exfiltry\n% load exsyntax\n\n%% all\n    % with table_type='datatable':\n        {{ block.super }}\n\n%% scroll\n\n%% list_content_actions\n    % new_row \"New order\"\n\n%% list_row_header\n    th...Name\n\n%% list_row\n    th...{{object.name}}\n    \n\n%% list_row_actions\n    % row_actions:\n        .edit\n        .delete\n\n%% row_edit\n    % form:\n",
@@ -6300,7 +6300,7 @@
                     "model": "SChTemplate",
                     "attributes": {
                         "name": "order_dochead_list",
-                        "direct_to_template": null,
+                        "direct_to_template": false,
                         "url": null,
                         "url_parm": null,
                         "template_code": "% extends \"schelements/dochead.html\"\n\n% load exfiltry\n% load exsyntax\n\n%% list_content_actions\n    {{ block.super }}\n    div class=on-focus-action on-focus-action-refresh\n\n\n%% id_extra    \n    {{ block.super }}\n\n    % if object.get_reg_status.order > 2:\n        % row_related_list \"schshop/Payment\" title=\"Payment\" filter=\"{{object.id}}\" icon_name=\"fa fa-lg fa-money\" tag_class=\"+class='btn-info'\"\n\n",
@@ -6312,7 +6312,7 @@
                     "model": "SChTemplate",
                     "attributes": {
                         "name": "IssueDocHead",
-                        "direct_to_template": null,
+                        "direct_to_template": false,
                         "url": null,
                         "url_parm": null,
                         "template_code": "% extends \"forms/form.html\"\n\n% load exfiltry\n% load exsyntax\n\n%% all\n    % with table_type='datatable':\n        {{ block.super }}\n\n%% scroll\n\n%% list_content_actions\n    % new_row \"<<new_row_title>>\"\n    % list_action \"<<action>>\" \"<<action_description>>\"\n\n%% list_row_header\n    \n\n%% list_row\n    \n\n%% list_row_actions\n    % row_actions:\n        .edit\n        .delete\n        .<<action_name>>,<<description>>\n\n%% row_edit\n    % form:\n        .\n",
@@ -6324,7 +6324,7 @@
                     "model": "SChTemplate",
                     "attributes": {
                         "name": "OrderDocHead",
-                        "direct_to_template": null,
+                        "direct_to_template": false,
                         "url": null,
                         "url_parm": null,
                         "template_code": "% extends \"forms/form.html\"\n\n% load exfiltry\n% load exsyntax\n\n%% all\n    % with table_type='datatable':\n        {{ block.super }}\n\n%% scroll\n\n%% list_content_actions\n    % new_row \"<<new_row_title>>\"\n    % list_action \"<<action>>\" \"<<action_description>>\"\n\n%% list_row_header\n    th..._(Payment type)\n    th..._(Delivery date)\n    \n\n%% list_row\n    td...{{ object.payment_type }}\n    td...{{ object.delivery_date }}\n    \n\n%% list_row_actions\n    % row_actions:\n        .edit\n        .delete\n        .<<action_name>>,<<description>>\n\n%% row_edit\n    % form:\n        .payment_type,delivery_date\n",

@@ -82,7 +82,7 @@
                     "model": "SChTemplate",
                     "attributes": {
                         "name": "v_save",
-                        "direct_to_template": null,
+                        "direct_to_template": false,
                         "url": null,
                         "url_parm": null,
                         "template_code": "^^^\nself.on_edit()\nprint(\"Hello world!\")\nprint(\"self:\", self)\n",

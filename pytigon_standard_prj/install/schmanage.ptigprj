@@ -67,7 +67,7 @@
                     "model": "SChTemplate",
                     "attributes": {
                         "name": "Formupload_ptig",
-                        "direct_to_template": null,
+                        "direct_to_template": false,
                         "url": null,
                         "url_parm": null,
                         "template_code": "% extends \"forms/user_tab.html\"\n\n% load exfiltry\n% load exsyntax\n\n\n%% all\n    %with show_title_bar=1 title='Instalation'\n        {{ block.super }}\n\n%% list_content_header\n    % if status != 2:\n        {{ block.super }}\n\n%% list_content_header_first_row\n    % if status == 1:\n        div class=row \n            div class=jumbotron\n                p...{{readmedata|markdown|safe}}\n        div class=row\n            div class=card\n                div class=card-header...License\n                div class=card-block pre-scrollable,,,style=padding:0 1rem;\n                    p class=card-text...{{licensedata|markdown|safe}}\n        br \n\n\n%% list_content_header_third_row\n    br\n        \n%% form_table_filter\n    % if status:\n        % if status == 1:\n            input type=hidden,,,name=status,,,id=id_status,,,value=1\n            % inline_form:\n                .accept_license\n    % else:\n        div class=m-3\n            input type=hidden,,,name=status,,,id=id_status,,,value=\n            % inline_form:\n                .ptig\n\n%% form_content_button\n    button type=submit,,,value=_(Next),,,class=btn btn-fab btn-raised btn-info ladda-button refresh-button,,,data-style=slide-left,,,title=_(Next)\n        span class=fa fa-arrow-right\n\n%% user_header\n    th...Instalation report\n\n%% user_row\n    tr\n        td... {{object}}\n\n",

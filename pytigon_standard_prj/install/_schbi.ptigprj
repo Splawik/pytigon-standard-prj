@@ -671,7 +671,7 @@
                     "model": "SChTemplate",
                     "attributes": {
                         "name": "base_project",
-                        "direct_to_template": null,
+                        "direct_to_template": false,
                         "url": null,
                         "url_parm": null,
                         "template_code": "% extends \"forms/form.html\"\n\n% load exfiltry\n% load exsyntax\n% load static\n\n%% content\n    div class=bi_{{bi_prj.name}} d-flex flex-column,,,style=height:100%;width:calc(100% - 10px)\n        refresh-bi-charts\n        div class=row mb-1\n            div class=col\n                % if form:\n                    ptig-form src={{base_path}}schbi/project_view/{{bi_prj.name}}/\n                        %% bi_prj_form\n                            % inline_form:\n        div class=row flex-grow-1\n            div class=col auto-refresh d-flex flex-column\n                nav\n                    div class=nav nav-tabs,,,id=nav-tab,,,role=tablist\n                        % for page in bi_prj.page_set.all:\n                            button class=nav-link {% if forloop.first %}active{% endif %},,,id=nav-{{bi_prj.name}}-{{page.id}},,,data-bs-toggle=tab,,,data-bs-target=#nav-{{bi_prj.name}}-{{page.id}}-content,,,type=button,,,role=tab...{{page.name}}\n                 \n                div class=tab-content auto-refresh flex-grow-1,,,id=nav-tabContent,,,style=overflow-x:hidden\n                    % for page in bi_prj.page_set.all:\n                        div href={{base_path}}schbi/page_view/{{page.id}}/,,,class=auto-frame ajax-frame ajax-link ajax-region tab-pane {% if forloop.first %}show active{% endif %},,, id=nav-{{bi_prj.name}}-{{page.id}}-content,,,role=tabpanel,,,tabindex=0,,,auto-refresh-target=.bi_chart\n",
@@ -683,7 +683,7 @@
                     "model": "SChTemplate",
                     "attributes": {
                         "name": "base_page",
-                        "direct_to_template": null,
+                        "direct_to_template": false,
                         "url": null,
                         "url_parm": null,
                         "template_code": "% extends \"forms/form.html\"\n\n% load exfiltry\n% load exsyntax\n% load static\n\n%% content\n    div class=container-fluid mt-1\n        div class=row\n            % if form:\n                div class={% block page_form_col %}col-2{% endblock %}\n                    ptig-form src={{base_path}}schbi/page_view/{{page.id}}/\n                        %% bi_page_form\n                            % inline_form:\n            %% bi_page_content\n                div class={% block page_chart_col %}{% if form %}col-9{% else %}col-10{% endif %}{% endblock %}\n                    % for chart in page.chart_set.all:\n                        div class={% block bi_page_item_class %}col{% endblock %}\n                            div class=bi_prj_{{chart.parent.parent.name}} bi_page_{{chart.parent.name}} bi_chart bi_chart_{{chart.name}} auto-frame ajax-region ajax-frame ajax-link,,,href={{base_path}}schbi/chart_view/{{chart.id}}/,,,target=refresh_frame\n",
@@ -695,7 +695,7 @@
                     "model": "SChTemplate",
                     "attributes": {
                         "name": "base_chart",
-                        "direct_to_template": null,
+                        "direct_to_template": false,
                         "url": null,
                         "url_parm": null,
                         "template_code": "% extends \"forms/form.html\"\n\n% load exfiltry\n% load exsyntax\n% load static\n\n%% content\n    div class=ajax-region ajax-link,,,href={{base_path}}schbi/chart_view/{{chart.id}}/\n        div class=row m-1\n            div class=card p-1\n                % if form:\n                    div class=col\n                        ptig-form src={{base_path}}schbi/chart_view/{{chart.id}}/\n                            %% bi_chart_form\n                                % inline_form:\n                div class=col\n                    %% chart\n                        {{chart.name}}\n\n",
@@ -707,7 +707,7 @@
                     "model": "SChTemplate",
                     "attributes": {
                         "name": "Project",
-                        "direct_to_template": null,
+                        "direct_to_template": false,
                         "url": null,
                         "url_parm": null,
                         "template_code": "% extends \"forms/form.html\"\n\n% load exfiltry\n% load exsyntax\n\n\n%% all\n    % with table_type='datatable':\n        {{ block.super }}\n\n%% scroll\n\n%% list_content_actions\n    % new_row \"New project\"\n\n%% id_extra\n    % row_actions:\n        .field_list/page_set,Pages,target=_parent,icon_name=fa fa-lg fa-level-up,url=+?fragment=page\n\n%% list_row_header\n    th..._(Name)\n    th..._(Refresh data)\n    th..._(Form)\n    th..._(View)\n    th..._(Template)\n\n%% list_row\n    td...{{ object.name }}\n    td\n        % if  object.refresh_data:\n            i class=fa fa-check\n    td\n        % if object.form:\n            i class=fa fa-check\n    td\n        % if object.view:\n            i class=fa fa-check\n    td\n        % if object.template:\n            i class=fa fa-check\n    \n%% list_row_actions\n    % row_actions:\n        .show_prj,Show prj,url={{base_path}}schbi/project_view/{{object.name}}/,target=_parent\n    % row_actions:\n        .edit\n        .field_edit/refresh_data,refresh data\n        .field_edit/form,form\n        .field_edit/view,view\n        .field_edit/template,template\n        .delete\n\n%% row_edit\n    % form:\n        .base_prj_name,name,description,parquet_files,rights_group,menu,menu_position,menu_icon,menu_icon_size\n        \n",
@@ -719,7 +719,7 @@
                     "model": "SChTemplate",
                     "attributes": {
                         "name": "Page",
-                        "direct_to_template": null,
+                        "direct_to_template": false,
                         "url": null,
                         "url_parm": null,
                         "template_code": "% extends \"forms/form.html\"\n\n% load exfiltry\n% load exsyntax\n\n%% all\n    % comment:\n        % with table_type='datatable' table_subtype='table_with_details' table_details_height=\"50vh\":\n            {{ block.super }}\n    % with table_type='datatable':\n        {{ block.super }}\n\n%% scroll\n\n%% list_content_actions\n    % new_row \"New page\"\n\n%% id_extra\n    % row_actions:\n        .field_list/chart_set,Charts\n\n%% list_row_header\n    th..._(Parent)\n    th..._(Name)\n    th..._(Title)\n    th..._(Form)\n    th..._(View)\n    th..._(Template)\n    \n%% list_row\n    td...{{ object.parent.name }}\n    td...{{ object.name }}\n    td...{{ object.title }}\n    td\n        % if object.form:\n            i class=fa fa-check\n    td\n        % if object.view:\n            i class=fa fa-check\n    td\n        % if object.template:\n            i class=fa fa-check\n\n%% list_row_actions\n    % row_actions:\n        .edit\n        .field_edit/form,form\n        .field_edit/view,view\n        .field_edit/template,template\n        .delete\n\n\n%% list_page_footer2\n    % row_details:\n        *Charts:schbi/table/Page/[[table_row_pk]]/chart_set/-/form/sublist/?x1=chart_set\n\n\n%% row_edit\n    % form:\n        .parent:!,name,title\n",
@@ -731,7 +731,7 @@
                     "model": "SChTemplate",
                     "attributes": {
                         "name": "Chart",
-                        "direct_to_template": null,
+                        "direct_to_template": false,
                         "url": null,
                         "url_parm": null,
                         "template_code": "% extends \"forms/form.html\"\n\n% load exfiltry\n% load exsyntax\n\n%% all\n    % with table_type='datatable':\n        {{ block.super }}\n\n%% scroll\n\n%% list_content_actions\n    % new_row \"New chart\"\n\n%% list_row_header\n    th..._(Parent)\n    th..._(Name)\n    th..._(Title)\n    th..._(Form)\n    th..._(View)\n    th..._(Template)\n    \n\n%% list_row\n    td...{{ object.parent.name }}\n    td...{{ object.name }}\n    td...{{ object.title }}\n    td\n        % if object.form:\n            i class=fa fa-check\n    td\n        % if object.view:\n            i class=fa fa-check\n    td\n        % if object.template:\n            i class=fa fa-check\n    \n%% list_row_actions\n    % row_actions:\n        .edit\n        .field_edit/form,form\n        .field_edit/view,view\n        .field_edit/template,template\n        .delete\n\n%% row_edit\n    % form:\n        .parent:!,name,title\n",
