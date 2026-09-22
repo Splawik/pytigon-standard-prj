@@ -17,10 +17,15 @@ ptig manage_schdevtools makeallmigrations
 ptig manage_schdevtools migrate
 ptig manage_schdevtools createautouser
 ptig manage_schdevtools import_projects
-prit pip_schpytigondemo upgradelocallibs
+echo "X1"
+ptig pip_schpytigondemo upgradelocallibs
+echo "X2"
 ptig manage_schpytigondemo makeallmigrations
+echo "X3"
 ptig manage_schpytigondemo migrate
+echo "X4"
 ptig manage_schpytigondemo createautouser
+echo "X5"
 ptig manage_schmanage makeallmigrations
 ptig manage_schmanage migrate
 ptig manage_schmanage createautouser
