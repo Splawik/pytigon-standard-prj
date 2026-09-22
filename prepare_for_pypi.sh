@@ -36,9 +36,9 @@ echo -n "[DEFAULT]
 GEN_TIME='" > /tmp/pytigon/install.ini
 echo -n $(date +"%Y-%m-%d %H:%M:%S") >> /tmp/pytigon/install.ini
 echo "'" >> /tmp/pytigon/install.ini
-echo "" > ./pytigon/install/__init__.py
-rm ./pytigon/install/.pytigon.zip
+echo "" > ./pytigon_standard_prj/install/__init__.py
+rm ./pytigon_standard_prj/install/.pytigon.zip
 rm -rf /tmp/pytigon/prg/{*,.*}
 find /tmp/pytigon -mindepth 1 -path '*/prjlib/*' -delete
-7z a $PWD/install/.pytigon.zip /tmp/pytigon/*
+7z a ./pytigon_standard_prj/install/.pytigon.zip /tmp/pytigon/*
 cd ..
