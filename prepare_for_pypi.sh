@@ -17,6 +17,7 @@ ptig manage_schdevtools makeallmigrations
 ptig manage_schdevtools migrate
 ptig manage_schdevtools createautouser
 ptig manage_schdevtools import_projects
+prit pip_schpytigondemo upgradelocallibs
 ptig manage_schpytigondemo makeallmigrations
 ptig manage_schpytigondemo migrate
 ptig manage_schpytigondemo createautouser
