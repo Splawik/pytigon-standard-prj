@@ -3,28 +3,30 @@ def build(**argv):
     import subprocess
 
     import pytigon
-    from django.conf import settings
     from pytigon_lib.schtools.nim_integration import install_if_not_exists
 
     path = argv["path"]
+    data_path = argv["data_path"]
+    prj_name = argv["prj"]
+
     base_name = os.path.split(path)[1].rsplit(".", 1)[0]
-    nim_path = install_if_not_exists(settings.DATA_PATH)
+    nim_path = install_if_not_exists(data_path)
 
     if os.name == "nt":
         os.environ["PATH"] = os.environ["PATH"] + (f";{nim_path}\\bin\\")
         exe = "nim.exe"
         out_path = os.path.join(
-            settings.DATA_PATH,
+            data_path,
             "prg",
-            f"{settings.PRJ_NAME}_{base_name}.exe",
+            f"{prj_name}_{base_name}.exe",
         )
     else:
         os.environ["PATH"] = os.environ["PATH"] + (f":{nim_path}/bin/")
         exe = "nim"
         out_path = os.path.join(
-            settings.DATA_PATH,
+            data_path,
             "prg",
-            f"{settings.PRJ_NAME}_{base_name}",
+            f"{prj_name}_{base_name}",
         )
 
     packages = ""
