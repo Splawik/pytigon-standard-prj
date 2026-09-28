@@ -19,5 +19,6 @@ Urls = (
         None,
         """client://categories/applications-other.png""",
     ),
+    ("html", _("Standard html"), None, """png://mimetypes/text-html.png"""),
 )
 UserParam = {}

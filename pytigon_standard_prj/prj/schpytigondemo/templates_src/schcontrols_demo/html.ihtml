@@ -1,0 +1,395 @@
+header
+    h1...H1 – Main Page Title of the Demo
+    nav
+        a href=#text...Text
+        .|
+        a href=#lists...Lists
+        .|
+        a href=#tables...Tables
+        .|
+        a href=#media...Media
+        .|
+        a href=#forms...Forms
+        .|
+        a href=#interactive...Interactive
+main
+    section id=headings
+        h2...Headings h1–h6
+        h1...H1
+        h2...H2
+        h3...H3
+        h4...H4
+        h5...H5
+        h6...H6
+        hgroup
+            h3...hgroup: grouped heading
+            p...Subtitle inside hgroup
+    section id=text
+        h2...Text and semantics
+        p
+            .p – a regular paragraph of text. A line break via
+            code...br
+            .here.
+            br
+            .New line.
+        hr
+        p
+            strong...strong
+            .|
+            em...em
+            .|
+            b...b (bold)
+            .|
+            i...i (italic)
+            .|
+            u...u (underline)
+            .|
+            s...s (strikethrough)
+            .|
+            del...del (deleted)
+            .|
+            ins...ins (inserted)
+            .|
+            small...small
+            .|
+            mark...mark (highlight)
+        p
+            .H
+            sub...2
+            .O (sub) and x
+            sup...2
+            .(sup) |
+            abbr title=HyperText Markup Language...HTML
+            .(abbr) |
+            dfn...dfn – definition
+            .|
+            cite...cite – title of a work
+        p
+            q...q – short inline quotation
+            .|
+            time datetime=2026-09-26...September 26, 2026
+            .(time) |
+            data value=123...data – value 123
+        blockquote cite=https://example.com
+            .blockquote – a longer block quotation.
+        pre
+            .pre – preformatted text preserves    whitespace and
+            .indentation
+        p
+            code...code – code snippet
+            .|
+            kbd...Ctrl
+            .+
+            kbd...C
+            .(kbd) |
+            samp...samp – program output
+            .|
+            var...var – variable
+        p
+            .ruby:
+            ruby
+                .漢
+                rt...kan
+                .字
+                rt...ji
+            .(characters with rt annotation and rp:
+            ruby
+                .漢
+                rp...(
+                rt...kan
+                rp...)
+            .)
+        p
+            .bdo:
+            bdo dir=rtl...Right-to-left text
+            .| bdi:
+            bdi...العربية
+            .(direction isolation)
+        p
+            .long word with optional break: supercalifragi
+            wbr
+            .listicexpialidocious
+        address
+            .address – contact information:
+            br
+            .John Smith, 1 Test Street, 00-001 Warsaw
+        p
+            .Text color:
+            font color=red...font
+            .(obsolete, shown intentionally).
+    section id=lists
+        h2...Lists
+        p...ul – bulleted list:
+        ul
+            li...item 1
+            li
+                .item 2
+                ul
+                    li...nested
+        p...ol – numbered list (start=5, reversed, type=A):
+        ol start=5,,,reversed=,,,type=A
+            li value=3...item with forced value 3
+            li...item
+            li...item
+        p...dl – description list:
+        dl
+            dt...HTML
+            dd...markup language
+            dt...CSS
+            dd...style sheets
+    section id=links
+        h2...Links and anchors
+        p
+            a href=https://example.com,,,target=_blank,,,rel=noopener
+                .a – external link (new tab)
+            .|
+            a href=#headings...a – anchor link
+            .|
+            a href=mailto:test@example.com...mailto:
+            .|
+            a href=tel:+48123456789...tel:
+            .|
+            a href=#,,,download=...download
+    section id=tables
+        h2...Tables
+        table
+            caption...caption – table title
+            colgroup
+                col span=1,,,style=background: #eef
+                col span=2
+            thead
+                tr
+                    th scope=col...th 1
+                    th scope=col...th 2
+                    th scope=col...th 3
+            tbody
+                tr
+                    td...td
+                    td colspan=2...td with colspan=2
+                tr
+                    td rowspan=2...td rowspan=2
+                    td...td
+                    td...td
+                tr
+                    td...td
+                    td...td
+            tfoot
+                tr
+                    td colspan=3...tfoot – table footer
+    section id=media
+        h2...Media and embedded content
+        figure
+            img src=https://via.placeholder.com/200x100,,,alt=img – image,,,width=200,,,height=100
+            figcaption...figcaption – image caption
+        picture
+            source srcset=https://via.placeholder.com/400x100,,,media=(min-width: 600px)
+            img src=https://via.placeholder.com/200x100,,,alt=picture + source
+        p
+            audio controls=,,,src=#...audio (controls)
+            .|
+            video controls=,,,width=200,,,src=#...video (controls)
+            .with
+            track kind=subtitles,,,srclang=en,,,label=EN,,,default=
+            .(track)
+        iframe src=about:blank,,,width=200,,,height=80,,,title=iframe
+        p
+            embed src=#,,,type=image/png,,,width=100,,,height=40
+            .(embed) |
+            object data=#,,,type=image/png,,,width=100,,,height=40
+                .object – fallback
+        map name=map1
+            area shape=rect,,,coords=0,0,50,50,,,href=#,,,alt=area
+        img src=https://via.placeholder.com/100x50,,,usemap=#map1,,,alt=img with map
+        svg width=100,,,height=50,,,role=img,,,aria-label=SVG demo
+            rect width=90,,,height=40,,,fill=lightblue,,,stroke=navy
+            text x=10,,,y=25...svg
+        canvas id=cnv,,,width=150,,,height=50...canvas – fallback
+        script
+            >>>
+
+const c = document.getElementById('cnv').getContext('2d')
+c.fillStyle = 'red'
+c.fillRect(10, 10, 130, 30)
+
+            <<<
+    section id=forms
+        h2...Forms – all input types
+        form action=#,,,method=post,,,enctype=multipart/form-data,,,autocomplete=on,,,target=_self,,,novalidate=
+            fieldset
+                legend...legend – basic input fields
+                p
+                    label for=i-text...input type=text:
+                    input type=text,,,id=i-text,,,name=text,,,placeholder=placeholder,,,size=20,,,required=,,,minlength=2,,,maxlength=20,,,autocomplete=name,,,autofocus=
+                p
+                    label
+                        .input type=password:
+                        input type=password,,,name=pass,,,placeholder=password,,,minlength=8
+                p
+                    label
+                        .input type=search:
+                        input type=search,,,name=search,,,placeholder=search…
+                p
+                    label
+                        .input type=tel:
+                        input type=tel,,,name=tel,,,placeholder=+1 000 000 000,,,pattern=[+0-9 ]{9,15}
+                p
+                    label
+                        .input type=url:
+                        input type=url,,,name=url,,,placeholder=https://…
+                p
+                    label
+                        .input type=email (multiple):
+                        input type=email,,,name=email,,,multiple=multiple,,,placeholder=a@b.c, d@e.f
+                p
+                    label
+                        .input type=number:
+                        input type=number,,,name=num,,,min=0,,,max=100,,,step=5,,,value=50
+                p
+                    label
+                        .input type=range:
+                        input type=range,,,name=range,,,min=0,,,max=10,,,step=1,,,value=5,,,list=marks
+                p
+                    label
+                        .input type=date:
+                        input type=date,,,name=date
+                p
+                    label
+                        .input type=time:
+                        input type=time,,,name=time
+                p
+                    label
+                        .input type=datetime-local:
+                        input type=datetime-local,,,name=dtl
+                p
+                    label
+                        .input type=month:
+                        input type=month,,,name=month
+                p
+                    label
+                        .input type=week:
+                        input type=week,,,name=week
+                p
+                    label
+                        .input type=color:
+                        input type=color,,,name=color,,,value=#ff0000
+                p
+                    .input type=file (accept, multiple):
+                    input type=file,,,name=file,,,accept=image/*,.pdf,,,multiple=multiple
+                p
+                    .input type=hidden:
+                    input type=hidden,,,name=hidden,,,value=hidden value
+            fieldset
+                legend...Selection (checkbox / radio)
+                p
+                    .checkbox:
+                    label
+                        input type=checkbox,,,name=chk,,,value=a,,,checked=checked
+                        .A
+                    label
+                        input type=checkbox,,,name=chk,,,value=b
+                        .B
+                    label
+                        input type=checkbox,,,name=chk,,,value=c,,,disabled=disabled
+                        .C (disabled)
+                p
+                    .radio:
+                    label
+                        input type=radio,,,name=rad,,,value=1,,,checked=checked
+                        .1
+                    label
+                        input type=radio,,,name=rad,,,value=2
+                        .2
+                    label
+                        input type=radio,,,name=rad,,,value=3
+                        .3
+            fieldset disabled=disabled
+                legend...fieldset disabled (whole group inactive)
+                input type=text,,,placeholder=inactive
+            fieldset
+                legend...Other form elements
+                p
+                    label for=sel...select (single):
+                    select id=sel,,,name=sel
+                        optgroup label=Group 1
+                            option value=1...option 1
+                            option value=2,,,selected=selected
+                                .option 2 (selected)
+                        optgroup label=Group 2
+                            option value=3...option 3
+                p
+                    label for=selm...select multiple size=3:
+                    select id=selm,,,name=selm,,,multiple=multiple,,,size=3
+                        option...one
+                        option...two
+                        option...three
+                        option...four
+                p
+                    label for=ta...textarea (rows/cols):
+                    br
+                    textarea id=ta,,,name=ta,,,rows=3,,,cols=40,,,maxlength=200,,,placeholder=type text…
+                        .pre-filled value
+                p
+                    .datalist + input list:
+                    input list=cities,,,name=city,,,placeholder=pick a city
+                    datalist id=cities
+                        option value=London
+                        option value=Paris
+                        option value=New York
+                p
+                    .progress:
+                    progress value=70,,,max=100...70%
+                    .| meter:
+                    meter value=0.6,,,min=0,,,max=1,,,low=0.3,,,high=0.8,,,optimum=0.9
+                        .60%
+                p
+                    .output:
+                    output name=out,,,for=i-num
+                        .output – result of a calculation
+            fieldset
+                legend...Buttons
+                button type=button,,,onclick=alert('button type=button')
+                    .button
+                button type=submit...button type=submit
+                button type=reset...button type=reset
+                input type=submit,,,value=input type=submit
+                input type=submit,,,formaction=#,,,formmethod=get,,,value=input submit formaction/formmethod
+                input type=submit,,,formnovalidate=,,,value=input submit formnovalidate
+                input type=reset,,,value=input type=reset
+                input type=button,,,value=input type=button,,,onclick=alert('input button')
+                input type=image,,,src=https://via.placeholder.com/80x25,,,alt=input type=image
+    section id=interactive
+        h2...Interactive elements
+        details
+            summary...summary – click to expand details
+            p
+                .Hidden content inside details. details open – expanded
+                .by default: 
+            details open=
+                summary...Expanded right away
+                p...Visible content.
+        dialog open=
+            .dialog open – dialog box (can also be shown via .showModal()
+            .JS) 
+    section id=misc
+        h2...Other tags
+        p
+            .template – invisible template:
+            template id=tpl
+                span...content from template
+        p
+            .slot (Web Components):
+            span
+                slot name=demo...slot fallback
+        noscript...noscript – visible when JS is disabled
+        div class=box
+            .div – generic block |
+            span...span – generic inline
+        p aria-hidden=true...ARIA messages: aria-label, aria-hidden
+aside
+    h3...aside – tangential content
+    p...Additional side information.
+footer
+    p
+        small
+            .footer – page footer. © 2026
+            a href=#...link in footer

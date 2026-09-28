@@ -15,6 +15,7 @@ urlpatterns = [
         TemplateView.as_view(template_name="schcontrols_demo/extended_controls.html"),
         {},
     ),
+    path("html", TemplateView.as_view(template_name="schcontrols_demo/html.html"), {}),
     path("form/TestForm/", views.view_testform, {}),
 ]
 

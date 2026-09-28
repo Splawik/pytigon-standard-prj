@@ -75,7 +75,7 @@ XMLRPC_PORT = 7080
 # PYODIDE = False
 
 INSTALLED_APPS.append("explorer")
-INSTALLED_APPS.insert(0, "jazzmin")
+# INSTALLED_APPS.insert(0, "jazzmin")
 
 if platform_name() != "Android":
     INSTALLED_APPS.append("easy_thumbnails")
@@ -232,7 +232,7 @@ try:
 except ImportError:
     pass
 
-GEN_TIME = "2026-09-23 17:32:41"
+GEN_TIME = "2026-09-27 18:46:34"
 
 
 for key, value in os.environ.items():

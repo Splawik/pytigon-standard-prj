@@ -1,0 +1,256 @@
+<header>
+        <h1>H1 – Main Page Title of the Demo</h1>
+        <nav>
+                <a href="#text">Text</a>
+                |
+                <a href="#lists">Lists</a>
+                |
+                <a href="#tables">Tables</a>
+                |
+                <a href="#media">Media</a>
+                |
+                <a href="#forms">Forms</a>
+                |
+                <a href="#interactive">Interactive</a>
+        </nav>
+</header>
+<main>
+        <section id="headings">
+                <h2>Headings h1–h6</h2>
+                <h1>H1</h1>
+                <h2>H2</h2>
+                <h3>H3</h3>
+                <h4>H4</h4>
+                <h5>H5</h5>
+                <h6>H6</h6>
+                <hgroup>
+                        <h3>hgroup: grouped heading</h3>
+                        <p>Subtitle inside hgroup</p>
+                </hgroup>
+        </section>
+        <section id="text">
+                <h2>Text and semantics</h2>
+                <p>
+                        p – a regular paragraph of text. A line break via
+                        <code>br</code>
+                        here.
+                        <br />
+                        New line.
+                </p>
+                <hr></hr>
+                <p>
+                        <strong>strong</strong>
+                        |
+                        <em>em</em>
+                        |
+                        <b>b (bold)</b>
+                        |
+                        <i>i (italic)</i>
+                        |
+                        <u>u (underline)</u>
+                        |
+                        <s>s (strikethrough)</s>
+                        |
+                        <del>del (deleted)</del>
+                        |
+                        <ins>ins (inserted)</ins>
+                        |
+                        <small>small</small>
+                        |
+                        <mark>mark (highlight)</mark>
+                </p>
+                <p>
+                        H
+                        <sub>2</sub>
+                        O (sub) and x
+                        <sup>2</sup>
+                        (sup) |
+                        <abbr title="HyperText Markup Language">HTML</abbr>
+                        (abbr) |
+                        <dfn>dfn – definition</dfn>
+                        |
+                        <cite>cite – title of a work</cite>
+                </p>
+                <p>
+                        <q>q – short inline quotation</q>
+                        |
+                        <time datetime="2026-09-26">September 26, 2026</time>
+                        (time) |
+                        <data value="123">data – value 123</data>
+                </p>
+                <blockquote cite="https://example.com">
+                        blockquote – a longer block quotation.
+                </blockquote>
+                <pre>
+                        pre – preformatted text preserves    whitespace and
+                        indentation
+                </pre>
+                <p>
+                        <code>code – code snippet</code>
+                        |
+                        <kbd>Ctrl</kbd>
+                        +
+                        <kbd>C</kbd>
+                        (kbd) |
+                        <samp>samp – program output</samp>
+                        |
+                        <var>var – variable</var>
+                </p>
+                <p>
+                        ruby:
+                        <ruby>
+                                漢
+                                <rt>kan</rt>
+                                字
+                                <rt>ji</rt>
+                        </ruby>
+                        (characters with rt annotation and rp:
+                        <ruby>
+                                漢
+                                <rp>(</rp>
+                                <rt>kan</rt>
+                                <rp>)</rp>
+                        </ruby>
+                        )
+                </p>
+                <p>
+                        bdo:
+                        <bdo dir="rtl">Right-to-left text</bdo>
+                        | bdi:
+                        <bdi>العربية</bdi>
+                        (direction isolation)
+                </p>
+                <p>
+                        long word with optional break: supercalifragi
+                        <wbr></wbr>
+                        listicexpialidocious
+                </p>
+                <address>
+                        address – contact information:
+                        <br />
+                        John Smith, 1 Test Street, 00-001 Warsaw
+                </address>
+                <p>
+                        Text color:
+                        <font color="red">font</font>
+                        (obsolete, shown intentionally).
+                </p>
+        </section>
+        <section id="lists">
+                <h2>Lists</h2>
+                <p>ul – bulleted list:</p>
+                <ul>
+                        <li>item 1</li>
+                        <li>
+                                item 2
+                                <ul>
+                                        <li>nested</li>
+                                </ul>
+                        </li>
+                </ul>
+                <p>ol – numbered list (start=5, reversed, type=A):</p>
+                <ol start="5" reversed="" type="A">
+                        <li value="3">item with forced value 3</li>
+                        <li>item</li>
+                        <li>item</li>
+                </ol>
+                <p>dl – description list:</p>
+                <dl>
+                        <dt>HTML</dt>
+                        <dd>markup language</dd>
+                        <dt>CSS</dt>
+                        <dd>style sheets</dd>
+                </dl>
+        </section>
+        <section id="links">
+                <h2>Links and anchors</h2>
+                <p>
+                        <a href="https://example.com" target="_blank" rel="noopener">
+                                a – external link (new tab)
+                        </a>
+                        |
+                        <a href="#headings">a – anchor link</a>
+                        |
+                        <a href="mailto:test@example.com">mailto:</a>
+                        |
+                        <a href="tel:+48123456789">tel:</a>
+                        |
+                        <a href="#" download="">download</a>
+                </p>
+        </section>
+        <section id="tables">
+                <h2>Tables</h2>
+                <table>
+                        <caption>caption – table title</caption>
+                        <colgroup>
+                                <col span="1" style="background: #eef"></col>
+                                <col span="2"></col>
+                        </colgroup>
+                        <thead>
+                                <tr>
+                                        <th scope="col">th 1</th>
+                                        <th scope="col">th 2</th>
+                                        <th scope="col">th 3</th>
+                                </tr>
+                        </thead>
+                        <tbody>
+                                <tr>
+                                        <td>td</td>
+                                        <td colspan="2">td with colspan=2</td>
+                                </tr>
+                                <tr>
+                                        <td rowspan="2">td rowspan=2</td>
+                                        <td>td</td>
+                                        <td>td</td>
+                                </tr>
+                                <tr>
+                                        <td>td</td>
+                                        <td>td</td>
+                                </tr>
+                        </tbody>
+                        <tfoot>
+                                <tr>
+                                        <td colspan="3">tfoot – table footer</td>
+                                </tr>
+                        </tfoot>
+                </table>
+        </section>
+        <section id="media">
+                <h2>Media and embedded content</h2>
+                <figure>
+                        <img src="https://via.placeholder.com/200x100" alt="img – image" width="200" height="100"></img>
+                        <figcaption>figcaption – image caption</figcaption>
+                </figure>
+                <picture>
+                        <source srcset="https://via.placeholder.com/400x100" media="(min-width: 600px)"></source>
+                        <img src="https://via.placeholder.com/200x100" alt="picture + source"></img>
+                </picture>
+                <p>
+                        <audio controls="" src="#">audio (controls)</audio>
+                        |
+                        <video controls="" width="200" src="#">video (controls)</video>
+                        with
+                        <track kind="subtitles" srclang="en" label="EN" default=""></track>
+                        (track)
+                </p>
+                <iframe src="about:blank" width="200" height="80" title="iframe"></iframe>
+                <p>
+                        <embed src="#" type="image/png" width="100" height="40"></embed>
+                        (embed) |
+                        <object data="#" type="image/png" width="100" height="40">
+                                object – fallback
+                        </object>
+                </p>
+                <map name="map1">
+                        <area shape="rect" coords="0,0,50,50" href="#" alt="area"></area>
+                </map>
+                <img src="https://via.placeholder.com/100x50" usemap="#map1" alt="img with map"></img>
+                <svg width="100" height="50" role="img" aria-label="SVG demo">
+                        <rect width="90" height="40" fill="lightblue" stroke="navy"></rect>
+                        <text x="10" y="25">svg</text>
+                </svg>
+                <canvas id="cnv" width="150" height="50">canvas – fallback</canvas>
+                <script>
+                </script>
+        </section>
+</main>

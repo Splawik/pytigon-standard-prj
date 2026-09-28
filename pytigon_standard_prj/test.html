@@ -1,0 +1,519 @@
+!<body>
+    <!-- ===== DOCUMENT STRUCTURE ===== -->
+    <header>
+        <h1>H1 – Main Page Title of the Demo</h1>
+        <nav>
+            <a href="#text">Text</a> | <a href="#lists">Lists</a> |
+            <a href="#tables">Tables</a> | <a href="#media">Media</a> |
+            <a href="#forms">Forms</a> |
+            <a href="#interactive">Interactive</a>
+        </nav>
+    </header>
+
+    <main>
+        <!-- ===== HEADINGS ===== -->
+        <section id="headings">
+            <h2>Headings h1–h6</h2>
+            <h1>H1</h1>
+            <h2>H2</h2>
+            <h3>H3</h3>
+            <h4>H4</h4>
+            <h5>H5</h5>
+            <h6>H6</h6>
+            <hgroup>
+                <h3>hgroup: grouped heading</h3>
+                <p>Subtitle inside hgroup</p>
+            </hgroup>
+        </section>
+
+        <!-- ===== TEXT AND SEMANTICS ===== -->
+        <section id="text">
+            <h2>Text and semantics</h2>
+            <p>
+                p – a regular paragraph of text. A line break via
+                <code>br</code> here.<br />New line.
+            </p>
+            <hr />
+            <p>
+                <strong>strong</strong> | <em>em</em> | <b>b (bold)</b> |
+                <i>i (italic)</i> | <u>u (underline)</u> | <s>s
+                    (strikethrough)</s> |
+                <del>del (deleted)</del> | <ins>ins (inserted)</ins> |
+                <small>small</small> | <mark>mark (highlight)</mark>
+            </p>
+            <p>
+                H<sub>2</sub>O (sub) and x<sup>2</sup> (sup) |
+                <abbr title="HyperText Markup Language">HTML</abbr> (abbr) |
+                <dfn>dfn – definition</dfn> | <cite>cite – title of a
+                    work</cite>
+            </p>
+            <p>
+                <q>q – short inline quotation</q> |
+                <time datetime="2026-09-26">September 26, 2026</time> (time) |
+                <data value="123">data – value 123</data>
+            </p>
+            <blockquote cite="https://example.com">
+                blockquote – a longer block quotation.
+            </blockquote>
+            <pre>
+pre – preformatted text
+preserves    whitespace
+and indentation</pre>
+            <p>
+                <code>code – code snippet</code> | <kbd>Ctrl</kbd>+<kbd>C</kbd>
+                (kbd)
+                | <samp>samp – program output</samp> | <var>var – variable</var>
+            </p>
+            <p>
+                ruby: <ruby>漢<rt>kan</rt>字<rt>ji</rt></ruby> (characters with rt
+                annotation and rp:
+                <ruby>漢<rp>(</rp><rt>kan</rt><rp>)</rp></ruby>)
+            </p>
+            <p>
+                bdo: <bdo dir="rtl">Right-to-left text</bdo> | bdi:
+                <bdi>العربية</bdi> (direction isolation)
+            </p>
+            <p>
+                long word with optional break:
+                supercalifragi<wbr />listicexpialidocious
+            </p>
+            <address>
+                address – contact information:<br />
+                John Smith, 1 Test Street, 00-001 Warsaw
+            </address>
+            <p>
+                Text color: <font color="red">font</font> (obsolete, shown
+                intentionally).
+            </p>
+        </section>
+
+        <!-- ===== LISTS ===== -->
+        <section id="lists">
+            <h2>Lists</h2>
+            <p>ul – bulleted list:</p>
+            <ul>
+                <li>item 1</li>
+                <li>
+                    item 2
+                    <ul>
+                        <li>nested</li>
+                    </ul>
+                </li>
+            </ul>
+            <p>ol – numbered list (start=5, reversed, type=A):</p>
+            <ol start="5" reversed type="A">
+                <li value="3">item with forced value 3</li>
+                <li>item</li>
+                <li>item</li>
+            </ol>
+            <p>dl – description list:</p>
+            <dl>
+                <dt>HTML</dt>
+                <dd>markup language</dd>
+                <dt>CSS</dt>
+                <dd>style sheets</dd>
+            </dl>
+        </section>
+
+        <!-- ===== LINKS ===== -->
+        <section id="links">
+            <h2>Links and anchors</h2>
+            <p>
+                <a href="https://example.com" target="_blank" rel="noopener">a –
+                    external link (new tab)</a>
+                | <a href="#headings">a – anchor link</a> |
+                <a href="mailto:test@example.com">mailto:</a> |
+                <a href="tel:+48123456789">tel:</a> |
+                <a href="#" download>download</a>
+            </p>
+        </section>
+
+        <!-- ===== TABLES ===== -->
+        <section id="tables">
+            <h2>Tables</h2>
+            <table>
+                <caption>
+                    caption – table title
+                </caption>
+                <colgroup>
+                    <col span="1" style="background: #eef" />
+                    <col span="2" />
+                </colgroup>
+                <thead>
+                    <tr>
+                        <th scope="col">th 1</th>
+                        <th scope="col">th 2</th>
+                        <th scope="col">th 3</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td>td</td>
+                        <td colspan="2">td with colspan=2</td>
+                    </tr>
+                    <tr>
+                        <td rowspan="2">td rowspan=2</td>
+                        <td>td</td>
+                        <td>td</td>
+                    </tr>
+                    <tr>
+                        <td>td</td>
+                        <td>td</td>
+                    </tr>
+                </tbody>
+                <tfoot>
+                    <tr>
+                        <td colspan="3">tfoot – table footer</td>
+                    </tr>
+                </tfoot>
+            </table>
+        </section>
+
+        <!-- ===== MEDIA AND EMBEDDING ===== -->
+        <section id="media">
+            <h2>Media and embedded content</h2>
+            <figure>
+                <img
+                    src="https://via.placeholder.com/200x100"
+                    alt="img – image"
+                    width="200"
+                    height="100" />
+                <figcaption>figcaption – image caption</figcaption>
+            </figure>
+            <picture>
+                <source
+                    srcset="https://via.placeholder.com/400x100"
+                    media="(min-width: 600px)" />
+                <img
+                    src="https://via.placeholder.com/200x100"
+                    alt="picture + source" />
+            </picture>
+            <p>
+                <audio controls src="#">audio (controls)</audio> |
+                <video controls width="200" src="#">video (controls)</video>
+                with
+                <track kind="subtitles" srclang="en" label="EN" default />
+                (track)
+            </p>
+            <iframe
+                src="about:blank"
+                width="200"
+                height="80"
+                title="iframe"></iframe>
+            <p>
+                <embed src="#" type="image/png" width="100" height="40" />
+                (embed) |
+                <object data="#" type="image/png" width="100" height="40">
+                    object – fallback
+                </object>
+            </p>
+            <map name="map1">
+                <area shape="rect" coords="0,0,50,50" href="#" alt="area" />
+            </map>
+            <img
+                src="https://via.placeholder.com/100x50"
+                usemap="#map1"
+                alt="img with map" />
+            <svg width="100" height="50" role="img" aria-label="SVG demo">
+                <rect width="90" height="40" fill="lightblue" stroke="navy" />
+                <text x="10" y="25">svg</text>
+            </svg>
+            <canvas id="cnv" width="150" height="50">canvas – fallback</canvas>
+            <script>
+        const c = document.getElementById('cnv').getContext('2d')
+        c.fillStyle = 'red'
+        c.fillRect(10, 10, 130, 30)
+    </script>
+        </section>
+
+        <!-- ===== FORMS – ALL FIELDS ===== -->
+        <section id="forms">
+            <h2>Forms – all input types</h2>
+            <form
+                action="#"
+                method="post"
+                enctype="multipart/form-data"
+                autocomplete="on"
+                target="_self"
+                novalidate>
+                <fieldset>
+                    <legend>legend – basic input fields</legend>
+                    <p>
+                        <label for="i-text">input type=text:</label>
+                        <input
+                            type="text"
+                            id="i-text"
+                            name="text"
+                            placeholder="placeholder"
+                            size="20"
+                            required
+                            minlength="2"
+                            maxlength="20"
+                            autocomplete="name"
+                            autofocus />
+                    </p>
+                    <p>
+                        <label>input type=password:
+                            <input
+                                type="password"
+                                name="pass"
+                                placeholder="password"
+                                minlength="8" /></label>
+                    </p>
+                    <p>
+                        <label>input type=search:
+                            <input type="search" name="search"
+                                placeholder="search…" /></label>
+                    </p>
+                    <p>
+                        <label>input type=tel:
+                            <input
+                                type="tel"
+                                name="tel"
+                                placeholder="+1 000 000 000"
+                                pattern="[+0-9 ]{9,15}" /></label>
+                    </p>
+                    <p>
+                        <label>input type=url:
+                            <input type="url" name="url"
+                                placeholder="https://…" /></label>
+                    </p>
+                    <p>
+                        <label>input type=email (multiple):
+                            <input
+                                type="email"
+                                name="email"
+                                multiple
+                                placeholder="a@b.c, d@e.f" /></label>
+                    </p>
+                    <p>
+                        <label>input type=number:
+                            <input
+                                type="number"
+                                name="num"
+                                min="0"
+                                max="100"
+                                step="5"
+                                value="50" /></label>
+                    </p>
+                    <p>
+                        <label>input type=range:
+                            <input
+                                type="range"
+                                name="range"
+                                min="0"
+                                max="10"
+                                step="1"
+                                value="5"
+                                list="marks" /></label>
+                    </p>
+                    <p>
+                        <label>input type=date: <input type="date"
+                                name="date" /></label>
+                    </p>
+                    <p>
+                        <label>input type=time: <input type="time"
+                                name="time" /></label>
+                    </p>
+                    <p>
+                        <label>input type=datetime-local:
+                            <input type="datetime-local" name="dtl" /></label>
+                    </p>
+                    <p>
+                        <label>input type=month: <input type="month"
+                                name="month" /></label>
+                    </p>
+                    <p>
+                        <label>input type=week: <input type="week"
+                                name="week" /></label>
+                    </p>
+                    <p>
+                        <label>input type=color:
+                            <input type="color" name="color"
+                                value="#ff0000" /></label>
+                    </p>
+                    <p>
+                        input type=file (accept, multiple):
+                        <input type="file" name="file" accept="image/*,.pdf"
+                            multiple />
+                    </p>
+                    <p>
+                        input type=hidden:
+                        <input type="hidden" name="hidden"
+                            value="hidden value" />
+                    </p>
+                </fieldset>
+
+                <fieldset>
+                    <legend>Selection (checkbox / radio)</legend>
+                    <p>
+                        checkbox:
+                        <label><input type="checkbox" name="chk" value="a"
+                                checked /> A</label>
+                        <label><input type="checkbox" name="chk" value="b" />
+                            B</label>
+                        <label><input type="checkbox" name="chk" value="c"
+                                disabled /> C
+                            (disabled)</label>
+                    </p>
+                    <p>
+                        radio:
+                        <label><input type="radio" name="rad" value="1"
+                                checked /> 1</label>
+                        <label><input type="radio" name="rad" value="2" />
+                            2</label>
+                        <label><input type="radio" name="rad" value="3" />
+                            3</label>
+                    </p>
+                </fieldset>
+
+                <fieldset disabled>
+                    <legend>fieldset disabled (whole group inactive)</legend>
+                    <input type="text" placeholder="inactive" />
+                </fieldset>
+
+                <fieldset>
+                    <legend>Other form elements</legend>
+                    <p>
+                        <label for="sel">select (single):</label>
+                        <select id="sel" name="sel">
+                            <optgroup label="Group 1">
+                                <option value="1">option 1</option>
+                                <option value="2" selected>option 2
+                                    (selected)</option>
+                            </optgroup>
+                            <optgroup label="Group 2">
+                                <option value="3">option 3</option>
+                            </optgroup>
+                        </select>
+                    </p>
+                    <p>
+                        <label for="selm">select multiple size=3:</label>
+                        <select id="selm" name="selm" multiple size="3">
+                            <option>one</option>
+                            <option>two</option>
+                            <option>three</option>
+                            <option>four</option>
+                        </select>
+                    </p>
+                    <p>
+                        <label for="ta">textarea (rows/cols):</label><br />
+                        <textarea
+                            id="ta"
+                            name="ta"
+                            rows="3"
+                            cols="40"
+                            maxlength="200"
+                            placeholder="type text…">
+pre-filled value</textarea>
+                    </p>
+                    <p>
+                        datalist + input list:
+                        <input list="cities" name="city"
+                            placeholder="pick a city" />
+                        <datalist id="cities">
+                            <option value="London"></option>
+                            <option value="Paris"></option>
+                            <option value="New York"></option>
+                        </datalist>
+                    </p>
+                    <p>
+                        progress: <progress value="70" max="100">70%</progress>
+                        | meter:
+                        <meter
+                            value="0.6"
+                            min="0"
+                            max="1"
+                            low="0.3"
+                            high="0.8"
+                            optimum="0.9">
+                            60%
+                        </meter>
+                    </p>
+                    <p>
+                        output:
+                        <output name="out" for="i-num">output – result of a
+                            calculation</output>
+                    </p>
+                </fieldset>
+
+                <fieldset>
+                    <legend>Buttons</legend>
+                    <button type="button" onclick="alert('button type=button')">
+                        button
+                    </button>
+                    <button type="submit">button type=submit</button>
+                    <button type="reset">button type=reset</button>
+                    <input type="submit" value="input type=submit" />
+                    <input
+                        type="submit"
+                        formaction="#"
+                        formmethod="get"
+                        value="input submit formaction/formmethod" />
+                    <input
+                        type="submit"
+                        formnovalidate
+                        value="input submit formnovalidate" />
+                    <input type="reset" value="input type=reset" />
+                    <input
+                        type="button"
+                        value="input type=button"
+                        onclick="alert('input button')" />
+                    <input
+                        type="image"
+                        src="https://via.placeholder.com/80x25"
+                        alt="input type=image" />
+                </fieldset>
+            </form>
+        </section>
+
+        <!-- ===== INTERACTIVE ===== -->
+        <section id="interactive">
+            <h2>Interactive elements</h2>
+            <details>
+                <summary>summary – click to expand details</summary>
+                <p>
+                    Hidden content inside details. details open – expanded by
+                    default:
+                </p>
+                <details open>
+                    <summary>Expanded right away</summary>
+                    <p>Visible content.</p>
+                </details>
+            </details>
+            <dialog open>
+                dialog open – dialog box (can also be shown via .showModal() JS)
+            </dialog>
+        </section>
+
+        <!-- ===== OTHER / SCRIPTS ===== -->
+        <section id="misc">
+            <h2>Other tags</h2>
+            <p>
+                template – invisible template:
+                <template id="tpl"><span>content from template</span></template>
+            </p>
+            <p>
+                slot (Web Components):
+                <span><slot name="demo">slot fallback</slot></span>
+            </p>
+            <noscript>noscript – visible when JS is disabled</noscript>
+            <div class="box">
+                div – generic block | <span>span – generic inline</span>
+            </div>
+            <p aria-hidden="true">ARIA messages: aria-label, aria-hidden</p>
+        </section>
+    </main>
+
+    <aside>
+        <h3>aside – tangential content</h3>
+        <p>Additional side information.</p>
+    </aside>
+
+    <footer>
+        <p>
+            <small>footer – page footer. © 2026 <a href="#">link in
+                    footer</a></small>
+        </p>
+    </footer>
+</body>

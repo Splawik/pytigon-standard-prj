@@ -173,6 +173,7 @@ class Track(models.Model):
     )
     params = ext_models.PtigManyToManyField(
         tables_demo.models.Example4Parameter,
+        blank=False,
         editable=True,
         verbose_name=_("Parameters"),
         search_fields=[

@@ -297,6 +297,7 @@ class Example5ParamGroup(TreeModel):
     )
     parameters = ext_models.PtigManyToManyField(
         Example4Parameter,
+        blank=False,
         editable=True,
         verbose_name=_("Parameters"),
         related_name="group_parameters",

@@ -1294,11 +1294,12 @@ class SChField(models.Model):
                     )
                 )
             elif "ManyToMany" in self.type:
-                ret = "%s = %s%s(%s, editable=%s, verbose_name=_('%s'), " % (
+                ret = "%s = %s%s(%s, blank=%s, editable=%s, verbose_name=_('%s'), " % (
                     self.name,
                     module,
                     self.type,
                     rel_model,
+                    self.blank,
                     self.editable,
                     self.description,
                 )
@@ -1688,6 +1689,7 @@ class SChTemplate(models.Model):
     )
     static_files = models.ManyToManyField(
         SChStatic,
+        blank=True,
         editable=True,
         verbose_name=_("Static files"),
     )
