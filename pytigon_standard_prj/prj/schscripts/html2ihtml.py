@@ -17,7 +17,7 @@ if file_name.endswith(".ihtml"):
         print(buf)
         out = io.StringIO()
         parser = Html2IhtmlParser(out)
-        parser.feed()
+        parser.feed(buf)
         parser.close()
         output = out.getvalue()
         with open(file_name2, "wt", encoding="utf-8") as f2:
