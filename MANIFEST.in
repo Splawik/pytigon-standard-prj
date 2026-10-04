@@ -1,3 +1,6 @@
+# This file is only used by setuptools. The project builds with hatchling,
+# which ignores MANIFEST.in; the file list and exclusions live in
+# pyproject.toml under [tool.hatch.build.targets.*].
 graft pytigon_standard_prj/prj
 
 global-exclude __pycache__

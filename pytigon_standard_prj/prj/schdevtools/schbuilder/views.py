@@ -65,6 +65,7 @@ except ImportError:
     sass = None
 
 import pytigon.schserw.settings
+
 from schbuilder.applib.scan_edit_blocks import extract_blocks, extract_text_block
 
 _template = """

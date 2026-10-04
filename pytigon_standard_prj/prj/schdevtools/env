@@ -1,3 +1,2 @@
 PWA=True
 DJANGO_Q=True
-SECRET_KEY=sdFpoIlklkvb44

@@ -1249,6 +1249,7 @@ class DocHead(JSONModel):
 
     parents = models.ManyToManyField(
         "self",
+        blank=False,
         editable=False,
         verbose_name=_("Parents"),
         db_index=True,

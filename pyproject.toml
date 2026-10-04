@@ -4,19 +4,18 @@ build-backend = "hatchling.build"
 
 [project]
 name = "pytigon-standard-prj"
-version = "0.261002"
+version = "0.261004"
 description = "Pytigon - standard projects for pytigon"
 authors = [
     { name = "Sławomir Chołaj", email = "slawomir.cholaj@gmail.com" },
 ]
-license = { text = "LGPL-3.0-only" }
+license = "LGPL-2.1-or-later"
 readme = "README.md"
 requires-python = ">=3.12"
 classifiers = [
     "Development Status :: 4 - Beta",
     "Framework :: Django",
     "Intended Audience :: Developers",
-    "License :: OSI Approved :: GNU Lesser General Public License v3 (LGPLv3)",
     "Programming Language :: Python :: 3",
     "Programming Language :: Python :: 3.12",
     "Programming Language :: Python :: 3.13",
@@ -25,9 +24,38 @@ classifiers = [
 
 [tool.hatch.build.targets.wheel]
 packages = ["pytigon_standard_prj"]
+# Scratch files that are tracked in the repository but must not be shipped:
+# generated demo output, the exported project archive and tool caches.
+exclude = [
+    "pytigon_standard_prj/test.html",
+    "pytigon_standard_prj/test.ihtml",
+    "pytigon_standard_prj/install/.pytigon.zip",
+    "**/.ruff_cache/**",
+    "**/.mypy_cache/**",
+    "**/.pytest_cache/**",
+    "**/__pycache__/**",
+]
+
+[tool.hatch.build.targets.sdist]
+include = [
+    "pytigon_standard_prj",
+    "LICENSE",
+    "NOTICE",
+    "README.md",
+    "pyproject.toml",
+]
+exclude = [
+    "pytigon_standard_prj/test.html",
+    "pytigon_standard_prj/test.ihtml",
+    "pytigon_standard_prj/install/.pytigon.zip",
+    "**/.ruff_cache/**",
+    "**/.mypy_cache/**",
+    "**/.pytest_cache/**",
+    "**/__pycache__/**",
+]
 
 [project.urls]
-Homepage = "https://github.com/your-org/pytigon-standard-prj"
+Homepage = "https://github.com/Splawik/pytigon-standard-prj"
 
 [tool.hatch.version]
 path = "pytigon_standard_prj/__init__.py"

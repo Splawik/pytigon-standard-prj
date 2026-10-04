@@ -76,3 +76,14 @@ kilo.json
 .pre-commit-config.yaml
 .kilo/**
 
+# Secrets and local configuration (never commit)
+env
+.env
+.env.*
+!.env.example
+*.pem
+*.key
+id_rsa*
+*.sqlite3
+*.db
+
