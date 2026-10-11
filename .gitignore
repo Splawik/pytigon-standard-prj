@@ -77,7 +77,6 @@ kilo.json
 .kilo/**
 
 # Secrets and local configuration (never commit)
-env
 .env
 .env.*
 !.env.example
