@@ -22,11 +22,10 @@ from pytigon_lib import init_paths
 
 init_paths(PRJ_NAME, _lp)
 
+from apps import APPS, APPS_EXT
 from pytigon.schserw.settings import *
 from pytigon_lib.schdjangoext.django_init import get_app_config
 from pytigon_lib.schtools.platform_info import platform_name
-
-from apps import APPS, APPS_EXT
 
 try:
     from global_db_settings import setup_databases
@@ -97,7 +96,7 @@ WEBPUSH_SETTINGS = {
 }
 
 
-GUI_COMMAND_LINE = "--no_splash --websocket_id=/schbuilder/clock/channel/"
+GUI_COMMAND_LINE = "--no_splash --rpc=5000 --websocket_id=/schbuilder/clock/channel/"
 NUMBER_OF_WORKERS = 1
 NO_ASGI = True
 
@@ -140,7 +139,9 @@ from pytigon_lib.schtools.install_init import init
 
 init(PRJ_NAME, ROOT_PATH, DATA_PATH, PRJ_PATH, STATIC_ROOT, [MEDIA_ROOT, UPLOAD_PATH])
 
-START_PAGE = "None"
+START_PAGE = (
+    "Projects,/schbuilder/table/SChProject/main_view/form/list/?view_in=desktop"
+)
 SHOW_LOGIN_WIN = True
 PACKS = []
 
@@ -269,7 +270,7 @@ try:
 except ImportError:
     pass
 
-GEN_TIME = "2026-10-04 16:37:47"
+GEN_TIME = "2026-10-21 17:52:52"
 
 
 for key, value in os.environ.items():

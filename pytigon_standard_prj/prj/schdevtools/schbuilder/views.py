@@ -34,7 +34,7 @@ from pytigon_lib.schdjangoext.django_ihtml import ihtml_to_html
 # from pytigon_lib.schtools.cc import import_plugin, make
 from pytigon_lib.schdjangoext.python_style_template_loader import compile_template
 from pytigon_lib.schdjangoext.tools import make_href
-from pytigon_lib.schfs.vfstools import ZipWriter, open_and_create_dir
+from pytigon_lib.schfs.vfstools import ZipWriter, add_file_to_zip, open_and_create_dir
 from pytigon_lib.schtools.install import Ptig
 from pytigon_lib.schtools.process import py_run
 from pytigon_lib.schtools.tools import (
@@ -65,7 +65,6 @@ except ImportError:
     sass = None
 
 import pytigon.schserw.settings
-
 from schbuilder.applib.scan_edit_blocks import extract_blocks, extract_text_block
 
 _template = """
@@ -829,6 +828,9 @@ def build_prj(pk, config={}):
                 else:
                     plugin_name = file_obj.name
                     file_name = "__init__"
+                file_name_in_zip = file_name + (
+                    "" if file_name.endswith(".py") else ".py"
+                )
                 file_name = (
                     base_path
                     + "/plugins/"
@@ -839,6 +841,14 @@ def build_prj(pk, config={}):
                     + file_name
                     + ".py"
                 )
+
+                add_file_to_zip(
+                    base_path + "/plugins/" + app.name + ".zip",
+                    plugin_name + "/" + file_name_in_zip,
+                    file_obj.content.encode("utf-8"),
+                )
+                file_name = None
+
             elif file_obj.type == "i":
                 if "/" in file_obj.name:
                     x = file_obj.name.split("/")
@@ -847,6 +857,9 @@ def build_prj(pk, config={}):
                 else:
                     plugin_name = file_obj.name
                     file_name = "index"
+                file_name_in_zip = file_name + (
+                    "" if file_name.endswith(".py") else ".py"
+                )
                 file_name = (
                     base_path
                     + "/plugins/"
@@ -858,9 +871,16 @@ def build_prj(pk, config={}):
                     + ".html"
                 )
                 content = ihtml_to_html(None, file_obj.content)
-                f = open_and_create_dir(file_name, "wb")
-                f.write(content.encode("utf-8"))
-                f.close()
+                # f = open_and_create_dir(file_name, "wb")
+                # f.write(content.encode("utf-8"))
+                # f.close()
+
+                add_file_to_zip(
+                    base_path + "/plugins/" + app.name + ".zip",
+                    plugin_name + "/" + file_name_in_zip,
+                    content.encode("utf-8"),
+                )
+
                 file_name = None
             elif file_obj.type == "T":
                 template_name = file_obj.name

@@ -14,11 +14,11 @@
                 [ login | 1 ]
             [ autologin | 1 ]
             [ csrf_token | {%csrf_token%} ]
-            [ gui_style | modern(toolbar(file(open,exit),clipboard)) ]
+            [ gui_style | modern(toolbar(file(open,save,save_as,exit),clipboard)) ]
             [ hybrid | 0 ]
             [ title  | Developer tools ]
-            [ start_page | None ]
-            [ plugins | standard/keymap;standard/tablefilter;standard/image_viewer;standard/hexview;standard/shell;standard/html_print ]
+            [ start_page | Projects,/schbuilder/table/SChProject/main_view/form/list/?view_in=desktop ]
+            [ plugins | standard/keymap;standard/tablefilter;standard/image_viewer;standard/hexview;standard/shell;standard/html_print;schbuilder/macro_proxy ]
 % else:    
     %% js_extrascipts
         {{block.super}}

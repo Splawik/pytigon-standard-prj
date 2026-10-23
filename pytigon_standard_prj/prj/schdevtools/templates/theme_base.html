@@ -12,11 +12,11 @@
                         {% endif %}
                         <tr><td> autologin </td><td> 1 </td></tr>
                         <tr><td> csrf_token </td><td> {%csrf_token%} </td></tr>
-                        <tr><td> gui_style </td><td> modern(toolbar(file(open,exit),clipboard)) </td></tr>
+                        <tr><td> gui_style </td><td> modern(toolbar(file(open,save,save_as,exit),clipboard)) </td></tr>
                         <tr><td> hybrid </td><td> 0 </td></tr>
                         <tr><td> title  </td><td> Developer tools </td></tr>
-                        <tr><td> start_page </td><td> None </td></tr>
-                        <tr><td> plugins </td><td> standard/keymap;standard/tablefilter;standard/image_viewer;standard/hexview;standard/shell;standard/html_print </td></tr>
+                        <tr><td> start_page </td><td> Projects,/schbuilder/table/SChProject/main_view/form/list/?view_in=desktop </td></tr>
+                        <tr><td> plugins </td><td> standard/keymap;standard/tablefilter;standard/image_viewer;standard/hexview;standard/shell;standard/html_print;schbuilder/macro_proxy </td></tr>
                 </table>
         {% endblock %}
   {% else %}
